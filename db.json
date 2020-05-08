@@ -1,0 +1,35 @@
+{
+    "EVENTS":[
+        {
+            "orarioStart":"2020-01-01 10:10:00",
+            "orarioEnd":"2020-01-01 11:10:00",
+            "teacher":1,
+            "courseId":0
+        }
+    ],
+    "USERS":[
+        {
+            "id":0,
+            "nome":"Alberto",
+            "cognome":"Bongioanni",
+            "mail":"",
+            "image":"",
+            "st":true
+        },
+        {
+            "id":1,
+            "nome":"Alberto",
+            "cognome":"Bongioanni",
+            "mail":"",
+            "image":"",
+            "st":false
+        }
+    ],
+    "COURSES":[
+        {
+            "id":0,
+            "nome":"Informatica",
+            "creatorId":1
+        }
+    ]
+}

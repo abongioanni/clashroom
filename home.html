@@ -1,0 +1,72 @@
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clashroom | Home</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/fontawesome.min.js"></script>
+    <link rel="icon" href="http://robertomana.altervista.org/favicon.ico" type="image/png">
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <script type="application/javascript" src="home.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <header>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="#5000ca" fill-opacity="1"
+                    d="M0,128L48,149.3C96,171,192,213,288,224C384,235,480,213,576,176C672,139,768,85,864,74.7C960,64,1056,96,1152,117.3C1248,139,1344,149,1392,154.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z">
+                </path>
+            </svg>
+        </header>
+        <nav class="responsive-navbar">
+            <h3 class="logo"><p>Hi,</p> <span id="user"></span></h3>
+            <div class="icon"><i class="fas fa-bars"></i></div>
+            <div class="links-wrapper active">
+                <ul class="links">
+                    <li><a href="">Home</a></li>
+                    <li><a href="">Oggi</a></li>
+                    <li><a href="">Domani</a></li>
+                    <li><a href="" name="change"></a></li>
+                </ul>
+            </div>
+        </nav>
+        <!--main menu-->
+        <div class="responsive-menu">
+            <div class="backdrop"></div>
+            <div class="close-btn"><i class="fas fa-times"></i></div>
+            <ul id="menuNavbar" class="links justify-content-center">
+
+            </ul>
+        </div>
+        <!--responsive menu-->
+        <div class="main">
+            <section class="row day-wrapper">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-4 day">Oggi</div>
+                <div class="col-sm-7"></div>
+            </section>
+            <section class="timeline-wrapper row">
+                <div class="col-sm-1"></div>
+                <div class="timeline col-sm-10 justify-content-center">
+                    <div class="row event">
+                        <div class="col-sm-2 text-center" name="ora">10:00-11:00</div>
+                        <div class="col-sm-3 text-center" name="teacher">Bongioanni Alberto</div>
+                        <div class="col-sm-3 text-center" name="materia">Informatica</div>
+                        <div class="col-sm-4 text-center" name="argomento">Test vendita veicoli e stringhe sql</div>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+            </section>
+        </div>
+    </div>
+
+</body>
+
+</html>

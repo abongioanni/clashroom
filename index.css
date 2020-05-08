@@ -1,0 +1,242 @@
+@font-face{
+    font-family: Jost;
+    src:url("Jost/static/Jost-Regular.ttf");
+    font-weight: normal;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+.container-fluid {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+html, body, .container-fluid {
+    /*background-color: #1e1d22;*/
+    color: #222;
+    min-height: 1700px;
+    font-family: Jost;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+html {
+    -ms-overflow-style: none;
+}
+body{
+    z-index: 0;
+}
+
+/***************** RESPONSIVE NAVBAR ********************/
+.responsive-menu {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 21;
+}
+
+.responsive-navbar {
+    width: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    box-sizing: border-box;
+    font-family: Verdana;
+    z-index: 20;
+    transition: background-color 0.2s;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.sticky+.main {
+    padding-top: 60px;
+}
+
+.icon, .close-btn {
+    display: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    color: #222;
+}
+
+.links {
+    display: flex;
+    list-style: none;
+    margin: 0!important;
+}
+
+.links li {
+    margin-right: 3vw;
+}
+
+.links li a {
+    padding: 5px 0;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: #555;
+    letter-spacing: -0.5px;
+    transition: all 0.25s;
+    text-transform: uppercase;
+}
+
+.links li a:hover {
+    color: #222;
+    z-index: 1;
+}
+
+.sticky .logo {
+    font-size: 8vh;
+}
+
+.logo {
+    color: #222;
+    margin: 0!important;
+    font-size: 10vh;
+    transition: all 0.25s;
+}
+
+.logo p{
+    transition:all .25s;
+}
+.sticky .logo p{
+    opacity: 0;
+    font-size: 0;
+}
+
+.backdrop {
+    display: none;
+    animation: 0.4s ease-in-out fadeIn forwards;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: all 0.4s;
+    cursor: pointer;
+    height: 100%;
+}
+
+@keyframes fadeIn {
+    to {
+        background: rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* Mobile view */
+
+@media (max-width: 675px) {
+    .logo {
+        font-size: 7vh;
+    }
+    .sticky .logo {
+        font-size: 5vh;
+    }
+    .icon, .close-btn {
+        display: block;
+    }
+    .icon {
+        position: absolute;
+        right: 24px;
+    }
+    .links {
+        display: none;
+        position: fixed;
+        opacity: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        background: #fff;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        transition: all 0.125s;
+    }
+    .links li {
+        margin-right: 0;
+        margin: 30px;
+        font-size: 1.5em;
+    }
+    .close-btn {
+        position: fixed;
+        top: 24px;
+        right: -90vh;
+        color: #555;
+        transition: all 0.3s;
+    }
+    .close-btn:hover {
+        color: #222;
+        cursor: pointer;
+    }
+    .open .links li:hover {
+        margin: 0 30px;
+    }
+    /* Open class */
+    .open .links li:first-of-type {
+        margin-top: 30%;
+    }
+    .open .links li a {
+        color: #222
+    }
+    .open .links .googleIcon {
+        margin: 0 auto;
+    }
+    .open {
+        display: block;
+    }
+    .open .links {
+        z-index: 3;
+        display: inline-block;
+    }
+    .open .close-btn {
+        right: 26px;
+        top: 29px;
+        z-index: 4;
+    }
+    .open .backdrop {
+        display: block;
+        z-index: 2;
+    }
+    .event{
+        margin:.5vh 6vw !important;
+    }
+    .day{
+        padding-left: 30px;
+    }
+}
+/*****************************************/
+.main{
+    z-index: 0;
+}
+.day{
+    font-size: 10vh;
+}
+.day-wrapper{
+    margin-top: 35vh;
+}
+.timeline{
+    padding: 0 !important;
+
+}
+.event{
+    margin:1%;
+    background-color: #5000ca;
+    border-radius: 5px;
+    color:#fff;
+}
+.event div{
+    padding:1vW !important;
+    
+}
