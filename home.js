@@ -16,7 +16,7 @@ $(document).ready(function () {
 
     var sticky = _navbar.offsetTop;
     $(document).on("scroll", () => {
-        if (window.pageYOffset >= sticky) {
+        if (window.pageYOffset > sticky) {
             $(_navbar).addClass("sticky");
         } else {
             $(_navbar).removeClass("sticky");
@@ -41,9 +41,11 @@ $(document).ready(function () {
         }); //AGGIORNAMENTO DEL MENU' RESPONSIVE
     }
     $(".links li span[name=oggi]").on("click", function () {
+        $(".day").eq(0).text("Today");
         setEvents(todayEvents);
     })
     $(".links li span[name=domani]").on("click", function () {
+        $(".day").eq(0).text("Tomorrow");
         setEvents(tomorrowEvents);
     })
 
@@ -79,12 +81,16 @@ $(document).ready(function () {
             $(".event").animate({ left: "-100%", opacity: 0 }, 400, function () {
                 $(_timeline).html("")
                 for (let i = 0; i < a.length; i++) {
-                    $(_timeline).append($(event(a[i])).animate({ left: "0%" }, 400));
+                    let l = event(a[i]).fadeOut(0);
+                    $(_timeline).append(l);
+                    $(l).fadeIn(400);
                 }
             });
         else
             for (let i = 0; i < a.length; i++) {
-                $(_timeline).append($(event(a[i])).animate({ left: "0%" }, 400));
+                let l = event(a[i]).fadeOut(0);
+                $(_timeline).append(l);
+                $(l).fadeIn(400);
             }
 
 
@@ -126,7 +132,10 @@ $(document).ready(function () {
         user = data[0];
         $("#user").text(user["nome"]);
         if (user["st"])
-            $("a[name=change]").text("courses");
+            $("span[name=change]").text("courses");
+        else
+            $("span[name=change]").text("classes");
+
         //MI RECUPERO LE ISCRIZIONI
         let i_ = inviaRichiesta("GET", "http://localhost:3000/ISCRIZIONI?studId=" + user["id"]);
         i_.done(function (dataI) {
@@ -135,22 +144,26 @@ $(document).ready(function () {
                 let courses_ = inviaRichiesta("GET", "http://localhost:3000/COURSES?id=" + dataI[i]["courseId"]);
                 courses_.done(function (dataC) {
                     courses.push(dataC[0]);
-                    //MI RICAVO GLI EVENTI
-                    let events_ = inviaRichiesta("GET", "http://localhost:3000/EVENTS?courseId=" + dataC[0]["id"]);
-                    events_.done(function (dataE) {
-                        for (let i = 0; i < dataE.length; i++) {
-                            let t = new Date().getDate();
-                            let te = new Date(dataE[i]["orarioStart"])
-                            te = te.getDate();
-                            if (te == t) {
-                                todayEvents.push(dataE[i]);
+                    for (let i = 0; i < dataC.length; i++) {
+                        //MI RICAVO GLI EVENTI
+                        let events_ = inviaRichiesta("GET", "http://localhost:3000/EVENTS?courseId=" + dataC[i]["id"]);
+                        events_.done(function (dataE) {
+                            for (let i = 0; i < dataE.length; i++) {
+                                let t = new Date().getDate();
+                                let te = new Date(dataE[i]["orarioStart"])
+                                te = te.getDate();
+                                if (te == t) {
+                                    todayEvents.push(dataE[i]);
+                                    let l = event(dataE[i]).fadeOut(0);
+                                    $(_timeline).append(l);
+                                    $(l).fadeIn(400);
+                                }
+                                else if (te == t + 1) {
+                                    tomorrowEvents.push(dataE[i]);
+                                }
                             }
-                            else if (te == t + 1) {
-                                tomorrowEvents.push(dataE[i]);
-                            }
-                        }
-                        //setEvents(todayEvents)
-                    })
+                        })
+                    }
                 });
             }
         })

@@ -1,18 +1,21 @@
-@font-face{
+@font-face {
     font-family: Jost;
-    src:url("Jost/static/Jost-Regular.ttf");
+    src: url("Jost/static/Jost-Regular.ttf");
     font-weight: normal;
 }
+
 * {
     margin: 0;
     padding: 0;
 }
+
 .container-fluid {
     margin: 0 !important;
     padding: 0 !important;
 }
+
 html, body, .container-fluid {
-    /*background-color: #1e1d22;*/
+    background-color:rgb(243, 244, 245);
     color: #222;
     min-height: 1700px;
     font-family: Jost;
@@ -21,14 +24,17 @@ html, body, .container-fluid {
 ::-webkit-scrollbar {
     display: none;
 }
+
 html {
     -ms-overflow-style: none;
 }
-body{
+
+body {
     z-index: 0;
 }
 
 /***************** RESPONSIVE NAVBAR ********************/
+
 .responsive-menu {
     display: none;
     width: 100%;
@@ -39,24 +45,35 @@ body{
     z-index: 21;
 }
 
-.responsive-navbar {
-    width: 100%;
+.sq{
+    box-shadow: 0 0.5rem 0.75rem -0.25rem rgba(39,48,54,0.05);
     background: #fff;
+    border-radius: .75rem;
+}
+
+.responsive-navbar {
+    position: relative;
+    width: 96vw;
+    border-radius: .75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 30px;
+    padding: 20px 30px;
+    margin:0 2vw;
     box-sizing: border-box;
     font-family: Verdana;
     z-index: 20;
+    background-color: #fff;
     transition: background-color 0.2s;
 }
 
 .sticky {
     position: fixed;
-    top: 0;
-    width: 100%;
+    top: 2vw;
+    width: 96vw;
+    padding-top: 0;
 }
+
 
 .sticky+.main {
     padding-top: 60px;
@@ -102,17 +119,17 @@ body{
 
 .logo {
     color: #222;
-    margin: 0!important;
+    margin: 4vh;
     font-size: 10vh;
+    text-align: center;
     transition: all 0.25s;
 }
 
-.logo p{
-    transition:all .25s;
+.logo p {
+    transition: all .25s;
 }
-.sticky .logo p{
-    opacity: 0;
-    font-size: 0;
+.sticky .links li span{
+    margin-top: 25px;
 }
 
 .backdrop {
@@ -138,18 +155,20 @@ body{
 /* Mobile view */
 
 @media (max-width: 675px) {
+    .responsive-navbar{
+        padding-right: 0;
+    }
     .logo {
         font-size: 7vh;
     }
-    .sticky .logo {
-        font-size: 5vh;
-    }
+
     .icon, .close-btn {
         display: block;
     }
     .icon {
         position: absolute;
-        right: 24px;
+        right: 8%;
+        top:22.5%;
     }
     .links {
         display: none;
@@ -180,6 +199,9 @@ body{
     .close-btn:hover {
         color: #222;
         cursor: pointer;
+    } 
+    .sticky .icon{
+        top:40%
     }
     .open .links li:hover {
         margin: 0 30px;
@@ -210,37 +232,51 @@ body{
         display: block;
         z-index: 2;
     }
-    .event{
-        margin:.5vh 6vw !important;
+    .event {
+        margin: .5vh 6vw !important;
     }
-    .day{
+    .timeline{
+        margin:4vw;
+    }
+    .day {
         padding-left: 30px;
     }
 }
+
 /*****************************************/
-.main{
+
+.main {
     z-index: 0;
 }
-.day{
+
+.day {
     font-size: 10vh;
 }
-.day-wrapper{
-    margin-top: 35vh;
+
+.day-wrapper {
+    margin-top: 5vh;
 }
-.timeline{
+.timeline {
     padding: 0 !important;
-    min-height: 50vh;
-    position:relative
+    position: relative;
+    margin:0;
+    width:100vw;
+    height:auto;
 }
-.event{
-    margin:1%;
+
+.event {
+    margin: 2.5vh 10vw;
     background-color: #5000ca;
     border-radius: 5px;
-    color:#fff;
+    color: #fff;
     position: relative;
-    left:150%;
     opacity: 1;
+    transition: background-color .25s;
 }
-.event div{
-    padding:1vW !important;
+.event:hover{
+    background-color: #5e04e6;
+}
+
+.event div {
+    padding: 1vW !important;
 }
