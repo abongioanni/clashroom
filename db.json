@@ -1,10 +1,25 @@
 {
     "EVENTS":[
         {
-            "orarioStart":"2020-01-01 10:10:00",
-            "orarioEnd":"2020-01-01 11:10:00",
+            "orarioStart":"2020-05-09 10:10:00",
+            "orarioEnd":"2020-05-09 11:10:00",
             "teacher":1,
-            "courseId":0
+            "courseId":0,
+            "description":"ciao"
+        },
+        {
+            "orarioStart":"2020-05-10 9:10:00",
+            "orarioEnd":"2020-05-10 10:10:00",
+            "teacher":1,
+            "courseId":0,
+            "description":"ciao - 2"
+        },
+        {
+            "orarioStart":"2020-05-09 11:10:00",
+            "orarioEnd":"2020-05-09 12:10:00",
+            "teacher":1,
+            "courseId":1,
+            "description":"ciao - sistemi"
         }
     ],
     "USERS":[
@@ -30,6 +45,23 @@
             "id":0,
             "nome":"Informatica",
             "creatorId":1
+        },
+        {
+            "id":1,
+            "nome":"Sistemi",
+            "creatorId":1
+        }
+    ],
+    "ISCRIZIONI":[
+        {
+            "id":0,
+            "studId":0,
+            "courseId":0
+        },
+        {
+            "id":1,
+            "studId":0,
+            "courseId":1
         }
     ]
 }

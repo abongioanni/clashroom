@@ -1,7 +1,12 @@
 "use strict";
 
 $(document).ready(function () {
-    let user={};
+    let user = {};
+    let courses = [];
+    let todayEvents = [];
+    let tomorrowEvents = [];
+    let _timeline = $(".timeline").eq(0)
+
     let _openIcon = $(".icon");
     let _linksList = $(".links-wrapper ul li");
     let _backdrop = $(".backdrop");
@@ -21,12 +26,12 @@ $(document).ready(function () {
     //LINKS UPDATE
     $(_responsiveLinks).children().remove();
     for (let i = 0; i < _linksList.length; i++) {
-        let _a = $(_linksList).eq(i).find("a");
+        let _a = $(_linksList).eq(i).find("span");
         let _newa;
         $("<li>", {
             appendTo: _responsiveLinks,
             append: [
-                (_newa = $("<a>", {
+                (_newa = $("<span>", {
                     text: $(_a).text(),
                     addClass: $(_a).attr("class"),
                 }).on("click", () => {
@@ -34,10 +39,13 @@ $(document).ready(function () {
                 })),
             ],
         }); //AGGIORNAMENTO DEL MENU' RESPONSIVE
-        if (!$(_a).prop("class").includes("googleIcon")) {
-            _newa.prop("href", _a.prop("href"));
-        }
     }
+    $(".links li span[name=oggi]").on("click", function () {
+        setEvents(todayEvents);
+    })
+    $(".links li span[name=domani]").on("click", function () {
+        setEvents(tomorrowEvents);
+    })
 
     //RESPONSIVE MENU'
     $(_openIcon).on("click", () => {
@@ -66,15 +74,88 @@ $(document).ready(function () {
         });
     }
 
-    let user_=inviaRichiesta("GET","http://localhost:3000/USERS?id=0");
-    user_.done(function(data){
-        user=data[0];
+    function setEvents(a) {
+        if ($(_timeline).html() != "")
+            $(".event").animate({ left: "-100%", opacity: 0 }, 400, function () {
+                $(_timeline).html("")
+                for (let i = 0; i < a.length; i++) {
+                    $(_timeline).append($(event(a[i])).animate({ left: "0%" }, 400));
+                }
+            });
+        else
+            for (let i = 0; i < a.length; i++) {
+                $(_timeline).append($(event(a[i])).animate({ left: "0%" }, 400));
+            }
+
+
+    }
+    function event(data) {
+        let ds = new Date(data["orarioStart"]);
+        let de = new Date(data["orarioEnd"]);
+
+        return $("<div>", {
+            addClass: "row event",
+            append: [
+                $("<div>", {
+                    addClass: "col-sm-2 text-center",
+                    text: ds.getHours() + ":" + ds.getMinutes() + " - " + de.getHours() + ":" + de.getMinutes(),
+                    name: "orario"
+                }),
+                $("<div>", {
+                    addClass: "col-sm-3 text-center",
+                    text: data["teacher"],
+                    name: "teacher"
+                }),
+                $("<div>", {
+                    addClass: "col-sm-3 text-center",
+                    text: courses[parseInt(data["courseId"])]["nome"],
+                    name: "materia"
+                }),
+                $("<div>", {
+                    addClass: "col-sm-4 text-center",
+                    text: data["description"],
+                    name: "argomento"
+                }),
+            ],
+        })
+    }
+
+    //  TUTTO DA RIVEDERE POI CON I COOKIES
+    let user_ = inviaRichiesta("GET", "http://localhost:3000/USERS?id=0");//MI RICAVO L'UTENTE
+    user_.done(function (data) {
+        user = data[0];
         $("#user").text(user["nome"]);
-        if(user["st"])
-            $("a[name=change]").text("teachers");
-        let events_=inviaRichiesta(
+        if (user["st"])
+            $("a[name=change]").text("courses");
+        //MI RECUPERO LE ISCRIZIONI
+        let i_ = inviaRichiesta("GET", "http://localhost:3000/ISCRIZIONI?studId=" + user["id"]);
+        i_.done(function (dataI) {
+            for (let i = 0; i < dataI.length; i++) {
+                //MI RICAVO I CORSI
+                let courses_ = inviaRichiesta("GET", "http://localhost:3000/COURSES?id=" + dataI[i]["courseId"]);
+                courses_.done(function (dataC) {
+                    courses.push(dataC[0]);
+                    //MI RICAVO GLI EVENTI
+                    let events_ = inviaRichiesta("GET", "http://localhost:3000/EVENTS?courseId=" + dataC[0]["id"]);
+                    events_.done(function (dataE) {
+                        for (let i = 0; i < dataE.length; i++) {
+                            let t = new Date().getDate();
+                            let te = new Date(dataE[i]["orarioStart"])
+                            te = te.getDate();
+                            if (te == t) {
+                                todayEvents.push(dataE[i]);
+                            }
+                            else if (te == t + 1) {
+                                tomorrowEvents.push(dataE[i]);
+                            }
+                        }
+                        //setEvents(todayEvents)
+                    })
+                });
+            }
+        })
     });
-    user_.fail(function(){console.log("errore")})
+    user_.fail(function () { console.log("errore") })
 
 
 

@@ -79,7 +79,7 @@ body{
     margin-right: 3vw;
 }
 
-.links li a {
+.links li span {
     padding: 5px 0;
     position: relative;
     display: block;
@@ -90,9 +90,10 @@ body{
     text-transform: uppercase;
 }
 
-.links li a:hover {
+.links li span:hover {
     color: #222;
     z-index: 1;
+    cursor: pointer;
 }
 
 .sticky .logo {
@@ -187,7 +188,7 @@ body{
     .open .links li:first-of-type {
         margin-top: 30%;
     }
-    .open .links li a {
+    .open .links li span {
         color: #222
     }
     .open .links .googleIcon {
@@ -228,15 +229,18 @@ body{
 }
 .timeline{
     padding: 0 !important;
-
+    min-height: 50vh;
+    position:relative
 }
 .event{
     margin:1%;
     background-color: #5000ca;
     border-radius: 5px;
     color:#fff;
+    position: relative;
+    left:150%;
+    opacity: 1;
 }
 .event div{
     padding:1vW !important;
-    
 }
