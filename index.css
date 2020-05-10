@@ -4,6 +4,12 @@
     font-weight: normal;
 }
 
+@font-face {
+    font-family: Baloo;
+    src: url("Baloo_2/Baloo2-Regular.ttf");
+    font-weight: normal;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -15,10 +21,10 @@
 }
 
 html, body, .container-fluid {
-    background-color:rgb(243, 244, 245);
+    background-color: rgb(243, 244, 245);
     color: #222;
     min-height: 1700px;
-    font-family: Jost;
+    font-family: Baloo;
 }
 
 ::-webkit-scrollbar {
@@ -45,13 +51,14 @@ body {
     z-index: 21;
 }
 
-.sq{
-    box-shadow: 0 0.5rem 0.75rem -0.25rem rgba(39,48,54,0.05);
+.sq {
+    box-shadow: 0 0.5rem 0.75rem -0.25rem rgba(39, 48, 54, 0.05);
     background: #fff;
     border-radius: .75rem;
 }
 
 .responsive-navbar {
+    height: 8vh;
     position: relative;
     width: 96vw;
     border-radius: .75rem;
@@ -59,7 +66,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px 30px;
-    margin:0 2vw;
+    margin: 0 2vw;
     box-sizing: border-box;
     font-family: Verdana;
     z-index: 20;
@@ -73,7 +80,6 @@ body {
     width: 96vw;
     padding-top: 0;
 }
-
 
 .sticky+.main {
     padding-top: 60px;
@@ -102,6 +108,7 @@ body {
     display: block;
     text-decoration: none;
     color: #555;
+    font-size: 2vh;
     letter-spacing: -0.5px;
     transition: all 0.25s;
     text-transform: uppercase;
@@ -128,7 +135,8 @@ body {
 .logo p {
     transition: all .25s;
 }
-.sticky .links li span{
+
+.sticky .links li span {
     margin-top: 25px;
 }
 
@@ -155,20 +163,19 @@ body {
 /* Mobile view */
 
 @media (max-width: 675px) {
-    .responsive-navbar{
+    .responsive-navbar {
         padding-right: 0;
     }
     .logo {
         font-size: 7vh;
     }
-
     .icon, .close-btn {
         display: block;
     }
     .icon {
         position: absolute;
         right: 8%;
-        top:22.5%;
+        top: 22.5%;
     }
     .links {
         display: none;
@@ -192,16 +199,16 @@ body {
     .close-btn {
         position: fixed;
         top: 24px;
-        right: -90vh;
+        right: -90vw;
         color: #555;
         transition: all 0.3s;
     }
     .close-btn:hover {
         color: #222;
         cursor: pointer;
-    } 
-    .sticky .icon{
-        top:40%
+    }
+    .sticky .icon {
+        top: 40%
     }
     .open .links li:hover {
         margin: 0 30px;
@@ -213,9 +220,6 @@ body {
     .open .links li span {
         color: #222
     }
-    .open .links .googleIcon {
-        margin: 0 auto;
-    }
     .open {
         display: block;
     }
@@ -224,8 +228,8 @@ body {
         display: inline-block;
     }
     .open .close-btn {
-        right: 26px;
-        top: 29px;
+        right: 12.5vw;
+        top: 5vh;
         z-index: 4;
     }
     .open .backdrop {
@@ -233,13 +237,17 @@ body {
         z-index: 2;
     }
     .event {
-        margin: .5vh 6vw !important;
+        margin: 2vh !important;
     }
-    .timeline{
-        margin:4vw;
+    .timeline {
+        margin: 4vw;
     }
     .day {
         padding-left: 30px;
+    }
+    /*********************************/
+    .image-login {
+        border: none !important;
     }
 }
 
@@ -251,32 +259,132 @@ body {
 
 .day {
     font-size: 10vh;
+    height: 12vh;
+    position: relative;
+    width: 100%;
+    overflow-y: hidden;
+}
+
+.day span {
+    display: block;
+    position: absolute;
+    top: 10vh;
+    transition: all .5s;
 }
 
 .day-wrapper {
-    margin-top: 5vh;
+    margin: 5vh auto;
 }
+
+.day-visible {
+    top: 0 !important;
+}
+
 .timeline {
     padding: 0 !important;
     position: relative;
-    margin:0;
-    width:100vw;
-    height:auto;
+    margin: 0;
+    width: 100vw;
+    height: auto;
 }
 
 .event {
     margin: 2.5vh 10vw;
+    line-height: normal;
+    font-size: 3vh;
     background-color: #5000ca;
-    border-radius: 5px;
+    border-radius: .75rem;
     color: #fff;
     position: relative;
     opacity: 1;
     transition: background-color .25s;
 }
-.event:hover{
+
+.event .badge {
+    border-radius: .75rem !important;
+}
+
+.event:hover {
     background-color: #5e04e6;
 }
 
 .event div {
     padding: 1vW !important;
+}
+
+/********************************************/
+.main-login {
+    height: 80vh;
+    margin: 10vh auto;
+    position:relative;
+}
+.main-login a{
+    position:absolute;
+    right:2%;
+    bottom:2%;
+    color:#999;
+    transition: color .25s;
+}
+.main-login a:hover{
+    color: #5000ca;
+}
+.main-login section {
+    height: 65vh;
+    margin: 5% 0;
+}
+
+.image-login {
+    border-right: 1px solid #5000ca;
+    line-height: 65vh;
+}
+
+.login-login {
+    padding-top: 5vh
+}
+
+.login-login p {
+    font-size: 6vh;
+    height: 7vh;
+    margin-bottom: 10vh;
+}
+
+.login-login input[type=text], .login-login input[type=password] {
+    height: 5vh;
+    margin: 2vh;
+    border: none;
+    border-bottom: 2px solid #5000ca;
+}
+
+.login-login input[type=text]:focus, .login-login input[type=password]:focus {
+    outline: none !important;
+}
+
+.btn-grad {
+    display: inline-block;
+    padding: 1vh;
+    color: #fff;
+    background: linear-gradient(270deg, #5000ce, #a46aff);
+    background-size: 400% 400%;
+    animation: change 30s ease infinite;
+    margin-top: 10vh;
+}
+.btn-grad:hover{
+    cursor: pointer;
+}
+
+label[for=chkRM] {
+    margin-left: .5vw;
+    line-height: normal;
+}
+
+@keyframes change {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
 }

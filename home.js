@@ -5,8 +5,9 @@ $(document).ready(function () {
     let courses = [];
     let todayEvents = [];
     let tomorrowEvents = [];
-    let _timeline = $(".timeline").eq(0)
 
+    let _timeline = $(".timeline").eq(0)
+    let _day=$(".day").eq(0);
     let _openIcon = $(".icon");
     let _linksList = $(".links-wrapper ul li");
     let _backdrop = $(".backdrop");
@@ -16,7 +17,7 @@ $(document).ready(function () {
 
     var sticky = _navbar.offsetTop;
     $(document).on("scroll", () => {
-        if (window.pageYOffset > sticky) {
+        if (window.pageYOffset >= sticky) {
             $(_navbar).addClass("sticky");
         } else {
             $(_navbar).removeClass("sticky");
@@ -26,14 +27,15 @@ $(document).ready(function () {
     //LINKS UPDATE
     $(_responsiveLinks).children().remove();
     for (let i = 0; i < _linksList.length; i++) {
-        let _a = $(_linksList).eq(i).find("span");
-        let _newa;
+        let _span = $(_linksList).eq(i).find("span");
+        let _new;
         $("<li>", {
             appendTo: _responsiveLinks,
             append: [
-                (_newa = $("<span>", {
-                    text: $(_a).text(),
-                    addClass: $(_a).attr("class"),
+                (_new = $("<span>", {
+                    text: $(_span).text(),
+                    addClass: $(_span).attr("class"),
+                    name:$(_span).attr("name")
                 }).on("click", () => {
                     $(_responsiveLinks).parent().removeClass("open");
                 })),
@@ -41,11 +43,11 @@ $(document).ready(function () {
         }); //AGGIORNAMENTO DEL MENU' RESPONSIVE
     }
     $(".links li span[name=oggi]").on("click", function () {
-        $(".day").eq(0).text("Today");
+        $(_day).find("span").removeClass("day-visible").eq(0).addClass("day-visible")
         setEvents(todayEvents);
     })
     $(".links li span[name=domani]").on("click", function () {
-        $(".day").eq(0).text("Tomorrow");
+        $(_day).find("span").removeClass("day-visible").eq(1).addClass("day-visible")
         setEvents(tomorrowEvents);
     })
 
@@ -108,7 +110,7 @@ $(document).ready(function () {
                     name: "orario"
                 }),
                 $("<div>", {
-                    addClass: "col-sm-3 text-center",
+                    addClass: "col-sm-2 text-center",
                     text: data["teacher"],
                     name: "teacher"
                 }),
@@ -122,6 +124,15 @@ $(document).ready(function () {
                     text: data["description"],
                     name: "argomento"
                 }),
+                !data["seen"]?$("<div>",{
+                    addClass: "col-sm-1 badge badge-warning text-center",
+                    text:"new",
+                    name:"visto",
+                    css:{
+                        fontSize:"3vh",
+                        lineHeight: "normal"
+                    }
+                }):"",
             ],
         })
     }

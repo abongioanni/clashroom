@@ -1,25 +1,28 @@
 {
     "EVENTS":[
         {
-            "orarioStart":"2020-05-09 10:10:00",
-            "orarioEnd":"2020-05-09 11:10:00",
+            "orarioStart":"2020-05-11 10:10:00",
+            "orarioEnd":"2020-05-11 11:10:00",
             "teacher":1,
             "courseId":0,
-            "description":"ciao"
+            "description":"ciao",
+            "seen":true
         },
         {
             "orarioStart":"2020-05-10 9:10:00",
             "orarioEnd":"2020-05-10 10:10:00",
             "teacher":1,
             "courseId":0,
-            "description":"ciao - 2"
+            "description":"ciao - 2",
+            "seen":false
         },
         {
-            "orarioStart":"2020-05-09 11:10:00",
-            "orarioEnd":"2020-05-09 12:10:00",
+            "orarioStart":"2020-05-11 11:10:00",
+            "orarioEnd":"2020-05-11 12:10:00",
             "teacher":1,
             "courseId":1,
-            "description":"ciao - sistemi"
+            "description":"ciao - sistemi",
+            "seen":false
         }
     ],
     "USERS":[
