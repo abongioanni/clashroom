@@ -23,7 +23,7 @@
 html, body, .container-fluid {
     background-color: rgb(243, 244, 245);
     color: #222;
-    min-height: 1700px;
+    /*min-height: 1700px;*/
     font-family: Baloo;
 }
 
