@@ -1,8 +1,17 @@
 "use strict";
 
+class Corso{
+    constructor(data){
+        this.Id=data["id"];
+        this.Nome=data["nome"];
+        this.Insegnante=data["insegnante"]
+    }
+}
+
+
 $(document).ready(function () {
     let user = {};
-    let courses = [];
+    let courses = {};
     let todayEvents = [];
     let tomorrowEvents = [];
 
@@ -100,18 +109,18 @@ $(document).ready(function () {
     function event(data) {
         let ds = new Date(data["orarioStart"]);
         let de = new Date(data["orarioEnd"]);
-
+console.log(courses)
         return $("<div>", {
             addClass: "row event",
             append: [
                 $("<div>", {
                     addClass: "col-sm-2 text-center",
-                    text: ds.getHours() + ":" + ds.getMinutes() + " - " + de.getHours() + ":" + de.getMinutes(),
-                    name: "orario"
+                    text: ds.getHours() + ":" + ds.getMinutes() + "-" + de.getHours() + ":" + de.getMinutes(),
+                    name: "orario",
                 }),
                 $("<div>", {
                     addClass: "col-sm-2 text-center",
-                    text: data["teacher"],
+                    text: courses[data["courseId"]].Insegnante,
                     name: "teacher"
                 }),
                 $("<div>", {
@@ -130,7 +139,14 @@ $(document).ready(function () {
                     name:"visto",
                     css:{
                         fontSize:"3vh",
-                        lineHeight: "normal"
+                        lineHeight: "normal",
+                    },
+                    click:function(){
+                        console.log("update flag")
+                        $(this).css({
+                            backgroundColor: "#00bdaa",
+                            lineHeight: "5vh"
+                        }).html("<i class=\"fas fa-check\"></i>");
                     }
                 }):"",
             ],
@@ -154,7 +170,15 @@ $(document).ready(function () {
                 //MI RICAVO I CORSI
                 let courses_ = inviaRichiesta("GET", "http://localhost:3000/COURSES?id=" + dataI[i]["courseId"]);
                 courses_.done(function (dataC) {
-                    courses.push(dataC[0]);
+                    let p={
+                        id:dataC["id"],
+                        nome:dataC["nome"],
+                    }
+                    let p_=inviaRichiesta("GET","http://localhost:3000/USERS?id="+data["teacher"]);
+                    p_.done(function(data){
+                        p["insegnante"]=data["nome"]+" "+data["cognome"]
+                    })
+                    courses[dataC["id"]]=new Corso(p);
                     for (let i = 0; i < dataC.length; i++) {
                         //MI RICAVO GLI EVENTI
                         let events_ = inviaRichiesta("GET", "http://localhost:3000/EVENTS?courseId=" + dataC[i]["id"]);
