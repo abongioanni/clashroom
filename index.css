@@ -160,13 +160,16 @@ body {
     }
 }
 /*****************************************/
+::placeholder{
+    font-family: Baloo;
+}
 .main {
     z-index: 0;
 }
 
 .day {
     font-size: 10vh;
-    height: 12vh;
+    height: 13.5vh;
     position: relative;
     width: 100%;
     overflow-y: hidden;
@@ -225,7 +228,7 @@ body {
 }
 .event .fas {
     display: block;
-    margin:15% auto;
+    margin:3% auto;
     transition: all .4s;
 }
 

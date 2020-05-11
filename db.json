@@ -9,8 +9,8 @@
             "seen":true
         },
         {
-            "orarioStart":"2020-05-10 9:10:00",
-            "orarioEnd":"2020-05-10 10:10:00",
+            "orarioStart":"2020-05-12 9:10:00",
+            "orarioEnd":"2020-05-12 10:10:00",
             "teacher":1,
             "courseId":0,
             "description":"ciao - 2",
@@ -31,6 +31,7 @@
             "nome":"Alberto",
             "cognome":"Bongioanni",
             "mail":"",
+            "password":"",
             "image":"",
             "st":true
         },
@@ -39,6 +40,7 @@
             "nome":"Alberto",
             "cognome":"Bongioanni",
             "mail":"",
+            "password":"",
             "image":"",
             "st":false
         }

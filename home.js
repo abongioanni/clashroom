@@ -24,14 +24,14 @@ $(document).ready(function () {
     let _responsiveLinks = $("#menuNavbar");
     let _navbar = document.getElementsByClassName("responsive-navbar")[0];
 
-    var sticky = _navbar.offsetTop;
+    /*var sticky = _navbar.offsetTop;
     $(document).on("scroll", () => {
         if (window.pageYOffset >= sticky) {
             $(_navbar).addClass("sticky");
         } else {
             $(_navbar).removeClass("sticky");
         }
-    });
+    });*/
 
     //LINKS UPDATE
     $(_responsiveLinks).children().remove();
@@ -119,7 +119,7 @@ console.log(courses)
                     name: "orario",
                 }),
                 $("<div>", {
-                    addClass: "col-sm-2 text-center",
+                    addClass: "col-sm-3 text-center",
                     text: courses[data["courseId"]].Insegnante,
                     name: "teacher"
                 }),
@@ -129,7 +129,7 @@ console.log(courses)
                     name: "materia"
                 }),
                 $("<div>", {
-                    addClass: "col-sm-4 text-center",
+                    addClass: "col-sm-3 text-center",
                     text: data["description"],
                     name: "argomento"
                 }),
@@ -170,16 +170,17 @@ console.log(courses)
                 //MI RICAVO I CORSI
                 let courses_ = inviaRichiesta("GET", "http://localhost:3000/COURSES?id=" + dataI[i]["courseId"]);
                 courses_.done(function (dataC) {
-                    let p={
-                        id:dataC["id"],
-                        nome:dataC["nome"],
-                    }
-                    let p_=inviaRichiesta("GET","http://localhost:3000/USERS?id="+data["teacher"]);
-                    p_.done(function(data){
-                        p["insegnante"]=data["nome"]+" "+data["cognome"]
-                    })
-                    courses[dataC["id"]]=new Corso(p);
                     for (let i = 0; i < dataC.length; i++) {
+                        let p={
+                            id:dataC[i]["id"],
+                            nome:dataC[i]["nome"],
+                            insegnante:dataC[i]["creatorId"]
+                        }
+                        let p_=inviaRichiesta("GET","http://localhost:3000/USERS?id="+p["id"]);
+                        p_.done(function(data){
+                            p["insegnante"]=data[0]["nome"]+" "+data[0]["cognome"];
+                            courses[dataC[i]["id"]]=new Corso(p);
+                        })
                         //MI RICAVO GLI EVENTI
                         let events_ = inviaRichiesta("GET", "http://localhost:3000/EVENTS?courseId=" + dataC[i]["id"]);
                         events_.done(function (dataE) {
