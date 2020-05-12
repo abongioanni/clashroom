@@ -74,8 +74,7 @@ CREATE TABLE `user` (
   `dob` date NOT NULL,
   `email` varchar(255) NOT NULL,
   `foto` varchar(255) NOT NULL,
-  `st` tinyint(1) NOT NULL,
-  `username` varchar(255) NOT NULL
+  `st` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -104,7 +103,7 @@ ALTER TABLE `studsub`
 -- Indici per le tabelle `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`,`username`);
+  ADD PRIMARY KEY (`id`,`email`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate

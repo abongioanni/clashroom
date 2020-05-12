@@ -13,18 +13,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $con->real_escape_string($_POST["username"]);
     $password = $con->real_escape_string($_POST["password"]);
 
-    $sql = "SELECT * FROM Correntisti WHERE username='$username';";
-    $data = _eseguiQuery($con, $sql);//FAI DIVISIONE USERNAME E PASSWORD E DAI MESSAGI DI REFGISTRAZIONE
+    $sql = "SELECT * FROM Correntisti WHERE email='$email';";
+    $data = _eseguiQuery($con, $sql);
     if (count($data) == 0) {
         http_response_code(401);
-        die("Creadenziali errate");
+        die("Username inesistente");
     } else {
         if ($data[0]["password"] == $password) {
             $aus=array("ris"=>"ok");
             echo json_encode($aus);
         } else {
             http_response_code(401);
-            die("Creadenziali errate");
+            die("Password errata");
         }
     }
     $con->close();

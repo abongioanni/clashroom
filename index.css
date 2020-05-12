@@ -1,12 +1,12 @@
 @font-face {
     font-family: Baloo;
-    src: url("Baloo_2/Baloo2-Bold.ttf");
+    src: url("Baloo 2/Baloo2-Bold.ttf");
     font-weight: bold;
 }
 
 @font-face {
     font-family: Baloo;
-    src: url("Baloo_2/Baloo2-Regular.ttf");
+    src: url("Baloo 2/Baloo2-Regular.ttf");
     font-weight: normal;
 }
 
@@ -159,10 +159,13 @@ body {
         background: rgba(0, 0, 0, 0.8);
     }
 }
+
 /*****************************************/
-::placeholder{
+
+::placeholder {
     font-family: Baloo;
 }
+
 .main {
     z-index: 0;
 }
@@ -214,7 +217,8 @@ body {
     border-radius: .75rem !important;
     transition: background-color .4s;
 }
-.event .badge:hover{
+
+.event .badge:hover {
     cursor: pointer;
 }
 
@@ -226,46 +230,55 @@ body {
     padding: 1vW !important;
     font-weight: 100;
 }
+
 .event .fas {
     display: block;
-    margin:3% auto;
+    margin: 3% auto;
     transition: all .4s;
 }
 
 /********************************************/
+
 .main-login {
     height: 80vh;
     margin: 10vh auto;
-    position:relative;
+    position: relative;
 }
-.main-login a{
-    position:absolute;
-    right:2%;
-    bottom:2%;
-    color:#999;
+
+.main-login a {
+    position: absolute;
+    right: 2%;
+    bottom: 2%;
+    color: #999;
     transition: color .25s;
 }
-.main-icon{
-    height:150px;
-    width:150px;
+
+.main-icon {
+    height: 150px;
+    width: 150px;
     display: block;
     background-image: url("icon.png");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
 }
-.main-login .main-icon{
-    margin:20% auto;
-    height:60%;
-    width:60%;
+
+.main-login .main-icon {
+    margin: 20% auto;
+    height: 60%;
+    width: 60%;
 }
-.main-login p.main-icon{
-    display:none;
-    margin:0 auto;
+
+.main-login p.main-icon {
+    display: none;
+    margin: 0 auto;
 }
-.main-login a:hover{
-    color: #5000ca;
+
+a:hover {
+    color: #5000ca !important;
+    cursor: pointer;
 }
+
 .main-login section {
     height: 65vh;
     margin: 5% 0;
@@ -286,14 +299,14 @@ body {
     margin-bottom: 10vh;
 }
 
-.login-login input[type=text], .login-login input[type=password] {
+input[type=text], input[type=password] {
     height: 5vh;
     margin: 2vh;
     border: none;
     border-bottom: 2px solid #5000ca;
 }
 
-.login-login input[type=text]:focus, .login-login input[type=password]:focus {
+input[type=text]:focus, input[type=password]:focus {
     outline: none !important;
 }
 
@@ -304,9 +317,12 @@ body {
     background: linear-gradient(270deg, #5000ce, #a46aff);
     background-size: 400% 400%;
     animation: change 30s ease infinite;
-    margin-top: 10vh;
+    margin-top: .5vh;
 }
-.btn-grad:hover{
+.login-login .alert{
+    font-size: .9em;
+}
+.btn-grad:hover {
     cursor: pointer;
 }
 
@@ -314,6 +330,70 @@ label[for=chkRM] {
     margin-left: .5vw;
     line-height: normal;
 }
+#password{
+    left:.7rem;
+    position: relative;
+}
+.error {
+    border-bottom: 2px solid #f00 !important;
+}
+/** code for eye **/
+.eye{
+    width:1.25em;
+    height:0.75em;
+    position: relative;
+    display:inline-block;
+    --background:#aaa;
+    --color:currentColor;
+  }
+  .eye div{
+    overflow:hidden;
+    height:50%;
+    position:relative;
+    margin-bottom:-1px;
+  }
+  .eye div:before{
+    content:'';
+    background:currentColor;
+    position:absolute;
+    left:0;
+    right:0;
+    height:300%;
+    border-radius:100%;
+  }
+  .eye div:last-child:before{
+    bottom:0;
+  }
+  .eye:before{
+    content:'';
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:0.35em;
+    height:0.35em;
+    background:var(--color);
+    border:0.1em solid var(--background);
+    border-radius:100%;
+    z-index:1;
+  }
+  .eye:after{
+    content:'';
+    position:absolute;
+    top:-0.15em;
+    left:calc(33.333% - 0.15em);
+    transform:rotate(45deg) scaleX(0);
+    transform-origin:left center;
+    width:90%;
+    height:0.1em;
+    background:var(--color);
+    border-top:0.1em solid var(--background);
+    z-index:2;
+    transition:transform 0.25s;
+  }
+  .eye.slash:after{
+    transform:rotate(45deg) scaleX(1);
+  }
 
 @keyframes change {
     0% {
@@ -326,6 +406,13 @@ label[for=chkRM] {
         background-position: 0% 50%
     }
 }
+/*********************************************/
+.main-signUp {
+    height: 80vh;
+    margin: 10vh auto;
+    position: relative;
+}
+
 /* Mobile view */
 
 @media (max-width: 675px) {
@@ -406,8 +493,8 @@ label[for=chkRM] {
     .event {
         margin: 2vh !important;
     }
-    .event .fas{
-        margin:2% auto !important
+    .event .fas {
+        margin: 2% auto !important
     }
     .timeline {
         margin: 4vw;
@@ -419,25 +506,29 @@ label[for=chkRM] {
     .image-login {
         border: none !important;
     }
-    .main-login{
+    .main-login {
         margin-top: 0 !important;
+        height:100vh !important
     }
-    .image-login{
-        display:none;
+    .image-login {
+        display: none;
     }
-    .login-login p.main-icon{
+    .login-login p.main-icon {
         display: block !important;
-        height:30% !important;
+        height: 30% !important;
     }
-    .login-login .btn-grad{
+    .login-login .btn-grad {
         margin-top: 2vh;
     }
-    .login-login input{
+    .login-login input {
         margin-left: 0 !important;
     }
-    .main-icon{
-        height:125px;
-        width:125px
+    .main-icon {
+        height: 125px;
+        width: 125px
+    }
+    .login-login #password{
+        left:0 !important
     }
 }
 
