@@ -20,8 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("email inesistente");
     } else {
         if ($data[0]["password"] == $password) {
-            $aus=array("ris"=>"ok");
-            echo json_encode($aus);
+            session_start();
+            $_SESSION["id"]=$data[0]["id"];
+            $_SESSION["scadenza"]=time()+SCADENZA;
+            setcookie(session_name(), session_id(), $_SESSION["scadenza"], "/");
+
+            echo json_encode(array("ris"=>"ok"));
         } else {
             http_response_code(401);
             die("Password errata");

@@ -68,11 +68,11 @@ CREATE TABLE `studsub` (
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `cognome` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `dob` date NOT NULL,
-  `email` varchar(255) NOT NULL,
   `foto` varchar(255) NOT NULL,
   `st` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -91,19 +91,19 @@ ALTER TABLE `courses`
 -- Indici per le tabelle `events`
 --
 ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`,`courseId`,`do`);
+  ADD PRIMARY KEY (`courseId`,`do`);
 
 --
 -- Indici per le tabelle `studsub`
 --
 ALTER TABLE `studsub`
-  ADD PRIMARY KEY (`id`,`studId`,`courseId`);
+  ADD PRIMARY KEY (`studId`,`courseId`);
 
 --
 -- Indici per le tabelle `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`,`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
