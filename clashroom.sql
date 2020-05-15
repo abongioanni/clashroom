@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 11, 2020 alle 19:11
+-- Creato il: Mag 14, 2020 alle 09:28
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.4
 
@@ -11,7 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-CREATE DATABASE `clashroom`;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -21,6 +20,8 @@ CREATE DATABASE `clashroom`;
 --
 -- Database: `clashroom`
 --
+CREATE DATABASE IF NOT EXISTS `clashroom` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `clashroom`;
 
 -- --------------------------------------------------------
 
@@ -57,7 +58,8 @@ CREATE TABLE `events` (
 CREATE TABLE `studsub` (
   `id` int(11) NOT NULL,
   `studId` int(11) NOT NULL,
-  `courseId` int(11) NOT NULL
+  `courseId` int(11) NOT NULL,
+  `teacherId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -68,11 +70,10 @@ CREATE TABLE `studsub` (
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `cognome` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `dob` date NOT NULL,
-  `email` varchar(255) NOT NULL,
   `foto` varchar(255) NOT NULL,
   `st` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -91,19 +92,19 @@ ALTER TABLE `courses`
 -- Indici per le tabelle `events`
 --
 ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`,`courseId`,`do`);
+  ADD PRIMARY KEY (`courseId`,`do`);
 
 --
 -- Indici per le tabelle `studsub`
 --
 ALTER TABLE `studsub`
-  ADD PRIMARY KEY (`id`,`studId`,`courseId`);
+  ADD PRIMARY KEY (`studId`,`courseId`);
 
 --
 -- Indici per le tabelle `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`,`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
@@ -116,22 +117,10 @@ ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT per la tabella `events`
---
-ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `studsub`
---
-ALTER TABLE `studsub`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT per la tabella `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
