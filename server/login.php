@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $con = _connection("clashroom");
-    $username = $con->real_escape_string($_POST["username"]);
+    $email = $con->real_escape_string($_POST["username"]);
     $password = $con->real_escape_string($_POST["password"]);
 
     $sql = "SELECT * FROM Correntisti WHERE email='$email';";
