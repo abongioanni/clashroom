@@ -254,8 +254,8 @@ body {
 }
 
 .main-icon {
-    height: 150px;
-    width: 150px;
+    height: 120px;
+    width: 120px;
     display: block;
     background-image: url("icon.png");
     background-position: center;
@@ -279,6 +279,11 @@ a:hover {
     cursor: pointer;
 }
 
+a.btn-grad:hover {
+    color: #fff !important;
+    cursor: pointer;
+}
+
 .main-login section {
     height: 65vh;
     margin: 5% 0;
@@ -299,30 +304,34 @@ a:hover {
     margin-bottom: 10vh;
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], select,input[type=datetime-local] {
     height: 5vh;
     margin: 2vh;
     border: none;
     border-bottom: 2px solid #5000ca;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+input[type=text]:focus, input[type=password]:focus, select:focus {
     outline: none !important;
 }
 
 .btn-grad {
     display: inline-block;
     padding: 1vh;
-    color: #fff;
+    color: #ddd;
     background: linear-gradient(270deg, #5000ce, #a46aff);
     background-size: 400% 400%;
     animation: change 30s ease infinite;
     margin-top: .5vh;
+    transition: color .25s;
 }
-.login-login .alert{
+
+.login-login .alert {
     font-size: .9em;
 }
+
 .btn-grad:hover {
+    color: #fff;
     cursor: pointer;
 }
 
@@ -330,70 +339,10 @@ label[for=chkRM] {
     margin-left: .5vw;
     line-height: normal;
 }
-#password{
-    left:.7rem;
-    position: relative;
-}
+
 .error {
     border-bottom: 2px solid #f00 !important;
 }
-/** code for eye **/
-.eye{
-    width:1.25em;
-    height:0.75em;
-    position: relative;
-    display:inline-block;
-    --background:#aaa;
-    --color:currentColor;
-  }
-  .eye div{
-    overflow:hidden;
-    height:50%;
-    position:relative;
-    margin-bottom:-1px;
-  }
-  .eye div:before{
-    content:'';
-    background:currentColor;
-    position:absolute;
-    left:0;
-    right:0;
-    height:300%;
-    border-radius:100%;
-  }
-  .eye div:last-child:before{
-    bottom:0;
-  }
-  .eye:before{
-    content:'';
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    width:0.35em;
-    height:0.35em;
-    background:var(--color);
-    border:0.1em solid var(--background);
-    border-radius:100%;
-    z-index:1;
-  }
-  .eye:after{
-    content:'';
-    position:absolute;
-    top:-0.15em;
-    left:calc(33.333% - 0.15em);
-    transform:rotate(45deg) scaleX(0);
-    transform-origin:left center;
-    width:90%;
-    height:0.1em;
-    background:var(--color);
-    border-top:0.1em solid var(--background);
-    z-index:2;
-    transition:transform 0.25s;
-  }
-  .eye.slash:after{
-    transform:rotate(45deg) scaleX(1);
-  }
 
 @keyframes change {
     0% {
@@ -406,13 +355,45 @@ label[for=chkRM] {
         background-position: 0% 50%
     }
 }
+
 /*********************************************/
+
 .main-signUp {
     height: 80vh;
     margin: 10vh auto;
     position: relative;
 }
 
+/*********************************************/
+
+.courses-wrapper {}
+
+.course {
+    background-color: #5000ca;
+    height: 40vh;
+}
+
+.course span {
+    width: 50px;
+    height: 20px;
+}
+
+/**********************************************/
+.add-wrapper .add-title{
+    width:77.5%;
+    text-align: left;
+    font-size: 10vh;
+}
+.add{
+    height:40vh;
+    width:90vw;
+    margin:2vh 5vw;
+
+}
+.add .add-title{
+    font-size: 6vh;
+    margin:2%;
+}
 /* Mobile view */
 
 @media (max-width: 675px) {
@@ -422,6 +403,8 @@ label[for=chkRM] {
     }
     .logo {
         font-size: 7vh;
+        margin-bottom: 0 !important;
+        vertical-align: bottom;
     }
     .icon, .close-btn {
         display: block;
@@ -508,7 +491,7 @@ label[for=chkRM] {
     }
     .main-login {
         margin-top: 0 !important;
-        height:100vh !important
+        height: 100vh !important
     }
     .image-login {
         display: none;
@@ -524,11 +507,23 @@ label[for=chkRM] {
         margin-left: 0 !important;
     }
     .main-icon {
-        height: 125px;
-        width: 125px
+        height: 90px;
+        width: 90px
     }
-    .login-login #password{
-        left:0 !important
+    .login-login #password {
+        left: 0 !important
+    }
+    .login-login select {
+        margin-left: 0 !important;
+    }
+    a.btn-grad {
+        right: 0;
+        margin: 0;
+        width: 85%;
+        left: 7.5%;
+    }
+    .add .add-title{
+        margin-left:0;
     }
 }
 

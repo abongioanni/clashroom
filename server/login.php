@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $con->real_escape_string($_POST["email"]);
     $password = $con->real_escape_string($_POST["password"]);
 
-    $sql = "SELECT * FROM Correntisti WHERE email='$email';";
+    $sql = "SELECT * FROM user WHERE email='$email';";
     $data = _eseguiQuery($con, $sql);
     if (count($data) == 0) {
         http_response_code(401);
