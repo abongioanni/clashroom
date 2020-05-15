@@ -60,13 +60,13 @@ body {
 .responsive-navbar {
     height: 8vh;
     position: relative;
-    width: 96vw;
+    width: 90vw;
     border-radius: .75rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 30px;
-    margin: 0 2vw;
+    margin: 0 5vw;
     box-sizing: border-box;
     font-family: Verdana;
     z-index: 20;
@@ -197,8 +197,11 @@ body {
     padding: 0 !important;
     position: relative;
     margin: 0;
-    width: 100vw;
+    min-height: 20vh;
     height: auto;
+    width:90vw;
+    margin:2vh 5vw;
+    padding:2%
 }
 
 .event {
@@ -303,15 +306,20 @@ a.btn-grad:hover {
     height: 7vh;
     margin-bottom: 10vh;
 }
-
-input[type=text], input[type=password], select,input[type=datetime-local] {
+textarea{
+    width:100%;
+    height:20vh;
+    border: 1px solid #5000ca;
+    margin-top: 5%;
+}
+input[type=text], input[type=password], select ,input[type=datetime-local] {
     height: 5vh;
     margin: 2vh;
     border: none;
     border-bottom: 2px solid #5000ca;
 }
 
-input[type=text]:focus, input[type=password]:focus, select:focus {
+input[type=text]:focus, input[type=password]:focus, select:focus ,input[type=datetime-local]:focus{
     outline: none !important;
 }
 
@@ -368,16 +376,42 @@ label[for=chkRM] {
 
 .courses-wrapper {}
 
+.courses{
+    min-height: 20vh;
+    height: auto;
+    width:90vw;
+    margin:2vh 5vw;
+}
+.courses-title{
+    width:77.5%;
+    text-align: left;
+    font-size: 10vh;
+    margin:2%;
+    vertical-align:baseline
+}
 .course {
     background-color: #5000ca;
-    height: 40vh;
+    height:30vh;
+    width:92%;
+    margin:4% 4%;
+    padding: 5%;
+    padding-top: 2%;
+    position: relative;
+    transition: background-color .25s;
 }
-
+.course:hover{
+    background-color: #5e04e6;
+    
+}
 .course span {
-    width: 50px;
-    height: 20px;
+    display: block;
+    color:#eee;
+    font-size: 3vh;
 }
-
+.course-name{
+    color:#fff !important;
+    font-size: 8vh !important;   
+}
 /**********************************************/
 .add-wrapper .add-title{
     width:77.5%;
@@ -385,18 +419,26 @@ label[for=chkRM] {
     font-size: 10vh;
 }
 .add{
-    height:40vh;
+    height:auto;
     width:90vw;
     margin:2vh 5vw;
-
+    padding: 5%;
+}
+.add span{
+    font-size: 3vh;
 }
 .add .add-title{
     font-size: 6vh;
-    margin:2%;
+}
+.add .add-part{
+    padding:0;
 }
 /* Mobile view */
 
 @media (max-width: 675px) {
+    .spa{
+        width: 0 !important;
+    }
     .responsive-navbar {
         padding-right: 0;
         position: relative;
@@ -516,14 +558,20 @@ label[for=chkRM] {
     .login-login select {
         margin-left: 0 !important;
     }
-    a.btn-grad {
+    .btn-grad {
         right: 0;
-        margin: 0;
-        width: 85%;
+        margin: 0 !important;
+        width: 100% !important;
         left: 7.5%;
     }
     .add .add-title{
         margin-left:0;
+    }
+    .course-name{
+        font-size: 5vh 
+    }
+    .add .add-part{
+        border:none !important
     }
 }
 
