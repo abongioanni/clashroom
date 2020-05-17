@@ -11,7 +11,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/fontawesome.min.js"></script>
 
@@ -23,6 +23,7 @@
 
 <body style="min-height: 1700px;">
     <div class="container-fluid">
+        <div class="fas fa-sign-out-alt" id="signOut"></div>
         <header>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                 <path fill="#5000ca" fill-opacity="1"
@@ -41,6 +42,7 @@
                     <li><span name="oggi">Today</span></li>
                     <li><span name="domani">tomorrow</span></li>
                     <li><span name="change">courses</span></li>
+                    <li><span name="add">add</span></li>
                 </ul>
             </div>
         </nav>
@@ -52,27 +54,33 @@
 
             </ul>
         </div>
-        <!--responsive menu-->
-        <div class="main">
-            <section class="row day-wrapper">
-                <div class="col-sm-1" style="padding-left:0"></div>
-                <div class="col-sm-7 day">
-                    <span class="day-visible">Today</span>
-                    <span>Tomorrow</span>
-                </div>
-                <div class="col-sm-4"></div>
-            </section>
-            <!--event list-->
-            <section class="timeline-wrapper row justify-content-center">
-                <div class="timeline justify-content-center sq"></div>
-            </section>
-            <!--course list-->
-            <section class="course-wrapper row justify-content-center">
-                <span class="courses-title">Courses</span>
-                <div class="courses justify-content-center sq"></div>
-            </section>
-            <!--add list-->
+        <!--modal add-->
+        <div class="backdrop modal justify-content-center">
+            <div id="modalAdd" class="sq">
+                <div class="close-btn"><i class="fas fa-times"></i></div>
+            </div>
         </div>
+    <!--responsive menu-->
+    <div class="main">
+        <section class="row day-wrapper">
+            <div class="col-sm-1" style="padding-left:0"></div>
+            <div class="col-sm-7 day">
+                <span class="day-visible">Today</span>
+                <span>Tomorrow</span>
+            </div>
+            <div class="col-sm-4"></div>
+        </section>
+        <!--event list-->
+        <section class="timeline-wrapper row justify-content-center">
+            <div class="timeline justify-content-center sq"></div>
+        </section>
+        <!--course list-->
+        <section class="course-wrapper row justify-content-center">
+            <span class="courses-title">Courses</span>
+            <div class="courses justify-content-center sq"></div>
+        </section>
+        <!--add list-->
+    </div>
     </div>
 
 </body>

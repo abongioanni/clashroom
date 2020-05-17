@@ -39,6 +39,21 @@ body {
     z-index: 0;
 }
 
+.fas.fa-sign-out-alt {
+    position: absolute;
+    right: 5vw;
+    top: 5vw;
+    z-index: 20;
+    color: #ddd;
+    transition: all .25s;
+    font-size: 1.5vw;
+}
+
+.fas.fa-sign-out-alt:hover {
+    color: #fff;
+    cursor: pointer;
+}
+
 /***************** RESPONSIVE NAVBAR ********************/
 
 .responsive-menu {
@@ -143,15 +158,36 @@ body {
 .backdrop {
     display: none;
     animation: 0.4s ease-in-out fadeIn forwards;
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
     background: rgba(0, 0, 0, 0);
     transition: all 0.4s;
-    cursor: pointer;
     height: 100%;
+}
+
+#modalAdd {
+    position: relative;
+    z-index: 50;
+    width: 80%;
+    margin: 7.5% auto;
+    height: auto;
+    display: block;
+}
+
+.backdrop.modal {
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    display: block;
+}
+
+.backdrop.modal .close-btn {
+    display: block;
+    position: absolute;
+    right: 2.5%;
+    top: 5%;
 }
 
 @keyframes fadeIn {
@@ -172,25 +208,30 @@ body {
 
 .day {
     font-size: 10vh;
-    height: 13.5vh;
+    height: 15vh;
     position: relative;
     width: 100%;
     overflow-y: hidden;
+    transition: all 0.25s;
+    color: #00000000;
 }
 
 .day span {
+    padding: 0 2%;
     display: block;
     position: absolute;
     top: 10vh;
-    transition: all .5s;
+    transition: all .4s;
 }
 
 .day-wrapper {
-    margin: 5vh auto;
+    margin-top: 5vh;
+    height: 15vh
 }
 
 .day-visible {
     top: 0 !important;
+    color: #000000;
 }
 
 .timeline {
@@ -199,13 +240,13 @@ body {
     margin: 0;
     min-height: 20vh;
     height: auto;
-    width:90vw;
-    margin:2vh 5vw;
-    padding:2%
+    width: 90vw;
+    margin: 2vh 5vw;
+    padding: 2%
 }
 
 .event {
-    margin: 2.5vh 10vw;
+    margin: 2.5vh;
     line-height: normal;
     font-size: 3vh;
     background-color: #5000ca;
@@ -306,20 +347,28 @@ a.btn-grad:hover {
     height: 7vh;
     margin-bottom: 10vh;
 }
-textarea{
-    width:100%;
-    height:20vh;
+
+textarea {
+    width: 100%;
+    height: 20vh;
     border: 1px solid #5000ca;
     margin-top: 5%;
+    border-radius: .75rem;
+    padding: 2%;
 }
-input[type=text], input[type=password], select ,input[type=datetime-local] {
+
+textarea:focus {
+    outline: none !important;
+}
+
+input[type=text], input[type=password], select, input[type=datetime-local], input[type=number] {
     height: 5vh;
     margin: 2vh;
     border: none;
     border-bottom: 2px solid #5000ca;
 }
 
-input[type=text]:focus, input[type=password]:focus, select:focus ,input[type=datetime-local]:focus{
+input[type=text]:focus, input[type=password]:focus, select:focus, input[type=datetime-local]:focus, input[type=number]:focus {
     outline: none !important;
 }
 
@@ -376,67 +425,135 @@ label[for=chkRM] {
 
 .courses-wrapper {}
 
-.courses{
+.courses {
     min-height: 20vh;
     height: auto;
-    width:90vw;
-    margin:2vh 5vw;
+    width: 90vw;
+    margin: 2vh 5vw;
 }
-.courses-title{
-    width:77.5%;
+
+.courses-title {
+    width: 77.5%;
     text-align: left;
     font-size: 10vh;
-    margin:2%;
-    vertical-align:baseline
+    margin: 2%;
+    vertical-align: baseline
 }
+
 .course {
     background-color: #5000ca;
-    height:30vh;
-    width:92%;
-    margin:4% 4%;
+    height: 30vh;
+    width: 92%;
+    margin: 4% 4%;
     padding: 5%;
     padding-top: 2%;
     position: relative;
     transition: background-color .25s;
 }
-.course:hover{
+
+.course:hover {
     background-color: #5e04e6;
-    
 }
+
 .course span {
     display: block;
-    color:#eee;
+    color: #eee;
     font-size: 3vh;
 }
-.course-name{
-    color:#fff !important;
-    font-size: 8vh !important;   
+
+.course-name {
+    color: #fff !important;
+    font-size: 5vw !important;
 }
+
 /**********************************************/
-.add-wrapper .add-title{
-    width:77.5%;
+
+.add-wrapper .add-title {
+    width: 90% !important;
     text-align: left;
     font-size: 10vh;
 }
-.add{
-    height:auto;
-    width:90vw;
-    margin:2vh 5vw;
+
+.add {
+    height: auto;
+    width: 90vw;
+    margin: 2vh 5vw;
     padding: 5%;
 }
-.add span{
+
+.add span {
     font-size: 3vh;
 }
-.add .add-title{
+
+.add .add-title {
     font-size: 6vh;
 }
-.add .add-part{
-    padding:0;
+
+.add .add-part {
+    padding: 0;
 }
+
+.googleSignIn {
+    background: none;
+    background-color: #fff;
+    border: 1px solid #eee;
+    color: #555;
+    transition: all .25s;
+    margin-top: 3vh;
+    position: relative;
+}
+
+.googleSignIn img {
+    display: inline-block;
+    height: 50%;
+    position: absolute;
+    left: 5%;
+    top: 25%
+}
+
+.googleSignIn:hover {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    color: #000;
+    box-shadow: 0 0.5rem 0.75rem -0.25rem rgba(39, 48, 54, 0.2);
+}
+
+.success-alert {
+    display: block !important;
+    background: none;
+    background-color: #43d8c9 !important;
+    color: #133b37;
+    padding: 5vh 10vw;
+    text-align: center;
+    width: 100%;
+    transition: all .5s;
+}
+
+.success-alert:hover {
+    color: #000;
+    box-shadow: 0 0.5rem 0.75rem -0.25rem #43d8c999;
+}
+
+.fail-alert {
+    display: block !important;
+    background: none;
+    background-color: #eb4559 !important;
+    color: #531b21;
+    padding: 5vh 10vw;
+    text-align: center;
+    width: 100%;
+    transition: all .5s;
+}
+
+.fail-alert:hover {
+    color: #000;
+    box-shadow: 0 0.5rem 0.75rem -0.25rem #eb455999;
+}
+
 /* Mobile view */
 
-@media (max-width: 675px) {
-    .spa{
+@media (max-width: 490px) {
+    .spa {
         width: 0 !important;
     }
     .responsive-navbar {
@@ -471,9 +588,7 @@ label[for=chkRM] {
         transition: all 0.125s;
     }
     .links li {
-        margin-right: 0;
-        margin: 30px;
-        font-size: 1.5em;
+        margin: 10vh auto;
     }
     .close-btn {
         position: fixed;
@@ -494,10 +609,11 @@ label[for=chkRM] {
     }
     /* Open class */
     .open .links li:first-of-type {
-        margin-top: 30%;
+        margin-top: 30vh;
     }
     .open .links li span {
-        color: #222
+        color: #222;
+        font-size: 3vh;
     }
     .open {
         display: block;
@@ -525,6 +641,8 @@ label[for=chkRM] {
         margin: 4vw;
     }
     .day {
+        font-size: 20vw;
+        height: 13.7vh;
         padding-left: 30px;
     }
     /*********************************/
@@ -562,16 +680,30 @@ label[for=chkRM] {
         right: 0;
         margin: 0 !important;
         width: 100% !important;
-        left: 7.5%;
     }
-    .add .add-title{
-        margin-left:0;
+    a.btn-grad {
+        left: 5%;
+        right: 0;
+        width: 90% !important;
     }
-    .course-name{
-        font-size: 5vh 
+    .add .add-title {
+        margin-left: 0;
     }
-    .add .add-part{
-        border:none !important
+    .course-name {
+        font-size: 12vw !important
+    }
+    .add .add-part {
+        border: none !important;
+        padding: 0 !important;
+    }
+    .fas.fa-sign-out-alt {
+        font-size: 3vw;
+    }
+    .main-login {
+        margin: 0;
+    }
+    .googleSignIn {
+        margin-top: 2vh !important;
     }
 }
 

@@ -29,7 +29,7 @@
 		{  
 			$con->close();
 			http_response_code(500);
-			die("Errore esecuzione query. " . $ex->getMessage());
+			die($ex->getMessage());
 		}
 
 		if(!is_bool($rs))
@@ -50,15 +50,19 @@
 		}
 		else if (!isset($_SESSION["scadenza"]) || time() > $_SESSION["scadenza"] )
 		{
-			session_unset();
-			session_destroy();
-			http_response_code(403);
-			die("Sessione scaduta");
+			_terminateSession();
 		}
 		else{
 			$_SESSION["scadenza"] = time() + SCADENZA;
 			// Salvo la sessione all'interno dei cookie
 			setcookie(session_name(), session_id(), $_SESSION["scadenza"], "/");
 		}		
+	}
+
+	function _terminateSession(){
+		session_unset();
+		session_destroy();
+		http_response_code(403);
+		die("Sessione scaduta");
 	}
 ?>
