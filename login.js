@@ -6,6 +6,9 @@ $(document).ready(function () {
 	let _lblError = $(".alert-danger").hide()
 	let _login = $(".login-login").eq(0);
 	let _btnLogin = $(".btn-grad").eq(0);
+
+	$("html").hide();
+
 	let auth2;
 	var googleUser = {};
 	var startApp = function () {
@@ -27,7 +30,6 @@ $(document).ready(function () {
 				$("#signCognome").val(googleUser["Pt"]["BW"]);
 				$("#signNome").val(googleUser["Pt"]["CU"]);
 			}, function (error) {
-				alert("ERRORE");
 			});
 	}
 
@@ -208,4 +210,5 @@ $(document).ready(function () {
 		}
 	}
 	startApp();
+	$("html").fadeIn(500);
 });

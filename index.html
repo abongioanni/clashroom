@@ -39,10 +39,10 @@
             <div class="icon"><i class="fas fa-bars"></i></div>
             <div class="links-wrapper active">
                 <ul class="links">
-                    <li><span name="oggi">Today</span></li>
-                    <li><span name="domani">tomorrow</span></li>
-                    <li><span name="change">courses</span></li>
-                    <li><span name="add">add</span></li>
+                    <li><a name="oggi">Today</a></li>
+                    <li><a name="domani">tomorrow</a></li>
+                    <li><a name="change" href="#coursesW">courses</a></li>
+                    <li><a name="add">add</a></li>
                 </ul>
             </div>
         </nav>
@@ -55,8 +55,8 @@
             </ul>
         </div>
         <!--modal add-->
-        <div class="backdrop modal justify-content-center">
-            <div id="modalAdd" class="sq">
+        <div class="backdrop modal container-fluid justify-content-center">
+            <div id="modalAdd" class="sq row">
                 <div class="close-btn"><i class="fas fa-times"></i></div>
             </div>
         </div>
@@ -75,7 +75,7 @@
             <div class="timeline justify-content-center sq"></div>
         </section>
         <!--course list-->
-        <section class="course-wrapper row justify-content-center">
+        <section id="coursesW" class="course-wrapper row justify-content-center">
             <span class="courses-title">Courses</span>
             <div class="courses justify-content-center sq"></div>
         </section>

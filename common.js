@@ -14,6 +14,6 @@ function redirect(jqXHR, test_status, str_error) {
         window.location.href = "login.html";
     }
     else if(jqXHR.status == 500){
-        alert(jqXHR.responseText);
+        $("#addResults").text("You have already enrolled in this course or the course does not exist!")
     }
 }

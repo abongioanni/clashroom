@@ -12,6 +12,8 @@ $(document).ready(function () {
     let _coursesWrapper = $(".courses").eq(0);
     let _modalB = $(".backdrop.modal").hide();
 
+    $("html").hide();
+
     $("#signOut").on("click", function () {
         let signOut_ = inviaRichiesta("POST", "server/logout.php", {});
         signOut_.fail(redirect);
@@ -22,14 +24,14 @@ $(document).ready(function () {
         $("#user").text(data["nome"]);
         if (data["st"] != "0")//SONO UNO STUDENTE
             $("<section>", {
-                addClass: "add-wrapper row justify-content-center",
+                addClass: "add-wrapper col-sm-12 justify-content-center",
                 append: [
                     $("<div>", {
                         addClass: "row add",
                         append: [
                             //div iscrizione corso
                             $("<div>", {
-                                addClass: "col-sm-6 add-part justify-content-center",
+                                addClass: "col-sm-5 add-part",
                                 css: {
                                     marginBottom: "10%",
                                 },
@@ -39,38 +41,35 @@ $(document).ready(function () {
                                         text: "Course",
                                         css: {
                                             height: "7vh",
+                                            marginBottom: "5vh"
                                         }
                                     }), $("<br>"),
                                     $("<span>", {
+                                        addClass: "col-sm-3",
                                         text: "Code: ",
                                         css: {
-                                            marginLeft: "4%",
-                                            width: "100px",
-                                            display: "inline-block"
+                                            height: "fit-content",
                                         }
                                     }),
                                     $("<input>", {
+                                        addClass: "col-sm-6",
                                         type: "number",
                                         id: "nNomeCorso",
                                         css: {
-                                            marginLeft: "7%"
+                                            marginTop: "0%",
+                                            marginBottom: "5%"
                                         },
                                         placeholder: "Course code",
-
                                     }),
                                     $("<span>", {
-                                        addClass: "spa",
-                                        css: {
-                                            display: "inline-block",
-                                            width: "5%"
-                                        }
+                                        addClass: "col-sm-3",
                                     }),
                                     $("<span>", {
-                                        addClass: "btn-grad sq",
+                                        addClass: "btn-grad sq col-sm-6",
                                         text: "Add",
                                         css: {
                                             textAlign: "center",
-                                            width: "25%"
+                                            height: "fit-content",
                                         },
                                         click: function () {
                                             $("#nNomeCorso").removeClass("error");
@@ -85,12 +84,12 @@ $(document).ready(function () {
                                                 addSub_.done(function (data) {
                                                     setCourses();
                                                     $("#addResults").removeClass("fail-alert").addClass("success-alert")
-                                                    .text("Perfect! You are now enrolled in the course!");
+                                                        .text("Perfect! You are now enrolled in the course!").hide().fadeIn(200);
                                                 })
                                                 addSub_.fail(function (jqXHR, test_status, str_error) {
                                                     redirect(jqXHR, test_status, str_error);
                                                     $("#addResults").removeClass("success-alert").addClass("fail-alert")
-                                                    .text("Oops, there was an error!");
+                                                        .hide().fadeIn(200);
                                                 })
                                             }
                                         }
@@ -98,17 +97,12 @@ $(document).ready(function () {
                                 ]
                             }),//SX
                             $("<div>", {
-                                addClass: "col-sm-6 add-part justify-content-center",
-                                css: {
-                                    marginBottom: "10%",
-                                },
+                                addClass: "col-sm-6 justify-content-center",
                                 append: [
                                     $("<span>", {
-                                        addClass: "btn-grad sq",
+                                        addClass: "col-sm-12 sq neutral-alert",
                                         id: "addResults",
-                                        css: {
-                                            display: "none"
-                                        }
+                                        text:"Enter the course code to register!"
                                     }),
                                 ]
                             }),//DX
@@ -120,55 +114,53 @@ $(document).ready(function () {
             })//Section per la creazione di corsi e/o eventi
         else {// SONO UN'INSEGNANTE
             $("<section>", {
-                addClass: "add-wrapper row justify-content-center",
+                addClass: "add-wrapper col-sm-12 justify-content-center",
                 append: [
                     $("<div>", {
                         addClass: "row add",
                         append: [
                             //div creazione corso
                             $("<div>", {
-                                addClass: "col-sm-6 add-part justify-content-center",
-                                css: {
-                                    marginBottom: "10%",
-                                },
+                                addClass: "col-sm-6 add-part row",
                                 append: [
                                     $("<span>", {
                                         addClass: "add-title col-sm-12",
                                         text: "Course",
                                         css: {
                                             height: "7vh",
+                                            marginBottom: "5vh"
                                         }
                                     }), $("<br>"),
                                     $("<span>", {
+                                        addClass: "col-sm-3",
                                         text: "Name: ",
                                         css: {
-                                            marginLeft: "4%",
-                                            width: "100px",
-                                            display: "inline-block"
+                                            height: "fit-content",
                                         }
                                     }),
                                     $("<input>", {
+                                        addClass: "col-sm-6",
                                         type: "text",
                                         id: "txtNomeCorso",
                                         css: {
-                                            marginLeft: "7%"
+                                            marginTop: "0%",
+                                            marginBottom: "5%"
                                         },
                                         placeholder: "Course name",
 
                                     }),
                                     $("<span>", {
-                                        addClass: "spa",
-                                        css: {
-                                            display: "inline-block",
-                                            width: "5%"
-                                        }
+                                        addClass: "col-sm-12",
                                     }),
                                     $("<span>", {
-                                        addClass: "btn-grad sq",
+                                        addClass: "col-sm-4",
+                                    }),
+                                    $("<span>", {
+                                        addClass: "btn-grad sq col-sm-6",
                                         text: "Add",
                                         css: {
                                             textAlign: "center",
-                                            width: "25%"
+                                            height: "fit-content",
                                         },
                                         click: function () {
                                             $("#txtNomeCorso").removeClass("error");
@@ -209,7 +201,12 @@ $(document).ready(function () {
                                                 addCourse_.fail(redirect)
                                             }
                                         }
-                                    })
+                                    }),
+                                    $("<span>", {
+                                        addClass: "col-sm-8 sq neutral-alert",
+                                        id: "addResults",
+                                        text:"Enter the datas to create a new course or a new event!"
+                                    }),
                                 ]
                             }),
                         ]
@@ -223,7 +220,7 @@ $(document).ready(function () {
                 if (data["data"].length > 0) {
                     $(".add").eq(0).append([
                         $("<div>", {
-                            addClass: "col-sm-6 add-part",
+                            addClass: "col-sm-6 add-part row",
                             css: {
                                 paddingLeft: "2%",
                                 borderLeft: "2px solid #5000ce",
@@ -237,19 +234,19 @@ $(document).ready(function () {
                                     }
                                 }), $("<br>"),
                                 $("<span>", {
+                                    addClass: "col-sm-4",
                                     text: "Course: ",
                                     css: {
-                                        marginLeft: "4%",
-                                        width: "100px",
-                                        display: "inline-block"
+                                        height: "fit-content",
                                     }
                                 }),
                                 $("<select>", {
+                                    addClass: "col-sm-6",
                                     id: "cmbCourse",
-                                    css: {
-                                        width: "195px",
-                                    },
                                     placeholder: "Seleziona corso",
+                                    css: {
+                                        marginTop: "0%",
+                                    },
                                     append: function () {
                                         let o = [];
                                         for (let i = 0; i < data["data"].length; i++) {
@@ -262,16 +259,20 @@ $(document).ready(function () {
                                     }
                                 }), $("<br>"),
                                 $("<span>", {
+                                    addClass: "col-sm-4",
                                     text: "Schedule: ",
                                     css: {
-                                        marginLeft: "4%",
-                                        width: "100px",
-                                        display: "inline-block"
+                                        height: "fit-content",
                                     }
+
                                 }),
                                 $("<input>", {
+                                    addClass: "col-sm-6",
                                     type: "datetime-local",
                                     id: "time",
+                                    css: {
+                                        marginTop: "0%",
+                                    },
                                     min: function () {
                                         var today = new Date();
                                         var dd = today.getDate();
@@ -280,13 +281,17 @@ $(document).ready(function () {
                                         return yyyy + '-' + pad(mm) + '-' + pad(dd + 1) + "T00:00:00.00";
                                     }
                                 }),
+                                $("<textarea>", {
+                                    addClass: "col-sm-10",
+                                    placeholder: "Write the topic of the event",
+                                }),
                                 $("<span>", {
-                                    addClass: "btn-grad sq",
+                                    addClass: "btn-grad sq col-sm-6",
                                     text: "Add",
                                     css: {
                                         textAlign: "center",
-                                        width: "25%",
-                                        marginLeft: "13%"
+                                        marginLeft: "2%",
+                                        marginBottom: "5%"
                                     },
                                     click: function () {
                                         $("#cmbCourse").removeClass("error");
@@ -309,17 +314,14 @@ $(document).ready(function () {
                                             });
                                             $("textarea").val("");
                                             addCourse_.done(function (data) {
-                                                if (isToday(data[i]["do"]) || isTomorrow(data[i]["do"])) {
-                                                    event(data["data"], data["teachers"]).appendTo(_timeline);
+                                                if (isToday(data["do"]) || isTomorrow(data["do"])) {
+                                                    $(_timeline).append(event(data["data"], data["teachers"]));
                                                 }
                                             })
                                             addCourse_.fail(redirect)
                                         }
                                     }
                                 }),
-                                $("<textarea>", {
-                                    placeholder: "Write the topic of the event"
-                                })
                             ]
                         })
                     ])
@@ -332,13 +334,6 @@ $(document).ready(function () {
 
     setCourses();
     setEvents();
-
-    $(".links li span[name=add]").on("click", function () {
-        $(_modalB).children().fadeIn(200)
-        $(_modalB).fadeIn(200)
-    });
-    $(_modalB).find(".close-btn").on("click", modalClose)
-    $(_modalB).on("click", modalClose)
 
     //LINKS UPDATE
     $(_responsiveLinks).children().remove();
@@ -358,6 +353,12 @@ $(document).ready(function () {
         }); //AGGIORNAMENTO DEL MENU' RESPONSIVE
     }
 
+    $(".links li a[name=add]").on("click", function () {
+        $(_modalB).children().fadeIn(200)
+        $(_modalB).fadeIn(200)
+    });
+    $(_modalB).find(".close-btn").on("click", modalClose)
+
     //RESPONSIVE MENU'
     $(_openIcon).on("click", () => {
         $(_responsiveLinks).parent().addClass("open");
@@ -374,11 +375,11 @@ $(document).ready(function () {
         });
     });
 
-    $(".links li span[name=oggi]").on("click", function () {
+    $(".links li a[name=oggi]").on("click", function () {
         setEvents();
         $(_day).find("span").removeClass("day-visible").eq(0).addClass("day-visible")
     })
-    $(".links li span[name=domani]").on("click", function () {
+    $(".links li a[name=domani]").on("click", function () {
         setEvents();
         $(_day).find("span").removeClass("day-visible").eq(1).addClass("day-visible")
     })
@@ -412,6 +413,7 @@ $(document).ready(function () {
     function setEvents() {
         let events_ = inviaRichiesta("POST", "server/getEvents.php");
         events_.done(function (data) {
+            let ok=true
             $(_timeline).children().slideUp(400).fadeOut(400);
             for (let i = 0; i < data["data"].length; i++) {
                 $(_timeline).css({
@@ -421,12 +423,10 @@ $(document).ready(function () {
                     let l = event(data["data"][i], data["teachers"][i]).hide();
                     $(_timeline).append(l);
                     $(l).fadeIn(200);
-                }
-                else {
-                    data["data"].pop();
+                    ok=false;
                 }
             }
-            if (data["data"].length == 0) {
+            if (ok) {
                 $(_timeline).css({
                     minHeight: "20vh",
                 });
@@ -522,4 +522,6 @@ $(document).ready(function () {
             ],
         })
     }
+
+    setTimeout(function(){$("html").fadeIn(500)},1000);
 });

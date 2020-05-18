@@ -117,7 +117,7 @@ body {
     margin-right: 3vw;
 }
 
-.links li span {
+.links li a{
     padding: 5px 0;
     position: relative;
     display: block;
@@ -129,7 +129,7 @@ body {
     text-transform: uppercase;
 }
 
-.links li span:hover {
+.links li :hover {
     color: #222;
     z-index: 1;
     cursor: pointer;
@@ -151,7 +151,7 @@ body {
     transition: all .25s;
 }
 
-.sticky .links li span {
+.sticky .links li {
     margin-top: 25px;
 }
 
@@ -171,10 +171,10 @@ body {
 #modalAdd {
     position: relative;
     z-index: 50;
-    width: 80%;
-    margin: 7.5% auto;
-    height: auto;
+    height: 80%;
     display: block;
+    margin:5% 5%;
+    overflow: hidden scroll;
 }
 
 .backdrop.modal {
@@ -188,6 +188,7 @@ body {
     position: absolute;
     right: 2.5%;
     top: 5%;
+    z-index: 60;
 }
 
 @keyframes fadeIn {
@@ -246,7 +247,6 @@ body {
 }
 
 .event {
-    margin: 2.5vh;
     line-height: normal;
     font-size: 3vh;
     background-color: #5000ca;
@@ -255,6 +255,9 @@ body {
     position: relative;
     opacity: 1;
     transition: background-color .25s;
+    width: 92%;
+    margin: 4% 4%;
+    padding: 1%;
 }
 
 .event .badge {
@@ -352,7 +355,7 @@ textarea {
     width: 100%;
     height: 20vh;
     border: 1px solid #5000ca;
-    margin-top: 5%;
+    margin:5% 4%;
     border-radius: .75rem;
     padding: 2%;
 }
@@ -423,8 +426,6 @@ label[for=chkRM] {
 
 /*********************************************/
 
-.courses-wrapper {}
-
 .courses {
     min-height: 20vh;
     height: auto;
@@ -473,12 +474,16 @@ label[for=chkRM] {
     text-align: left;
     font-size: 10vh;
 }
+.add-wrapper{
+    padding-left: 0;
+}
 
 .add {
-    height: auto;
-    width: 90vw;
+    width: 100%;
+    height:100%;
     margin: 2vh 5vw;
     padding: 5%;
+    padding: 2% 0;
 }
 
 .add span {
@@ -491,6 +496,7 @@ label[for=chkRM] {
 
 .add .add-part {
     padding: 0;
+    position: relative;
 }
 
 .googleSignIn {
@@ -517,36 +523,31 @@ label[for=chkRM] {
     color: #000;
     box-shadow: 0 0.5rem 0.75rem -0.25rem rgba(39, 48, 54, 0.2);
 }
-
-.success-alert {
+.neutral-alert{
     display: block !important;
     background: none;
-    background-color: #43d8c9 !important;
-    color: #133b37;
-    padding: 5vh 10vw;
     text-align: center;
-    width: 100%;
+    border: 1px solid #555;
+    padding: 2vh 5vw;
+    margin-top:2%;
     transition: all .5s;
 }
-
+.success-alert {
+    background-color: #43d8c9 !important;
+    color: #133b37;
+    border: none;
+}
 .success-alert:hover {
     color: #000;
     box-shadow: 0 0.5rem 0.75rem -0.25rem #43d8c999;
 }
-
 .fail-alert {
-    display: block !important;
-    background: none;
     background-color: #eb4559 !important;
-    color: #531b21;
-    padding: 5vh 10vw;
-    text-align: center;
-    width: 100%;
-    transition: all .5s;
+    color: #d8c0c3;
+    border: none;
 }
-
 .fail-alert:hover {
-    color: #000;
+    color: #fff;
     box-shadow: 0 0.5rem 0.75rem -0.25rem #eb455999;
 }
 
@@ -611,7 +612,7 @@ label[for=chkRM] {
     .open .links li:first-of-type {
         margin-top: 30vh;
     }
-    .open .links li span {
+    .open .links li {
         color: #222;
         font-size: 3vh;
     }
@@ -696,6 +697,9 @@ label[for=chkRM] {
         border: none !important;
         padding: 0 !important;
     }
+    .neutral-alert{
+        margin:5% auto;
+    }
     .fas.fa-sign-out-alt {
         font-size: 3vw;
     }
@@ -704,6 +708,10 @@ label[for=chkRM] {
     }
     .googleSignIn {
         margin-top: 2vh !important;
+    }
+    .fail-alert,.success-alert{
+        position: relative;
+        left:-5vw;
     }
 }
 
