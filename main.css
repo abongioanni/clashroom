@@ -39,6 +39,16 @@ body {
     z-index: 0;
 }
 
+header{
+    height:30vh;
+    width: 100%;
+}
+#h{
+    height:30vh;
+    width: 100%;
+    background-color: #652d92;
+}
+
 .fas.fa-sign-out-alt {
     position: absolute;
     right: 5vw;
@@ -85,7 +95,7 @@ body {
     box-sizing: border-box;
     font-family: Verdana;
     z-index: 20;
-    background-color: #fff;
+    background-color:transparent;
     transition: background-color 0.2s;
 }
 
@@ -122,7 +132,7 @@ body {
     position: relative;
     display: block;
     text-decoration: none;
-    color: #555;
+    color: #eee;
     font-size: 2vh;
     letter-spacing: -0.5px;
     transition: all 0.25s;
@@ -130,7 +140,7 @@ body {
 }
 
 .links li :hover {
-    color: #222;
+    color: #fff;
     z-index: 1;
     cursor: pointer;
 }
@@ -140,7 +150,7 @@ body {
 }
 
 .logo {
-    color: #222;
+    color: #fff;
     margin: 4vh;
     font-size: 10vh;
     text-align: center;
@@ -249,7 +259,7 @@ body {
 .event {
     line-height: normal;
     font-size: 3vh;
-    background-color: #5000ca;
+    background-color: #652d92;
     border-radius: .75rem;
     color: #fff;
     position: relative;
@@ -322,7 +332,7 @@ body {
 }
 
 a:hover {
-    color: #5000ca !important;
+    color: #652d92;
     cursor: pointer;
 }
 
@@ -337,7 +347,7 @@ a.btn-grad:hover {
 }
 
 .image-login {
-    border-right: 1px solid #5000ca;
+    border-right: 1px solid #652d92;
     line-height: 65vh;
 }
 
@@ -354,7 +364,7 @@ a.btn-grad:hover {
 textarea {
     width: 100%;
     height: 20vh;
-    border: 1px solid #5000ca;
+    border: 1px solid #652d92;
     margin:5% 4%;
     border-radius: .75rem;
     padding: 2%;
@@ -368,7 +378,7 @@ input[type=text], input[type=password], select, input[type=datetime-local], inpu
     height: 5vh;
     margin: 2vh;
     border: none;
-    border-bottom: 2px solid #5000ca;
+    border-bottom: 2px solid #652d92;
 }
 
 input[type=text]:focus, input[type=password]:focus, select:focus, input[type=datetime-local]:focus, input[type=number]:focus {
@@ -379,7 +389,7 @@ input[type=text]:focus, input[type=password]:focus, select:focus, input[type=dat
     display: inline-block;
     padding: 1vh;
     color: #ddd;
-    background: linear-gradient(270deg, #5000ce, #a46aff);
+    background: linear-gradient(270deg, #652d92, #995dca);
     background-size: 400% 400%;
     animation: change 30s ease infinite;
     margin-top: .5vh;
@@ -442,7 +452,7 @@ label[for=chkRM] {
 }
 
 .course {
-    background-color: #5000ca;
+    background-color: #652d92;
     height: 30vh;
     width: 92%;
     margin: 4% 4%;
@@ -453,7 +463,7 @@ label[for=chkRM] {
 }
 
 .course:hover {
-    background-color: #5e04e6;
+    background-color: #441e63;
 }
 
 .course span {
@@ -481,7 +491,7 @@ label[for=chkRM] {
 .add {
     width: 100%;
     height:100%;
-    margin: 2vh 5vw;
+    margin: 0vh 5vw;
     padding: 5%;
     padding: 2% 0;
 }
@@ -612,8 +622,8 @@ label[for=chkRM] {
     .open .links li:first-of-type {
         margin-top: 30vh;
     }
-    .open .links li {
-        color: #222;
+    .open .links li a{
+        color: #222 !important;
         font-size: 3vh;
     }
     .open {

@@ -166,7 +166,7 @@ $(document).ready(function () {
 
 			richiestaLogin_.done(function (data) {
 				if (data["ris"] == "ok") // test inutile
-					window.location.href = "index.html"
+					window.location.href = "home.html"
 			});
 
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
@@ -196,7 +196,7 @@ $(document).ready(function () {
 			let richiestaLogin_ = inviaRichiesta("POST", "server/login.php", { "email": em, "password": pass });
 			richiestaLogin_.done(function (data) {
 				if (data["ris"] == "ok") // test inutile
-					window.location.href = "index.html"
+					window.location.href = "home.html"
 			});
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
 				$(_password).val("");

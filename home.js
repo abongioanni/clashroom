@@ -338,11 +338,11 @@ $(document).ready(function () {
     //LINKS UPDATE
     $(_responsiveLinks).children().remove();
     for (let i = 0; i < _linksList.length; i++) {
-        let _span = $(_linksList).eq(i).find("span");
+        let _span = $(_linksList).eq(i).find("a");
         $("<li>", {
             appendTo: _responsiveLinks,
             append: [
-                (_new = $("<span>", {
+                (_new = $("<a>", {
                     text: $(_span).text(),
                     addClass: $(_span).attr("class"),
                     name: $(_span).attr("name")
