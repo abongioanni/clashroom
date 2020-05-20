@@ -1,14 +1,8 @@
 "use strict";
 
 $(document).ready(function () {
-    let _new;
     let _timeline = $(".timeline").eq(0)
     let _day = $(".day").eq(0);
-    let _openIcon = $(".icon");
-    let _linksList = $(".links-wrapper ul li");
-    let _backdrop = $(".backdrop");
-    let _closeIcon = $(".close-btn");
-    let _responsiveLinks = $("#menuNavbar");
     let _coursesWrapper = $(".courses").eq(0);
     let _modalB = $(".backdrop.modal").hide();
 
@@ -335,45 +329,20 @@ $(document).ready(function () {
     setCourses();
     setEvents();
 
-    //LINKS UPDATE
-    $(_responsiveLinks).children().remove();
-    for (let i = 0; i < _linksList.length; i++) {
-        let _span = $(_linksList).eq(i).find("a");
-        $("<li>", {
-            appendTo: _responsiveLinks,
-            append: [
-                (_new = $("<a>", {
-                    text: $(_span).text(),
-                    addClass: $(_span).attr("class"),
-                    name: $(_span).attr("name")
-                }).on("click", () => {
-                    $(_responsiveLinks).parent().removeClass("open");
-                })),
-            ],
-        }); //AGGIORNAMENTO DEL MENU' RESPONSIVE
-    }
+    $("#settings .fail-alert").on("click",function(){
+        if(confirm("You are about to delete your profile. Are you sure?")){
+            let delete_ = inviaRichiesta("POST", "server/deleteProfile.php");
+            delete_.fail(redirect);
+
+        }
+    })
 
     $(".links li a[name=add]").on("click", function () {
         $(_modalB).children().fadeIn(200)
         $(_modalB).fadeIn(200)
     });
-    $(_modalB).find(".close-btn").on("click", modalClose)
 
-    //RESPONSIVE MENU'
-    $(_openIcon).on("click", () => {
-        $(_responsiveLinks).parent().addClass("open");
-        $(_responsiveLinks).animate({ opacity: 1 }, 125);
-    });
-    $(_closeIcon).on("click", () => {
-        $(_responsiveLinks).animate({ opacity: 0 }, 125, () => {
-            $(_responsiveLinks).parent().removeClass("open");
-        });
-    });
-    $(_backdrop).on("click", () => {
-        $(_responsiveLinks).animate({ opacity: 0 }, 125, () => {
-            $(_responsiveLinks).parent().removeClass("open");
-        });
-    });
+    $(_modalB).find(".close-btn").on("click", modalClose)
 
     $(".links li a[name=oggi]").on("click", function () {
         setEvents();
@@ -446,19 +415,19 @@ $(document).ready(function () {
 
     function isToday(date) {
         let d = new Date(date);
-        let t = today();
+        let t = getToday();
         return ($(".day-visible").text().toUpperCase() == "TODAY") &&
             (d.getFullYear() == t.year && pad(d.getMonth() + 1) == t.month && pad(d.getDate()) == t.day);
     }
 
     function isTomorrow(date) {
         let d = new Date(date);
-        let t = today();
+        let t = getToday();
         return ($(".day-visible").text().toUpperCase() == "TOMORROW") &&
             (d.getFullYear() == t.year && pad(d.getMonth() + 1) == t.month && pad(d.getDate()) == pad(parseInt(t.day) + 1));
     }
 
-    function today() {
+    function getToday() {
         var today = new Date();
         var dd = pad(parseInt(today.getDate()));
         var mm = pad(parseInt(today.getMonth() + 1)); //January is 0!

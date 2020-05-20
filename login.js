@@ -3,7 +3,7 @@
 $(document).ready(function () {
 	let _password = $("#password")
 	let _email = $("#email")
-	let _lblError = $(".alert-danger").hide()
+	let _lblError = $(".fail-alert").hide().css({ color: "#fff" })
 	let _login = $(".login-login").eq(0);
 	let _btnLogin = $(".btn-grad").eq(0);
 
@@ -33,16 +33,6 @@ $(document).ready(function () {
 			});
 	}
 
-	$(".eye").on("click", function () {
-		document.querySelector('.eye').classList.toggle('slash');
-		var password = document.querySelector('[name=password]');
-		if (password.getAttribute('type') === 'password') {
-			password.setAttribute('type', 'text');
-		} else {
-			password.setAttribute('type', 'password');
-		}
-	});
-
 	$(_btnLogin).on("click", function () {
 		checkLogin();
 	});
@@ -51,6 +41,23 @@ $(document).ready(function () {
 		if (e.keyCode == 13)
 			checkLogin();
 	});
+
+	$("#forgot").on("click", function () {
+		_email.removeClass("error");
+		if (_email.val() == "") {
+			_email.addClass("error")
+		}
+		else{
+			let em=$(_email).val();
+			let up_ = inviaRichiesta("POST", "server/reloadPassword.php",{"email":em});
+			up_.done(function () {
+				$(_lblError).slideDown(200).removeClass("alert-danger").addClass("alert-success").html("Bene!, hai ricevuto una mail con la password!")
+			});
+			up_.fail(function(){
+				$(_lblError).removeClass("alert-success").addClass("alert-danger").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+			})
+		}
+	})
 
 	let _a = $("a#sign").on("click", function () {
 		$(_login).children().fadeOut(200, changeInterface);
@@ -171,7 +178,7 @@ $(document).ready(function () {
 
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
 				if (jqXHR.status == 401) {
-					$(_lblError).slideDown(200).text(jqXHR.responseText)
+					$(_lblError).removeClass("alert-success").addClass("alert-danger").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
 				} else {
 					//$(_lblError).slideDown()
 					//throw jqXHR.responseText;
@@ -201,9 +208,9 @@ $(document).ready(function () {
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
 				$(_password).val("");
 				if (jqXHR.status == 401) {
-					$(_lblError).slideDown()
+					$(_lblError).removeClass("alert-success").addClass("alert-danger").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
 				} else {
-					$(_lblError).slideDown()
+					$(_lblError).removeClass("alert-success").addClass("alert-danger").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
 					//throw jqXHR.responseText;
 				}
 			});
