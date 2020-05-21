@@ -454,6 +454,14 @@ label[for=chkRM] {
     margin: 2vh 5vw;
 }
 
+#settings .courses{
+    padding:5vh 5vw;
+}
+#settings .courses-title{
+    width:100vw;
+    padding-left: 7vw;
+}
+
 .courses-title {
     width: 77.5%;
     text-align: left;
@@ -554,29 +562,35 @@ label[for=chkRM] {
     border: 1px solid #555;
     padding: 2vh 5vw;
     margin-top: 2%;
-    transition: all .5s;
+    transition: all .25s;
 }
 
 .success-alert {
     background-color: #43d8c9 !important;
     color: #133b37;
     border: none;
+    transition: all .25s;
 }
 
 .success-alert:hover {
     color: #000;
     box-shadow: 0 0.5rem 0.75rem -0.25rem #43d8c999;
+    cursor: pointer;
+
 }
 
 .fail-alert {
     background-color: #eb4559 !important;
     color: #d8c0c3;
     border: none;
+    transition: all .25s;
 }
 
 .fail-alert:hover {
     color: #fff;
     box-shadow: 0 0.5rem 0.75rem -0.25rem #eb455999;
+    cursor: pointer;
+
 }
 
 #settings .fail-alert,#settings .success-alert {

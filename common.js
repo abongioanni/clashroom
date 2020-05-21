@@ -17,3 +17,23 @@ function redirect(jqXHR, test_status, str_error) {
         $("#addResults").text("You have already enrolled in this course or the course does not exist!")
     }
 }
+
+function sendNotification(title,text,icon){
+    if(Notification.permission==="granted"){
+        createNotification(title,text,icon);
+    }
+    else{
+        Notification.requestPermission(permission=>{
+            if(permission==="granted"){
+                createNotification(title,text,icon);
+            }
+        })
+    }
+}
+
+function createNotification(title,text,icon){
+    const notification=new Notification(title,{
+        body:text,
+        icon
+    })
+}

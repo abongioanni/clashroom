@@ -96,7 +96,7 @@ $(document).ready(function () {
                                     $("<span>", {
                                         addClass: "col-sm-12 sq neutral-alert",
                                         id: "addResults",
-                                        text:"Enter the course code to register!"
+                                        text: "Enter the course code to register!"
                                     }),
                                 ]
                             }),//DX
@@ -199,7 +199,7 @@ $(document).ready(function () {
                                     $("<span>", {
                                         addClass: "col-sm-8 sq neutral-alert",
                                         id: "addResults",
-                                        text:"Enter the datas to create a new course or a new event!"
+                                        text: "Enter the datas to create a new course or a new event!"
                                     }),
                                 ]
                             }),
@@ -329,13 +329,37 @@ $(document).ready(function () {
     setCourses();
     setEvents();
 
-    $("#settings .fail-alert").on("click",function(){
-        if(confirm("You are about to delete your profile. Are you sure?")){
+    $("#settings .fail-alert").on("click", function () {
+        if (confirm("You are about to delete your profile. Are you sure?")) {
             let delete_ = inviaRichiesta("POST", "server/deleteProfile.php");
             delete_.fail(redirect);
-
         }
     })
+
+    $("#settings .success-alert").on("click", function () {
+        $("#changePwd").removeClass("error");
+        $("#changePwdConfirm").removeClass("error");
+
+        if ($("#changePwd").val() == "") {
+            $("#changePwd").addClass("error");
+        }
+        else if ($("#changePwdConfirm").val() == "") {
+            $("#changePwdConfirm").addClass("error");
+        }
+        else if($("#changePwdConfirm").val()!=$("#changePwd").val()){
+            $("#changePwd").addClass("error");
+            $("#changePwdConfirm").addClass("error");
+        }
+        else {
+            let u_ = inviaRichiesta("POST", "server/updatePassword.php",{"password":$("#changePwd").val()});
+            u_.done(function(data){
+                alert("Password aggiornata!");
+            })
+            u_.fail(redirect);
+        }
+        $("#changePwd").val("")
+        $("#changePwdConfirm").val("")
+    });
 
     $(".links li a[name=add]").on("click", function () {
         $(_modalB).children().fadeIn(200)
@@ -382,7 +406,7 @@ $(document).ready(function () {
     function setEvents() {
         let events_ = inviaRichiesta("POST", "server/getEvents.php");
         events_.done(function (data) {
-            let ok=true
+            let ok = true
             $(_timeline).children().slideUp(400).fadeOut(400);
             for (let i = 0; i < data["data"].length; i++) {
                 $(_timeline).css({
@@ -392,7 +416,7 @@ $(document).ready(function () {
                     let l = event(data["data"][i], data["teachers"][i]).hide();
                     $(_timeline).append(l);
                     $(l).fadeIn(200);
-                    ok=false;
+                    ok = false;
                 }
             }
             if (ok) {
@@ -492,5 +516,5 @@ $(document).ready(function () {
         })
     }
 
-    setTimeout(function(){$("html").fadeIn(500)},1000);
+    setTimeout(function () { $("html").fadeIn(500) }, 1000);
 });
