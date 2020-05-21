@@ -9,41 +9,39 @@ require("PHPMailer-master/src/PHPMailer.php");
 require("PHPMailer-master/src/SMTP.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //controllo parametri
     if (!isset($_POST["email"])) {
         http_response_code(422);
         die("Parametro mancante.");
     }
+    session_start();
+    $_SESSION["email"]=$_POST["email"];
+    $_SESSION["scadenza"]=time()+SCADENZA;
+    setcookie(session_name(), session_id(), $_SESSION["scadenza"], "/");
 
     $con = _connection("clashroom");
     $email = $con->real_escape_string($_POST["email"]);
-    $newPassword = _randomPassword();
-
-    $data = _eseguiQuery($con, "UPDATE user SET password='".md5($newPassword)."' WHERE email='$email'");
-
     $mail = new PHPMailer();
-    // Indica a PHPMailer di utilizzare la classe SMTP
     $mail->isSMTP();
     $mail->SMTPDebug = 2;
-    $mail->Debugoutput = 'html'; // formato di visualizzazione dell'output
+    $mail->Debugoutput = 'html';
     $mail->Host = "smtp.gmail.com";
-    $mail->SMTPSecure = 'tls'; // Options: '', 'ssl' or 'tls'
+    $mail->SMTPSecure = 'tls'; 
     $mail->Port = 587;
     $mail->SMTPOptions = array(
         'ssl' => array(
-            'verify_peer' => false, // peer = certificato
-            'verify_peer_name' => false, // inutile
-            'allow_self_signed' => true // inutile
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true 
         )
     );
-    $mail->SMTPAuth = true; // abilitazione al controllo delle credenziali
+    $mail->SMTPAuth = true; 
     $mail->Username = "bongioanni.clashroom@gmail.com";
     $mail->Password = "foo1234?";
     $mail->setFrom("bongioanni.clashroom@gmail.com");
     $mail->addAddress($email);
     $mail->Subject = 'Password recovery';
-    $mail->Body = "Here is your brand new password!<br><b>$newPassword</b>";
-    $mail->isHTML(true); // Set email format to HTML
+    $mail->Body = "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/progetto-abongioanni/resetPassword.html'>reset</a> your password!";
+    $mail->isHTML(true); 
     if (!$mail->send())
         echo "Mailer Error -> " . $mail->ErrorInfo;
     else

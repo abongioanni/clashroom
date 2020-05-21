@@ -334,32 +334,9 @@ $(document).ready(function () {
             let delete_ = inviaRichiesta("POST", "server/deleteProfile.php");
             delete_.fail(redirect);
         }
-    })
-
-    $("#settings .success-alert").on("click", function () {
-        $("#changePwd").removeClass("error");
-        $("#changePwdConfirm").removeClass("error");
-
-        if ($("#changePwd").val() == "") {
-            $("#changePwd").addClass("error");
-        }
-        else if ($("#changePwdConfirm").val() == "") {
-            $("#changePwdConfirm").addClass("error");
-        }
-        else if($("#changePwdConfirm").val()!=$("#changePwd").val()){
-            $("#changePwd").addClass("error");
-            $("#changePwdConfirm").addClass("error");
-        }
-        else {
-            let u_ = inviaRichiesta("POST", "server/updatePassword.php",{"password":$("#changePwd").val()});
-            u_.done(function(data){
-                alert("Password aggiornata!");
-            })
-            u_.fail(redirect);
-        }
-        $("#changePwd").val("")
-        $("#changePwdConfirm").val("")
     });
+
+    setPasswords();
 
     $(".links li a[name=add]").on("click", function () {
         $(_modalB).children().fadeIn(200)

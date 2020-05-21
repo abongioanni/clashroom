@@ -17,7 +17,6 @@ $(document).ready(function () {
 				cookiepolicy: 'single_host_origin',
 			});
 			attachSignin(document.getElementById('googleSignIn'));
-			attachReloadPassword(document.getElementById("forgot"));
 		});
 	};
 
@@ -33,28 +32,6 @@ $(document).ready(function () {
 			});
 	}
 
-	function attachReloadPassword(element) {
-		auth2.attachClickHandler(element, {},
-			function (googleUser) {
-				$("#forgot").off();
-				var profile = googleUser.getBasicProfile();
-				let em = profile.getEmail();
-				let up_ = inviaRichiesta("POST", "server/reloadPassword.php", { "email": em });
-				up_.done(function (data) {
-					$("#forgot").on("click", reloadPassword);
-					$(_lblError).slideDown(200).removeClass("fail-alert").addClass("success-alert").html("Bene!, hai ricevuto una mail con la password!")
-				});
-				up_.fail(function (jqXHR, test_status, str_error) {
-					$("#forgot").on("click", reloadPassword);
-					if (jqXHR.status == 200)
-						$(_lblError).slideDown(200).removeClass("fail-alert").addClass("success-alert").html("Well!, you have received an email with the password!")
-					else
-						$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
-				})
-			}, function (error) {
-			});
-	}
-
 	$(_btnLogin).on("click", function () {
 		checkLogin();
 	});
@@ -64,15 +41,100 @@ $(document).ready(function () {
 			checkLogin();
 	});
 
-	$("#forgot").on("click", reloadPassword);
+	$("#forgot").on("click", resetPassword);
 
 	let _a = $("a#sign").on("click", function () {
 		$(_login).children().fadeOut(200, changeInterface);
 	})
 
-	function reloadPassword() {
+	function resetPassword() {
+		_email.removeClass("error");
+		if (_email.val() == "") {
+			_email.addClass("error")
+		}
+		else{
+			$("#forgot").off();
+			let em = $(_email).val();
+			let up_ = inviaRichiesta("POST", "server/sendMailToResetPassword.php", { "email": em });
+			up_.done(function (data) {
+				$("#forgot").on("click", resetPassword);
+				$(_lblError).slideDown(200).removeClass("fail-alert").addClass("success-alert").html("Bene!, hai ricevuto una mail con la password!")
+			});
+			up_.fail(function (jqXHR, test_status, str_error) {
+				$("#forgot").on("click", resetPassword);
+				if (jqXHR.status == 200)
+					$(_lblError).slideDown(200).removeClass("fail-alert").addClass("success-alert").html("Well!, you have received an email with the password!")
+				else
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+			})
+		}
+	}
 
+	function checkSignUp() {
+		let pass = true;
+		$(_login).find("input").removeClass("error");
+		for (let i = 0; i < $(_login).find("input").length; i++) {
+			if ($(_login).find("input").eq(i).val() == "") {
+				$(_login).find("input").eq(i).addClass("error");
+				pass = false;
+			}
+		}
+		if (pass && $("#signPassword").val() != $("#signConfermaPassword").val()) {
+			pass = false;
+		}
+		else if (pass) {
+			pass = false;
+			let richiestaLogin_ = inviaRichiesta("POST", "server/signUp.php", {
+				"email": $("#signEmail").val(),
+				"password": CryptoJS.MD5($("#signPassword").val()).toString(),
+				"cognome": $("#signCognome").val(),
+				"nome": $("#signNome").val(),
+				"st": $("#signCmbSt").val(),
+			});
 
+			richiestaLogin_.done(function (data) {
+				if (data["ris"] == "ok") // test inutile
+					window.location.href = "home.html"
+			});
+
+			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
+				if (jqXHR.status == 401) {
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+				} else {
+					//$(_lblError).slideDown()
+					//throw jqXHR.responseText;
+				}
+			});
+		}
+	}
+
+	function checkLogin() {
+		_email.removeClass("error");
+		_password.removeClass("error");
+		if (_email.val() == "") {
+			_email.addClass("error")
+		}
+		else if (_password.val() == "") {
+			_password.addClass("error")
+		}
+		else {
+			let em = _email.val();
+			let pass = CryptoJS.MD5(_password.val()).toString();
+
+			let richiestaLogin_ = inviaRichiesta("POST", "server/login.php", { "email": em, "password": pass });
+			richiestaLogin_.done(function (data) {
+				if (data["ris"] == "ok") // test inutile
+					window.location.href = "home.html"
+			});
+			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
+				$(_password).val("");
+				if (jqXHR.status == 401) {
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+				} else {
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+				}
+			});
+		}
 	}
 
 	function changeInterface() {
@@ -161,72 +223,12 @@ $(document).ready(function () {
 		});
 	}
 
-	function checkSignUp() {
-		let pass = true;
-		$(_login).find("input").removeClass("error");
-		for (let i = 0; i < $(_login).find("input").length; i++) {
-			if ($(_login).find("input").eq(i).val() == "") {
-				$(_login).find("input").eq(i).addClass("error");
-				pass = false;
-			}
-		}
-		if (pass && $("#signPassword").val() != $("#signConfermaPassword").val()) {
-			pass = false;
-		}
-		else if (pass) {
-			pass = false;
-			let richiestaLogin_ = inviaRichiesta("POST", "server/signUp.php", {
-				"email": $("#signEmail").val(),
-				"password": CryptoJS.MD5($("#signPassword").val()).toString(),
-				"cognome": $("#signCognome").val(),
-				"nome": $("#signNome").val(),
-				"st": $("#signCmbSt").val(),
-			});
 
-			richiestaLogin_.done(function (data) {
-				if (data["ris"] == "ok") // test inutile
-					window.location.href = "home.html"
-			});
 
-			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
-				if (jqXHR.status == 401) {
-					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
-				} else {
-					//$(_lblError).slideDown()
-					//throw jqXHR.responseText;
-				}
-			});
-		}
-	}
 
-	function checkLogin() {
-		_email.removeClass("error");
-		_password.removeClass("error");
-		if (_email.val() == "") {
-			_email.addClass("error")
-		}
-		else if (_password.val() == "") {
-			_password.addClass("error")
-		}
-		else {
-			let em = _email.val();
-			let pass = CryptoJS.MD5(_password.val()).toString();
 
-			let richiestaLogin_ = inviaRichiesta("POST", "server/login.php", { "email": em, "password": pass });
-			richiestaLogin_.done(function (data) {
-				if (data["ris"] == "ok") // test inutile
-					window.location.href = "home.html"
-			});
-			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
-				$(_password).val("");
-				if (jqXHR.status == 401) {
-					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
-				} else {
-					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
-				}
-			});
-		}
-	}
 	startApp();
 	$("html").fadeIn(500);
+
+	
 });

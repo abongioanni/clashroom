@@ -49,44 +49,58 @@ header {
     width: 100%;
     background-color: #652d92;
 }
+
 #index {
-    width:100%;
-    height:70vh;
-    margin:0;
+    width: 100%;
+    height: 70vh;
+    margin: 0;
 }
 
-#index section:nth-of-type(1){
-    height:40%;
+#index section:nth-of-type(1) {
+    height: 40%;
     line-height: normal;
-    font-size: 4vw;
-    text-align: right;
-    padding-top: 10vh;
+    font-size: 2vw;
+    text-align: left;
+    padding-top: 20vh;
+    padding-left: 5vw;
 }
 
-#index section:nth-of-type(2){
+#index section:nth-of-type(1) span {
+    font-size: 3vw;
+    color: #652d92
+}
+
+#index section:nth-of-type(1) span:nth-of-type(1) {
+    font-size: 5vw;
+}
+
+#index section:nth-of-type(2) {
     background-image: url("i.png");
     background-size: contain;
-    background-position: bottom;
+    background-position: bottom right;
     background-repeat: no-repeat;
     height: 100%;
-    padding:0;
+    padding: 0;
 }
 
-#btnIndexLogin{
+#btnIndexLogin {
     position: absolute;
-    top:8vh;
-    right:10vw;
-    height:6.5vh;
-    width:13vw;
-    padding:1vh 2vw;
-    font-size:3vh;
-    color:#000;
+    top: 8vh;
+    left: 5vw;
+    height: auto;
+    width: 130px;
+    padding: 1vh 2vw;
+    font-size: 15pt;
+    color: #fff;
+    border: 2px solid #fff;
+    background-color: transparent;
     transition: all .25s;
 }
 
-#btnIndexLogin{
-    color:#652d92;
+#btnIndexLogin:hover {
+    color: #652d92;
     text-decoration: none;
+    background-color: #fff;
     box-shadow: 0 0.5rem 0.75rem -0.25rem rgba(39, 48, 54, 0.25);
 }
 
@@ -308,7 +322,7 @@ header {
     position: relative;
 }
 
-.main-login  #sign {
+.main-login #sign {
     position: absolute;
     right: 2%;
     bottom: 2%;
@@ -366,12 +380,14 @@ a.btn-grad:hover {
     height: 7vh;
     margin-bottom: 10vh;
 }
-#forgot{
+
+#forgot {
     font-size: 1.5vh;
     padding-bottom: 2vh;
     text-decoration: underline;
-    color:#652d92
+    color: #652d92
 }
+
 textarea {
     width: 100%;
     height: 20vh;
@@ -454,11 +470,12 @@ label[for=chkRM] {
     margin: 2vh 5vw;
 }
 
-#settings .courses{
-    padding:5vh 5vw;
+#settings .courses {
+    padding: 5vh 5vw;
 }
-#settings .courses-title{
-    width:100vw;
+
+#settings .courses-title {
+    width: 100vw;
     padding-left: 7vw;
 }
 
@@ -576,7 +593,6 @@ label[for=chkRM] {
     color: #000;
     box-shadow: 0 0.5rem 0.75rem -0.25rem #43d8c999;
     cursor: pointer;
-
 }
 
 .fail-alert {
@@ -590,10 +606,9 @@ label[for=chkRM] {
     color: #fff;
     box-shadow: 0 0.5rem 0.75rem -0.25rem #eb455999;
     cursor: pointer;
-
 }
 
-#settings .fail-alert,#settings .success-alert {
+#settings .fail-alert, #settings .success-alert {
     padding: 2%;
     left: 0 !important;
     margin: 2%;
@@ -602,27 +617,30 @@ label[for=chkRM] {
 /* Mobile view */
 
 @media (max-width: 490px) {
-    #btnIndexLogin{
+    #btnIndexLogin {
         position: absolute;
-        top:0;
-        left:0;
-        height:10vh;
-        width:80vw;
-        padding:3vh 4vw;
-        font-size:3vh;
-        margin:10vw 5vh
+        top: 0;
+        left: 0;
+        height: 10vh;
+        width: 80vw;
+        padding: 3vh 4vw;
+        font-size: 3vh;
+        margin: 10vw 5vh;
+        background-color: #fff;
+        color: #652d92;
     }
     #index {
-        height:90vh;
+        height: auto;
         overflow: hidden;
     }
-    #index section:nth-of-type(1){
-        height: 20vh;
+    #index section:nth-of-type(1) {
+        height: 15vh;
         text-align: center;
         font-size: 5vw;
+        padding: 0;
     }
-    #index section:nth-of-type(2){
-        height:80vh;
+    #index section:nth-of-type(2) {
+        height: 65vh;
         background-position: right;
     }
     .links li a {
@@ -632,7 +650,7 @@ label[for=chkRM] {
         height: 20vh
     }
     header {
-        height: 10vh;
+        height: 20vh;
     }
     .spa {
         width: 0 !important;
