@@ -50,7 +50,7 @@ $(document).ready(function () {
 		else{
 			let em=$(_email).val();
 			let up_ = inviaRichiesta("POST", "server/reloadPassword.php",{"email":em});
-			up_.done(function () {
+			up_.done(function (data) {
 				$(_lblError).slideDown(200).removeClass("alert-danger").addClass("alert-success").html("Bene!, hai ricevuto una mail con la password!")
 			});
 			up_.fail(function(){

@@ -75,10 +75,10 @@ header {
 #btnIndexLogin{
     position: absolute;
     top:8vh;
-    right:8vw;
-    height:10vh;
+    right:10vw;
+    height:6.5vh;
     width:13vw;
-    padding:3vh 2vw;
+    padding:1vh 2vw;
     font-size:3vh;
     color:#000;
     transition: all .25s;
