@@ -66,7 +66,7 @@ header {
 #index section:nth-of-type(2){
     background-image: url("i.png");
     background-size: contain;
-    background-position: right;
+    background-position: bottom;
     background-repeat: no-repeat;
     height: 100%;
     padding:0;
@@ -470,6 +470,7 @@ label[for=chkRM] {
     padding: 5%;
     padding-top: 2%;
     position: relative;
+    text-align: left;
     transition: background-color .25s;
 }
 
@@ -578,7 +579,7 @@ label[for=chkRM] {
     box-shadow: 0 0.5rem 0.75rem -0.25rem #eb455999;
 }
 
-#settings .fail-alert {
+#settings .fail-alert,#settings .success-alert {
     padding: 2%;
     left: 0 !important;
     margin: 2%;
@@ -602,12 +603,13 @@ label[for=chkRM] {
         overflow: hidden;
     }
     #index section:nth-of-type(1){
-        height: 26%;
+        height: 20vh;
         text-align: center;
         font-size: 5vw;
     }
     #index section:nth-of-type(2){
-        height:80%;
+        height:80vh;
+        background-position: right;
     }
     .links li a {
         font-size: 4vw;

@@ -17,9 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $con = _connection("clashroom");
     $email = $con->real_escape_string($_POST["email"]);
-    $newPassword = md5(_randomPassword());
+    $newPassword = _randomPassword();
 
-    $data = _eseguiQuery($con, "UPDATE user SET password='$newPassword' WHERE email='$email'");
+    $data = _eseguiQuery($con, "UPDATE user SET password='".md5($newPassword)."' WHERE email='$email'");
 
     $mail = new PHPMailer();
     // Indica a PHPMailer di utilizzare la classe SMTP
@@ -37,12 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         )
     );
     $mail->SMTPAuth = true; // abilitazione al controllo delle credenziali
-    $mail->Username = "a.bongioanni.0746@vallauri.edu";
-    $mail->Password = "#Shestani01!";
-    $mail->setFrom("a.bongioanni.0746@gmail.com");
+    $mail->Username = "bongioanni.clashroom@gmail.com";
+    $mail->Password = "foo1234?";
+    $mail->setFrom("bongioanni.clashroom@gmail.com");
     $mail->addAddress($email);
-    $mail->Subject = 'Recupero password';
-    $mail->Body = 'Here is your brand new password!<br><b>$newPassword</b>';
+    $mail->Subject = 'Password recovery';
+    $mail->Body = "Here is your brand new password!<br><b>$newPassword</b>";
     $mail->isHTML(true); // Set email format to HTML
     if (!$mail->send())
         echo "Mailer Error -> " . $mail->ErrorInfo;

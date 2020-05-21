@@ -10,7 +10,6 @@ $(document).ready(function () {
 	$("html").hide();
 
 	let auth2;
-	var googleUser = {};
 	var startApp = function () {
 		gapi.load('auth2', function () {
 			auth2 = gapi.auth2.init({
@@ -18,6 +17,7 @@ $(document).ready(function () {
 				cookiepolicy: 'single_host_origin',
 			});
 			attachSignin(document.getElementById('googleSignIn'));
+			attachReloadPassword(document.getElementById("forgot"));
 		});
 	};
 
@@ -25,10 +25,32 @@ $(document).ready(function () {
 		auth2.attachClickHandler(element, {},
 			function (googleUser) {
 				changeInterface();
-				console.log(googleUser)
-				$("#signEmail").val(googleUser["Pt"]["yu"]);
-				$("#signCognome").val(googleUser["Pt"]["BW"]);
-				$("#signNome").val(googleUser["Pt"]["CU"]);
+				var profile = googleUser.getBasicProfile();
+				$("#signEmail").val(profile.getEmail());
+				$("#signCognome").val(profile.getFamilyName());
+				$("#signNome").val(profile.getGivenName());
+			}, function (error) {
+			});
+	}
+
+	function attachReloadPassword(element) {
+		auth2.attachClickHandler(element, {},
+			function (googleUser) {
+				$("#forgot").off();
+				var profile = googleUser.getBasicProfile();
+				let em = profile.getEmail();
+				let up_ = inviaRichiesta("POST", "server/reloadPassword.php", { "email": em });
+				up_.done(function (data) {
+					$("#forgot").on("click", reloadPassword);
+					$(_lblError).slideDown(200).removeClass("fail-alert").addClass("success-alert").html("Bene!, hai ricevuto una mail con la password!")
+				});
+				up_.fail(function (jqXHR, test_status, str_error) {
+					$("#forgot").on("click", reloadPassword);
+					if (jqXHR.status == 200)
+						$(_lblError).slideDown(200).removeClass("fail-alert").addClass("success-alert").html("Well!, you have received an email with the password!")
+					else
+						$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+				})
 			}, function (error) {
 			});
 	}
@@ -42,26 +64,16 @@ $(document).ready(function () {
 			checkLogin();
 	});
 
-	$("#forgot").on("click", function () {
-		_email.removeClass("error");
-		if (_email.val() == "") {
-			_email.addClass("error")
-		}
-		else{
-			let em=$(_email).val();
-			let up_ = inviaRichiesta("POST", "server/reloadPassword.php",{"email":em});
-			up_.done(function (data) {
-				$(_lblError).slideDown(200).removeClass("alert-danger").addClass("alert-success").html("Bene!, hai ricevuto una mail con la password!")
-			});
-			up_.fail(function(){
-				$(_lblError).removeClass("alert-success").addClass("alert-danger").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
-			})
-		}
-	})
+	$("#forgot").on("click", reloadPassword);
 
 	let _a = $("a#sign").on("click", function () {
 		$(_login).children().fadeOut(200, changeInterface);
 	})
+
+	function reloadPassword() {
+
+
+	}
 
 	function changeInterface() {
 		$(_login).html("").css({
@@ -178,7 +190,7 @@ $(document).ready(function () {
 
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
 				if (jqXHR.status == 401) {
-					$(_lblError).removeClass("alert-success").addClass("alert-danger").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
 				} else {
 					//$(_lblError).slideDown()
 					//throw jqXHR.responseText;
@@ -208,10 +220,9 @@ $(document).ready(function () {
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
 				$(_password).val("");
 				if (jqXHR.status == 401) {
-					$(_lblError).removeClass("alert-success").addClass("alert-danger").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
 				} else {
-					$(_lblError).removeClass("alert-success").addClass("alert-danger").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
-					//throw jqXHR.responseText;
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
 				}
 			});
 		}
