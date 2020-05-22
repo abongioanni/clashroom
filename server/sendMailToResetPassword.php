@@ -13,12 +13,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         http_response_code(422);
         die("Parametro mancante.");
     }
+    $con = _connection("clashroom");
+
+    $id=_eseguiQuery($con,"SELECT id FROM user WHERE email='".$_POST["email"]."';")[0]["id"];
     session_start();
-    $_SESSION["email"]=$_POST["email"];
+    $_SESSION["id"]=$id;
     $_SESSION["scadenza"]=time()+SCADENZA;
     setcookie(session_name(), session_id(), $_SESSION["scadenza"], "/");
 
-    $con = _connection("clashroom");
     $email = $con->real_escape_string($_POST["email"]);
     $mail = new PHPMailer();
     $mail->isSMTP();
@@ -40,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail->setFrom("bongioanni.clashroom@gmail.com");
     $mail->addAddress($email);
     $mail->Subject = 'Password recovery';
-    $mail->Body = "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/clashroom/resetPassword.html'>reset</a> your password!";
+    $mail->Body = "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/progetto-abongioanni/resetPassword.html'>reset</a> your password!";
     $mail->isHTML(true); 
     if (!$mail->send())
         echo "Mailer Error -> " . $mail->ErrorInfo;

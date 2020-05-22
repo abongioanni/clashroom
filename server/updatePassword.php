@@ -2,8 +2,7 @@
 header("Content-type:application/json;charset=utf-8");
 require("_libreria.php");
 
-_checkSession("email");
-
+_checkSession("id");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //controllo parametri
@@ -13,8 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $con = _connection("clashroom");
     $password = $con->real_escape_string($_POST["password"]);
-
-    _eseguiQuery($con, "UPDATE user SET password='".md5($password)."' WHERE email='" . $_SESSION["email"] . "';");
+    $data = _eseguiQuery($con, "UPDATE user SET password='" . md5($password) . "' WHERE id='" . $_SESSION["id"] . "';");
+    if (count($data) > 0)
+        echo json_encode(array("ris" => "ok"));
+    else
+        echo "Mailer Error -> ";
     _terminateSession();
     $con->close();
 }

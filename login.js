@@ -99,7 +99,7 @@ $(document).ready(function () {
 
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
 				if (jqXHR.status == 401) {
-					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("This email already has a registered account!")
 				} else {
 					//$(_lblError).slideDown()
 					//throw jqXHR.responseText;
@@ -129,7 +129,7 @@ $(document).ready(function () {
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
 				$(_password).val("");
 				if (jqXHR.status == 401) {
-					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b!> Try again to enter your credentials or if you are not yet registered press the link below!")
 				} else {
 					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
 				}

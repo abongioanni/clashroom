@@ -336,8 +336,6 @@ $(document).ready(function () {
         }
     });
 
-    setPasswords();
-
     $(".links li a[name=add]").on("click", function () {
         $(_modalB).children().fadeIn(200)
         $(_modalB).fadeIn(200)
