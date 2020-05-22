@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail->setFrom("bongioanni.clashroom@gmail.com");
     $mail->addAddress($email);
     $mail->Subject = 'Password recovery';
-    $mail->Body = "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/progetto-abongioanni/resetPassword.html'>reset</a> your password!";
+    $mail->Body = "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/clashroom/resetPassword.html'>reset</a> your password!";
     $mail->isHTML(true); 
     if (!$mail->send())
         echo "Mailer Error -> " . $mail->ErrorInfo;
