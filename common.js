@@ -34,17 +34,26 @@ function setPasswords() {       //IMPOSTAZIONE EVENTI CAMBIO PASSWORD
             $("#changePwdConfirm").addClass("error");
         }
         else {
-            let u_ = inviaRichiesta("POST", "server/updatePassword.php", { "password": $("#changePwd").val() });
-            u_.done(function (data) {
-        
-            })
-            u_.fail(redirect);
+            if (checkPassword($("#changePwd").val())) {
+                let u_ = inviaRichiesta("POST", "server/updatePassword.php", { "password": $("#changePwd").val() });
+                u_.done(function (data) {
+
+                })
+                u_.fail(redirect);
+            }
+            else{
+                alert("The new password must contains at least 1 special character, 1 number and it must to be 8 characters long!")
+            }
         }
         $("#changePwd").val("")
         $("#changePwdConfirm").val("")
     });
 }
 
+function checkPassword(password) {
+    var regularExpression = new RegExp(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/);
+    return regularExpression.test(password);
+}
 
 //SEXIONE INVIO NOTIFICA (INUTILIZZATO)
 function sendNotification(title, text, icon) {

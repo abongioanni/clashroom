@@ -52,20 +52,20 @@ $(document).ready(function () {
 		if (_email.val() == "") {
 			_email.addClass("error")
 		}
-		else{
+		else {
 			$("#forgot").off();
 			let em = $(_email).val();
 			let up_ = inviaRichiesta("POST", "server/sendMailToResetPassword.php", { "email": em });
 			up_.done(function (data) {
 				$("#forgot").on("click", resetPassword);
-				$(_lblError).slideDown(200).removeClass("fail-alert").addClass("success-alert").html("Bene!, hai ricevuto una mail con la password!")
+				$(_lblError).slideDown(200).removeClass("fail-alert").addClass("success-alert").html("Well!, you have received an email with the password!")
 			});
 			up_.fail(function (jqXHR, test_status, str_error) {
 				$("#forgot").on("click", resetPassword);
 				if (jqXHR.status == 200)
 					$(_lblError).slideDown(200).removeClass("fail-alert").addClass("success-alert").html("Well!, you have received an email with the password!")
 				else
-					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("<b>Login failed:</b> Try again to enter your credentials or if you are not yet registered press the link below!")
+					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("You are not yet registered, press the link below!")
 			})
 		}
 	}
@@ -83,25 +83,27 @@ $(document).ready(function () {
 			pass = false;
 		}
 		else if (pass) {
-			pass = false;
-			let richiestaLogin_ = inviaRichiesta("POST", "server/signUp.php", {
-				"email": $("#signEmail").val(),
-				"password": CryptoJS.MD5($("#signPassword").val()).toString(),
-				"cognome": $("#signCognome").val(),
-				"nome": $("#signNome").val(),
-				"st": $("#signCmbSt").val(),
-			});
+			if (checkPassword($("#signPassword").val())) {
+				pass = false;
+				let richiestaLogin_ = inviaRichiesta("POST", "server/signUp.php", {
+					"email": $("#signEmail").val(),
+					"password": CryptoJS.MD5($("#signPassword").val()).toString(),
+					"cognome": $("#signCognome").val(),
+					"nome": $("#signNome").val(),
+					"st": $("#signCmbSt").val(),
+				});
 
-			richiestaLogin_.done(function (data) {
-				if (data["ris"] == "ok") // test inutile
-					window.location.href = "home.php"
-			});
+				richiestaLogin_.done(function (data) {
+					if (data["ris"] == "ok") // test inutile
+						window.location.href = "home.php"
+				});
 
-			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
-				if (jqXHR.status == 401) {
-					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("This email already has a registered account!")
-				}	
-			});
+				richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
+					if (jqXHR.status == 401) {
+						$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("This email already has a registered account!")
+					}
+				});
+			}
 		}
 	}
 
@@ -227,5 +229,5 @@ $(document).ready(function () {
 	startApp();
 	$("html").fadeIn(500);
 
-	
+
 });

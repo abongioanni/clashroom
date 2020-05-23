@@ -8,7 +8,7 @@ $con = _connection("clashroom");
 $user=$_SESSION["user"];
 $id = $user["id"];
 
-if ($data["st"] != "0") { //SONO UNO STUDENTE
+if ($user["st"] != "0") { //SONO UNO STUDENTE
     _eseguiQuery($con, "DELETE FROM studsub WHERE studid=$id");//ELIMINO L'ISCRIZIONE
 }
 else{//SONO UN INSEGNANTE

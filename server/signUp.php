@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     //INSERIMENTO
-    $sql = "INSERT INTO user (email,nome,cognome,password,foto,st) VALUES ('$email','$nome','$cognome','$password','','$st');";
+    $sql = "INSERT INTO user (email,nome,cognome,password,st) VALUES ('$email','$nome','$cognome','$password','$st');";
     $data = _eseguiQuery($con, $sql);
     if (!$data) {
         http_response_code(401);
