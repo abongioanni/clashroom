@@ -1,334 +1,204 @@
 "use strict";
 
 $(document).ready(function () {
-    let _timeline = $(".timeline").eq(0)
+    let _timeline = $(".timeline").eq(0);
     let _day = $(".day").eq(0);
     let _coursesWrapper = $(".courses").eq(0);
     let _modalB = $(".backdrop.modal").hide();
 
     $("html").hide();
 
-    $("#signOut").on("click", function () {
+    $("#signOut").on("click", function () {//BOTTONE DI LOGOUT
         let signOut_ = inviaRichiesta("POST", "server/logout.php", {});
         signOut_.fail(redirect);
     });
 
-    let userProp_ = inviaRichiesta("POST", "server/getIndexProperties.php", {});
-    userProp_.done(function (data) {
-        $("#user").text(data["nome"]);
-        if (data["st"] != "0")//SONO UNO STUDENTE
-            $("<section>", {
-                addClass: "add-wrapper col-sm-12 justify-content-center",
-                append: [
-                    $("<div>", {
-                        addClass: "row add",
-                        append: [
-                            //div iscrizione corso
-                            $("<div>", {
-                                addClass: "col-sm-5 add-part",
-                                css: {
-                                    marginBottom: "10%",
-                                },
-                                append: [
-                                    $("<span>", {
-                                        addClass: "add-title col-sm-12",
-                                        text: "Course",
-                                        css: {
-                                            height: "7vh",
-                                            marginBottom: "5vh"
-                                        }
-                                    }), $("<br>"),
-                                    $("<span>", {
-                                        addClass: "col-sm-3",
-                                        text: "Code: ",
-                                        css: {
-                                            height: "fit-content",
-                                        }
-                                    }),
-                                    $("<input>", {
-                                        addClass: "col-sm-6",
-                                        type: "number",
-                                        id: "nNomeCorso",
-                                        css: {
-                                            marginTop: "0%",
-                                            marginBottom: "5%"
-                                        },
-                                        placeholder: "Course code",
-                                    }),
-                                    $("<span>", {
-                                        addClass: "col-sm-3",
-                                    }),
-                                    $("<span>", {
-                                        addClass: "btn-grad sq col-sm-6",
-                                        text: "Add",
-                                        css: {
-                                            textAlign: "center",
-                                            height: "fit-content",
-                                        },
-                                        click: function () {
-                                            $("#nNomeCorso").removeClass("error");
-                                            if ($("#nNomeCorso").val() == "") {
-                                                $("#nNomeCorso").addClass("error");
-                                            }
-                                            else {
-                                                let addSub_ = inviaRichiesta("POST", "server/subscribeToCourse.php", {
-                                                    "id": $("#nNomeCorso").val()
-                                                });
-                                                $("#nNomeCorso").val("");
-                                                addSub_.done(function (data) {
-                                                    setCourses();
-                                                    $("#addResults").removeClass("fail-alert").addClass("success-alert")
-                                                        .text("Perfect! You are now enrolled in the course!").hide().fadeIn(200);
-                                                })
-                                                addSub_.fail(function (jqXHR, test_status, str_error) {
-                                                    redirect(jqXHR, test_status, str_error);
-                                                    $("#addResults").removeClass("success-alert").addClass("fail-alert")
-                                                        .hide().fadeIn(200);
-                                                })
-                                            }
-                                        }
-                                    })
-                                ]
-                            }),//SX
-                            $("<div>", {
-                                addClass: "col-sm-6 justify-content-center",
-                                append: [
-                                    $("<span>", {
-                                        addClass: "col-sm-12 sq neutral-alert",
-                                        id: "addResults",
-                                        text: "Enter the course code to register!"
-                                    }),
-                                ]
-                            }),//DX
-                        ]
-                    }),
 
-                ],
-                appendTo: $(_modalB).find("#modalAdd")
-            })//Section per la creazione di corsi e/o eventi
-        else {// SONO UN'INSEGNANTE
-            $("<section>", {
-                addClass: "add-wrapper col-sm-12 justify-content-center",
-                append: [
-                    $("<div>", {
-                        addClass: "row add",
-                        append: [
-                            //div creazione corso
-                            $("<div>", {
-                                addClass: "col-sm-6 add-part row",
-                                append: [
-                                    $("<span>", {
-                                        addClass: "add-title col-sm-12",
-                                        text: "Course",
-                                        css: {
-                                            height: "7vh",
-                                            marginBottom: "5vh"
-                                        }
-                                    }), $("<br>"),
-                                    $("<span>", {
-                                        addClass: "col-sm-3",
-                                        text: "Name: ",
-                                        css: {
-                                            height: "fit-content",
-                                        }
-                                    }),
-                                    $("<input>", {
-                                        addClass: "col-sm-6",
-                                        type: "text",
-                                        id: "txtNomeCorso",
-                                        css: {
-                                            marginTop: "0%",
-                                            marginBottom: "5%"
-                                        },
-                                        placeholder: "Course name",
-
-                                    }),
-                                    $("<span>", {
-                                        addClass: "col-sm-12",
-                                    }),
-                                    $("<span>", {
-                                        addClass: "col-sm-4",
-                                    }),
-                                    $("<span>", {
-                                        addClass: "btn-grad sq col-sm-6",
-                                        text: "Add",
-                                        css: {
-                                            textAlign: "center",
-                                            height: "fit-content",
-                                        },
-                                        click: function () {
-                                            $("#txtNomeCorso").removeClass("error");
-                                            if ($("#txtNomeCorso").val() == "") {
-                                                $("#txtNomeCorso").addClass("error");
-                                            }
-                                            else {
-                                                let addCourse_ = inviaRichiesta("POST", "server/addCourse.php", {
-                                                    "nome": $("#txtNomeCorso").val()
-                                                });
-                                                $("#txtNomeCorso").val("");
-                                                addCourse_.done(function (data) {
-                                                    $("#cmbCourse").append($("<option>", {
-                                                        value: data["data"]["id"],
-                                                        text: data["data"]["nome"]
-                                                    }))
-                                                    $(_coursesWrapper).append(
-                                                        $("<div>", {
-                                                            appendTo: _coursesWrapper,
-                                                            addClass: "sq course",
-                                                            append: [
-                                                                $("<span>", {
-                                                                    addClass: "course-name",
-                                                                    text: data["data"]["nome"],
-                                                                }),
-                                                                $("<span>", {
-                                                                    addClass: "course-teacher",
-                                                                    text: "Teacher: " + data["teachers"]["cognome"] + " " + data["teachers"]["nome"],
-                                                                }),
-                                                                $("<span>", {
-                                                                    addClass: "course-id",
-                                                                    text: "Code: " + data["data"]["id"],
-                                                                })
-                                                            ]
-                                                        })
-                                                    )
-                                                })
-                                                addCourse_.fail(redirect)
-                                            }
-                                        }
-                                    }),
-                                    $("<span>", {
-                                        addClass: "col-sm-8 sq neutral-alert",
-                                        id: "addResults",
-                                        text: "Enter the datas to create a new course or a new event!"
-                                    }),
-                                ]
-                            }),
-                        ]
-                    }),
-
-                ],
-                appendTo: $(_modalB).find("#modalAdd")
-            })//Section per la creazione di corsi e/o eventi
-            let courses_ = inviaRichiesta("POST", "server/getCourses.php");
-            courses_.done(function (data) {
-                if (data["data"].length > 0) {
-                    $(".add").eq(0).append([
-                        $("<div>", {
-                            addClass: "col-sm-6 add-part row",
-                            css: {
-                                paddingLeft: "2%",
-                                borderLeft: "2px solid #5000ce",
-                            },
-                            append: [
-                                $("<span>", {
-                                    addClass: "add-title col-sm-12",
-                                    text: "Event",
-                                    css: {
-                                        height: "7vh",
-                                    }
-                                }), $("<br>"),
-                                $("<span>", {
-                                    addClass: "col-sm-4",
-                                    text: "Course: ",
-                                    css: {
-                                        height: "fit-content",
-                                    }
-                                }),
-                                $("<select>", {
-                                    addClass: "col-sm-6",
-                                    id: "cmbCourse",
-                                    placeholder: "Seleziona corso",
-                                    css: {
-                                        marginTop: "0%",
-                                    },
-                                    append: function () {
-                                        let o = [];
-                                        for (let i = 0; i < data["data"].length; i++) {
-                                            o.push($("<option>", {
-                                                value: data["data"][i]["id"],
-                                                text: data["data"][i]["nome"],
-                                            }));
-                                        }
-                                        return o;
-                                    }
-                                }), $("<br>"),
-                                $("<span>", {
-                                    addClass: "col-sm-4",
-                                    text: "Schedule: ",
-                                    css: {
-                                        height: "fit-content",
-                                    }
-
-                                }),
-                                $("<input>", {
-                                    addClass: "col-sm-6",
-                                    type: "datetime-local",
-                                    id: "time",
-                                    css: {
-                                        marginTop: "0%",
-                                    },
-                                    min: function () {
-                                        var today = new Date();
-                                        var dd = today.getDate();
-                                        var mm = today.getMonth() + 1; //January is 0!
-                                        var yyyy = today.getFullYear();
-                                        return yyyy + '-' + pad(mm) + '-' + pad(dd + 1) + "T00:00:00.00";
-                                    }
-                                }),
-                                $("<textarea>", {
-                                    addClass: "col-sm-10",
-                                    placeholder: "Write the topic of the event",
-                                }),
-                                $("<span>", {
-                                    addClass: "btn-grad sq col-sm-6",
-                                    text: "Add",
-                                    css: {
-                                        textAlign: "center",
-                                        marginLeft: "2%",
-                                        marginBottom: "5%"
-                                    },
-                                    click: function () {
-                                        $("#cmbCourse").removeClass("error");
-                                        $("#time").removeClass("error");
-                                        $("textarea").removeClass("error");
-                                        if ($("#cmbCourse").val() == "") {
-                                            $("#cmbCourse").addClass("error");
-                                        }
-                                        else if ($("#time").val() == "") {
-                                            $("#time").addClass("error");
-                                        }
-                                        else if ($("textarea").val() == "") {
-                                            $("textarea").addClass("error");
-                                        }
-                                        else {
-                                            let addCourse_ = inviaRichiesta("POST", "server/addEvent.php", {
-                                                "courseId": $("#cmbCourse").val(),
-                                                "do": $("#time").val(),
-                                                "argomento": $("textarea").val()
-                                            });
-                                            $("textarea").val("");
-                                            addCourse_.done(function (data) {
-                                                if (isToday(data["do"]) || isTomorrow(data["do"])) {
-                                                    $(_timeline).append(event(data["data"], data["teachers"]));
-                                                }
-                                            })
-                                            addCourse_.fail(redirect)
-                                        }
-                                    }
-                                }),
-                            ]
-                        })
-                    ])
-                }
+    //EVENTI ADD
+    $("#btnAddCourseStud").on("click", function () {
+        $("#nNomeCorso").removeClass("error");
+        if ($("#nNomeCorso").val() == "") {
+            $("#nNomeCorso").addClass("error");
+        }
+        else {
+            let addSub_ = inviaRichiesta("POST", "server/subscribeToCourse.php", {
+                "id": $("#nNomeCorso").val()
             });
-            courses_.fail(redirect);
+            $("#nNomeCorso").val("");
+            addSub_.done(function (data) {
+                setCourses();
+                $("#addResults").removeClass("fail-alert").addClass("success-alert")
+                    .text("Perfect! You are now enrolled in the course!").hide().fadeIn(200);
+            })
+            addSub_.fail(function (jqXHR, test_status, str_error) {
+                redirect(jqXHR, test_status, str_error);
+                $("#addResults").removeClass("success-alert").addClass("fail-alert")
+                    .hide().fadeIn(200);
+            })
         }
     });
-    userProp_.fail(redirect);
 
+    $("#btnAddCourse").on("click",function () {
+        $("#txtNomeCorso").removeClass("error");
+        if ($("#txtNomeCorso").val() == "") {
+            $("#txtNomeCorso").addClass("error");
+        }
+        else {
+            let addCourse_ = inviaRichiesta("POST", "server/addCourse.php", {
+                "nome": $("#txtNomeCorso").val()
+            });
+            $("#txtNomeCorso").val("");
+            addCourse_.done(function (data) {
+                $("#cmbCourse").append($("<option>", {
+                    value: data["data"]["id"],
+                    text: data["data"]["nome"]
+                }))
+                $(_coursesWrapper).append(
+                    $("<div>", {
+                        appendTo: _coursesWrapper,
+                        addClass: "sq course",
+                        append: [
+                            $("<span>", {
+                                addClass: "course-name",
+                                text: data["data"]["nome"],
+                            }),
+                            $("<span>", {
+                                addClass: "course-teacher",
+                                text: "Teacher: " + data["teachers"]["cognome"] + " " + data["teachers"]["nome"],
+                            }),
+                            $("<span>", {
+                                addClass: "course-id",
+                                text: "Code: " + data["data"]["id"],
+                            })
+                        ]
+                    })
+                )
+            })
+            addCourse_.fail(redirect)
+        }
+    });
+
+    //CONTROLLO SE L'INSEGNANTE HA GIA' CREATO ALMENO UN'EVENTO
+    let courses_ = inviaRichiesta("POST", "server/getCourses.php");
+    courses_.done(function (data) {
+        if (data["data"].length > 0) {
+            $(".add").eq(0).append([
+                $("<div>", {
+                    addClass: "col-sm-6 add-part row",
+                    css: {
+                        paddingLeft: "2%",
+                        borderLeft: "2px solid #5000ce",
+                    },
+                    append: [
+                        $("<span>", {
+                            addClass: "add-title col-sm-12",
+                            text: "Event",
+                            css: {
+                                height: "7vh",
+                            }
+                        }), $("<br>"),
+                        $("<span>", {
+                            addClass: "col-sm-4",
+                            text: "Course: ",
+                            css: {
+                                height: "fit-content",
+                            }
+                        }),
+                        $("<select>", {
+                            addClass: "col-sm-6",
+                            id: "cmbCourse",
+                            placeholder: "Seleziona corso",
+                            css: {
+                                marginTop: "0%",
+                            },
+                            append: function () {
+                                let o = [];
+                                for (let i = 0; i < data["data"].length; i++) {
+                                    o.push($("<option>", {
+                                        value: data["data"][i]["id"],
+                                        text: data["data"][i]["nome"],
+                                    }));
+                                }
+                                return o;
+                            }
+                        }), $("<br>"),
+                        $("<span>", {
+                            addClass: "col-sm-4",
+                            text: "Schedule: ",
+                            css: {
+                                height: "fit-content",
+                            }
+
+                        }),
+                        $("<input>", {
+                            addClass: "col-sm-6",
+                            type: "datetime-local",
+                            id: "time",
+                            css: {
+                                marginTop: "0%",
+                            },
+                            min: function () {
+                                var today = new Date();
+                                var dd = today.getDate();
+                                var mm = today.getMonth() + 1; //January is 0!
+                                var yyyy = today.getFullYear();
+                                return yyyy + '-' + pad(mm) + '-' + pad(dd + 1) + "T00:00:00.00";
+                            }
+                        }),
+                        $("<textarea>", {
+                            addClass: "col-sm-10",
+                            placeholder: "Write the topic of the event",
+                        }),
+                        $("<span>", {
+                            addClass: "btn-grad sq col-sm-6",
+                            text: "Add",
+                            css: {
+                                textAlign: "center",
+                                marginLeft: "2%",
+                                marginBottom: "5%"
+                            },
+                            click: function () {
+                                $("#cmbCourse").removeClass("error");
+                                $("#time").removeClass("error");
+                                $("textarea").removeClass("error");
+                                if ($("#cmbCourse").val() == "") {
+                                    $("#cmbCourse").addClass("error");
+                                }
+                                else if ($("#time").val() == "") {
+                                    $("#time").addClass("error");
+                                }
+                                else if ($("textarea").val() == "") {
+                                    $("textarea").addClass("error");
+                                }
+                                else {
+                                    let addCourse_ = inviaRichiesta("POST", "server/addEvent.php", {
+                                        "courseId": $("#cmbCourse").val(),
+                                        "do": $("#time").val(),
+                                        "argomento": $("textarea").val()
+                                    });
+                                    $("textarea").val("");
+                                    addCourse_.done(function (data) {
+                                        if (isToday(data["do"]) || isTomorrow(data["do"])) {
+                                            $(_timeline).append(event(data["data"], data["teachers"]));
+                                        }
+                                    })
+                                    addCourse_.fail(redirect)
+                                }
+                            }
+                        }),
+                    ]
+                })
+            ])
+        }
+    });
+    courses_.fail(redirect);
+
+    //IMPOSTO CORSI ED EVENTI
     setCourses();
     setEvents();
 
+
+    //EVENTO ELIMINAZIONE ACCOUNT
     $("#settings .fail-alert").on("click", function () {
         if (confirm("You are about to delete your profile. Are you sure?")) {
             let delete_ = inviaRichiesta("POST", "server/deleteProfile.php");

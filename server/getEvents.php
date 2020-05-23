@@ -1,23 +1,25 @@
 <?php
+
+//MI RICAVO UN JSON CON TUTTI GLI EVENTI E I DATI DEGLI INSEGNANTI RELATIVI
+
 header("Content-type:application/json;charset=utf-8");
 require("_libreria.php");
 
-_checkSession("id");
+_checkSession("user");
 
 $con = _connection("clashroom");
+$user=$_SESSION["user"];
 
-$sql = "SELECT * FROM user WHERE id=" . $_SESSION["id"] . ";";
-$us = _eseguiQuery($con, $sql)[0];
 $data=array();
-if($us["st"]!="0"){//sono uno studente
-    $sql = "SELECT * FROM studsub AS s,events AS e WHERE s.studId=" . $_SESSION["id"] . " AND s.courseId=e.courseId;";
+if($user["st"]!="0"){//SONO UNO STUDENTE
+    $sql = "SELECT * FROM studsub AS s,events AS e WHERE s.studId=" . $user["id"] . " AND s.courseId=e.courseId;";
     $v=_eseguiQuery($con, $sql);
     for($i=0;$i<count($v);$i++){
         array_push($data,$v[$i]);
     }
 }
-else{
-    $sql = "SELECT * FROM events WHERE teacherId=" . $_SESSION["id"] . ";";
+else{//SONO UN'INSEGNANTE
+    $sql = "SELECT * FROM events WHERE teacherId=" . $user["id"] . ";";
     $data=_eseguiQuery($con, $sql);
 }
 $t=array();

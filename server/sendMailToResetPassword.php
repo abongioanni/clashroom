@@ -1,5 +1,7 @@
 <?php
 
+//VIENE INVIATA UNA MAIL CONTENENTE UN LINK PER LA PAGINA DOVE REIMPOSTARELA PASSWORD
+
 use PHPMailer\PHPMailer\PHPMailer;
 
 header("Content-type:application/json;charset=utf-8");
@@ -15,12 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $con = _connection("clashroom");
 
+    //VIENE IMPOSTATO UN COOKIE CHE IMPOSTA IL TEMPO IN CUI L'UTENTE PUO' CAMBIARE LA PASSWORD
     $id=_eseguiQuery($con,"SELECT id FROM user WHERE email='".$_POST["email"]."';")[0]["id"];
     session_start();
     $_SESSION["id"]=$id;
     $_SESSION["scadenza"]=time()+SCADENZA;
     setcookie(session_name(), session_id(), $_SESSION["scadenza"], "/");
 
+    //VIENE CREATO L'OGGETTO MAIL
     $email = $con->real_escape_string($_POST["email"]);
     $mail = new PHPMailer();
     $mail->isSMTP();
@@ -44,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail->Subject = 'Password recovery';
     $mail->Body = "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/progetto-abongioanni/resetPassword.html'>reset</a> your password!";
     $mail->isHTML(true); 
-    if (!$mail->send())
+    if (!$mail->send())//INVIO MAIL
         echo "Mailer Error -> " . $mail->ErrorInfo;
     else
         echo json_encode(array("ris" => "ok"));

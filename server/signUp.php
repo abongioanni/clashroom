@@ -1,9 +1,11 @@
 <?php
+
+//REGISTRAZIONE NUOVO UTENTE
+
 header("Content-type:application/json;charset=utf-8");
 require("_libreria.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //controllo parametri
     if (
         !isset($_POST["email"]) ||
         !isset($_POST["password"]) ||
@@ -16,6 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Parametro mancante.");
     }
 
+    //PARAMETRI:
+    //- EMAIL
+    //- PASSWORD
+    //- COGNOME
+    //- NOME
+    //- STUDENTE/INSEGNANTE
+
     $con = _connection("clashroom");
     $email = $con->real_escape_string($_POST["email"]);
     $password = $con->real_escape_string($_POST["password"]);
@@ -23,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $con->real_escape_string($_POST["nome"]);
     $st = $con->real_escape_string($_POST["st"]);
 
+    //CONTROLLO CHE LA MAIL NON SIA GIA' STATA REGISTRATA
     $sql = "SELECT * FROM user WHERE email='$email';";
     $data = _eseguiQuery($con, $sql);
     if (count($data) != 0) {
@@ -30,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Email già registrata!");
     }
 
+    //INSERIMENTO
     $sql = "INSERT INTO user (email,nome,cognome,password,foto,st) VALUES ('$email','$nome','$cognome','$password','','$st');";
     $data = _eseguiQuery($con, $sql);
     if (!$data) {
@@ -38,8 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $sql = "SELECT * FROM user WHERE email='$email';";
         $data = _eseguiQuery($con, $sql);
+        //SETTO IL COOKIE
         session_start();
-        $_SESSION["id"] = $data[0]["id"];
+        $_SESSION["user"] = $data[0];
         $_SESSION["scadenza"] = time() + SCADENZA;
         setcookie(session_name(), session_id(), $_SESSION["scadenza"], "/");
 

@@ -2,25 +2,23 @@
 header("Content-type:application/json;charset=utf-8");
 require("_libreria.php");
 
-_checkSession("id");
+_checkSession("user");
 
 $con = _connection("clashroom");
-$id = $_SESSION["id"];
+$user=$_SESSION["user"];
+$id = $user["id"];
 
-$sql = "SELECT * FROM user WHERE id=$id;";
-$data = _eseguiQuery($con, $sql)[0];
-
-if ($data["st"] != "0") { //sono uno studente
-    _eseguiQuery($con, "DELETE FROM studsub WHERE studid=$id");
+if ($data["st"] != "0") { //SONO UNO STUDENTE
+    _eseguiQuery($con, "DELETE FROM studsub WHERE studid=$id");//ELIMINO L'ISCRIZIONE
 }
-else{
-    $data=_eseguiQuery($con, "SELECT * FROM courses WHERE creatorId=$id");
+else{//SONO UN INSEGNANTE
+    $data=_eseguiQuery($con, "SELECT * FROM courses WHERE creatorId=$id");//RICAVO I CORSI
     for($i=0;$i<count($data);$i++){
-        _eseguiQuery($con, "DELETE FROM events WHERE courseId=".$data[$i]["id"].";");
-        _eseguiQuery($con, "DELETE FROM studSub WHERE courseId=".$data[$i]["id"].";");
+        _eseguiQuery($con, "DELETE FROM events WHERE courseId=".$data[$i]["id"].";");//ELIMINO GLI EVENTI COLLEGATI
+        _eseguiQuery($con, "DELETE FROM studSub WHERE courseId=".$data[$i]["id"].";");//ELIMINO LE ISCRIZIONI COLLEGATE AI CORSI
     }
-    _eseguiQuery($con, "DELETE FROM courses WHERE creatorid=$id");
+    _eseguiQuery($con, "DELETE FROM courses WHERE creatorid=$id");//ELIMINO I CORSO
 }
-_eseguiQuery($con, "DELETE FROM user WHERE id=$id");
+_eseguiQuery($con, "DELETE FROM user WHERE id=$id");//ELIMINO L'UTENTE
 _terminateSession();
 $con->close();

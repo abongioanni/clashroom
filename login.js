@@ -20,7 +20,7 @@ $(document).ready(function () {
 		});
 	};
 
-	function attachSignin(element) {
+	function attachSignin(element) {//REGISTRAZIONE CON GOOGLE
 		auth2.attachClickHandler(element, {},
 			function (googleUser) {
 				changeInterface();
@@ -47,7 +47,7 @@ $(document).ready(function () {
 		$(_login).children().fadeOut(200, changeInterface);
 	})
 
-	function resetPassword() {
+	function resetPassword() {//EVENTO PER RESET PASSWORD
 		_email.removeClass("error");
 		if (_email.val() == "") {
 			_email.addClass("error")
@@ -70,7 +70,7 @@ $(document).ready(function () {
 		}
 	}
 
-	function checkSignUp() {
+	function checkSignUp() {//CONTROLLO REGISTRAZIONE
 		let pass = true;
 		$(_login).find("input").removeClass("error");
 		for (let i = 0; i < $(_login).find("input").length; i++) {
@@ -94,21 +94,18 @@ $(document).ready(function () {
 
 			richiestaLogin_.done(function (data) {
 				if (data["ris"] == "ok") // test inutile
-					window.location.href = "home.html"
+					window.location.href = "home.php"
 			});
 
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
 				if (jqXHR.status == 401) {
 					$(_lblError).removeClass("success-alert").addClass("fail-alert").slideDown(200).html("This email already has a registered account!")
-				} else {
-					//$(_lblError).slideDown()
-					//throw jqXHR.responseText;
-				}
+				}	
 			});
 		}
 	}
 
-	function checkLogin() {
+	function checkLogin() {//CONTROLLO LOGIN
 		_email.removeClass("error");
 		_password.removeClass("error");
 		if (_email.val() == "") {
@@ -124,7 +121,7 @@ $(document).ready(function () {
 			let richiestaLogin_ = inviaRichiesta("POST", "server/login.php", { "email": em, "password": pass });
 			richiestaLogin_.done(function (data) {
 				if (data["ris"] == "ok") // test inutile
-					window.location.href = "home.html"
+					window.location.href = "home.php"
 			});
 			richiestaLogin_.fail(function (jqXHR, test_status, str_error) {
 				$(_password).val("");
@@ -137,7 +134,7 @@ $(document).ready(function () {
 		}
 	}
 
-	function changeInterface() {
+	function changeInterface() {//CAMBIO INTERFACCIA DA LOGIN A REGISTRAZIONE
 		$(_login).html("").css({
 			paddingTop: "2vh"
 		});

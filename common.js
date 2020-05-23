@@ -1,4 +1,4 @@
-function inviaRichiesta(method, url, parameters = "") {
+function inviaRichiesta(method, url, parameters = "") { //WRAPPER DELLA FUNZIONE JQUERY $.ajax
     return $.ajax({
         type: method,
         url: url,
@@ -9,7 +9,7 @@ function inviaRichiesta(method, url, parameters = "") {
     });
 }
 
-function redirect(jqXHR, test_status, str_error) {
+function redirect(jqXHR, test_status, str_error) {//CONTROLLO ERRORE MINIMO E REDIRECT A PAGINA DI LOGIN
     if (jqXHR.status == 403) {
         window.location.href = "login.html";
     }
@@ -17,7 +17,8 @@ function redirect(jqXHR, test_status, str_error) {
         $("#addResults").text("You have already enrolled in this course or the course does not exist!")
     }
 }
-function setPasswords() {
+
+function setPasswords() {       //IMPOSTAZIONE EVENTI CAMBIO PASSWORD
     $("#settings .success-alert").on("click", function () {
         $("#changePwd").removeClass("error");
         $("#changePwdConfirm").removeClass("error");
@@ -44,6 +45,8 @@ function setPasswords() {
     });
 }
 
+
+//SEXIONE INVIO NOTIFICA (INUTILIZZATO)
 function sendNotification(title, text, icon) {
     if (Notification.permission === "granted") {
         createNotification(title, text, icon);

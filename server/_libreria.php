@@ -1,8 +1,9 @@
 <?php
+	//LIBRERIA CONTENENTE METODI GENERICI PER L'INTERAZIONECON IL DB
     
 	define ("SCADENZA", 600);// tempo espresso in secondi
 	
-	function _connection($dbName){
+	function _connection($dbName){//FUNZIONE PER STABILIRE LA CONNESSIONE AL DB
 		define('DBHOST', 'localhost');
 		define('DBUSER', 'root');
 		define('DBPASS', '');
@@ -20,18 +21,18 @@
 		}
 	}
 
-	function _randomPassword() {
+	function _randomPassword() {//GENERA UNA PASSWORD RANDOM (STACK OVERFLOW) NON UTILIZZATA
 		$alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-		$pass = array(); //remember to declare $pass as an array
-		$alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+		$pass = array(); 
+		$alphaLength = strlen($alphabet) - 1;
 		for ($i = 0; $i < 8; $i++) {
 			$n = rand(0, $alphaLength);
 			$pass[] = $alphabet[$n];
 		}
-		return implode($pass); //turn the array into a string
+		return implode($pass); 
 	}
 
-	function _eseguiQuery($con, $sql){
+	function _eseguiQuery($con, $sql){//FUNZIONE PER L'ESECUZIONE DI QUERY (RITORNA UN ARRAY DI JSON)
 		try{
 			$rs=$con->query($sql);
 		}
@@ -52,24 +53,22 @@
 	
 	function _checkSession($key){
 		session_start();
-		if (!isset($_SESSION[$key]))
+		if (!isset($_SESSION[$key]))//SESSIONE INESISTENTE
 		{			
-			// Il server NON può spedire una pagina HTML !!
 			http_response_code(403);
 			die("Sessione scaduta");
 		}
-		else if (!isset($_SESSION["scadenza"]) || time() > $_SESSION["scadenza"] )
+		else if (!isset($_SESSION["scadenza"]) || time() > $_SESSION["scadenza"] )//SESSIONE SCADUTA
 		{
 			_terminateSession();
 		}
-		else{
+		else{//AGGIORNAMENTO COOKIE
 			$_SESSION["scadenza"] = time() + SCADENZA;
-			// Salvo la sessione all'interno dei cookie
 			setcookie(session_name(), session_id(), $_SESSION["scadenza"], "/");
 		}		
 	}
 
-	function _terminateSession(){
+	function _terminateSession(){//FUNZIONE PER TERMINARE LA SESSIONE E CANCELLARE I COOKIE
 		session_unset();
 		session_destroy();
 		http_response_code(403);
