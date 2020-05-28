@@ -124,7 +124,7 @@ header {
 .sq {
     box-shadow: 0 0.5rem 0.75rem -0.25rem rgba(39, 48, 54, 0.05);
     background: #fff;
-    border-radius: .75rem;
+    border-radius: .5rem;
     text-align: center;
 }
 
@@ -132,7 +132,7 @@ header {
     height: 8vh;
     position: relative;
     width: 90vw;
-    border-radius: .75rem;
+    border-radius: .5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -213,6 +213,10 @@ header {
     display: block;
 }
 
+.close-btn:hover{
+    cursor: pointer;
+}
+
 .backdrop.modal .close-btn {
     display: block;
     position: absolute;
@@ -280,7 +284,7 @@ header {
     line-height: normal;
     font-size: 3vh;
     background-color: #652d92;
-    border-radius: .75rem;
+    border-radius: .5rem;
     color: #fff;
     position: relative;
     opacity: 1;
@@ -291,7 +295,7 @@ header {
 }
 
 .event .badge {
-    border-radius: .75rem !important;
+    border-radius: .25rem !important;
     transition: background-color .4s;
 }
 
@@ -393,7 +397,7 @@ textarea {
     height: 20vh;
     border: 1px solid #652d92;
     margin: 5% 4%;
-    border-radius: .75rem;
+    border-radius: .5rem;
     padding: 2%;
 }
 
@@ -423,8 +427,10 @@ input[type=text]:focus, input[type=password]:focus, select:focus, input[type=dat
     transition: color .25s;
 }
 
-.login-login .alert {
+.login-login .fail-alert,.login-login .success-alert {
     font-size: .9em;
+    margin: 1vh auto;
+    padding: 1vh;
 }
 
 .btn-grad:hover {
@@ -579,6 +585,7 @@ label[for=chkRM] {
     border: 1px solid #555;
     padding: 2vh 5vw;
     margin-top: 2%;
+    height:fit-content;
     transition: all .25s;
 }
 

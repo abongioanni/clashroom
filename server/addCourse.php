@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         http_response_code(401);    //ERRORE NELLA QUERY
         die("errore");
     } else {
-        $sql = "SELECT max(id) FROM courses;";  //RITORNO IL CORSO APPENA INSERITO
+        $sql = "SELECT * FROM courses WHERE id=(SELECT max(id) FROM courses);";  //RITORNO IL CORSO APPENA INSERITO
         $data = _eseguiQuery($con, $sql);
         $data["creatorId"]=$nomeT;
         echo json_encode($data[0]);

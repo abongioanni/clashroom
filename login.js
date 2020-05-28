@@ -222,12 +222,7 @@ $(document).ready(function () {
 		});
 	}
 
-
-
-
-
 	startApp();
 	$("html").fadeIn(500);
-
 
 });
