@@ -4,7 +4,7 @@ require("_libreria.php");
 
 _checkSession("user");
 
-if (!isset($_POST["courseId"])) {
+if (!isset($_REQUEST["courseId"])) {
     http_response_code(422);
     die("Parametro mancante.");
 }
@@ -13,7 +13,7 @@ if (!isset($_POST["courseId"])) {
 //- ID CORSO
 
 $con = _connection("clashroom");
-$courseId = $con->real_escape_string($_POST["courseId"]);
+$courseId = $con->real_escape_string($_REQUEST["courseId"]);
 $user = $_SESSION["user"];
 $id = $user["id"];
 

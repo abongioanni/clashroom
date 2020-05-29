@@ -29,7 +29,7 @@ $(document).ready(function () {
 				$("#signCognome").val(profile.getFamilyName());
 				$("#signNome").val(profile.getGivenName());
 			}, function (error) {
-			});
+		});
 	}
 
 	$(_btnLogin).on("click", function () {
@@ -53,6 +53,7 @@ $(document).ready(function () {
 			_email.addClass("error")
 		}
 		else {
+			$(_lblError).slideUp(200)
 			$("#forgot").off();
 			let em = $(_email).val();
 			let up_ = inviaRichiesta("POST", "server/sendMailToResetPassword.php", { "email": em });

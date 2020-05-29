@@ -1,4 +1,9 @@
 <html lang="it">
+<?php
+    require "server/_libreria.php";
+    _checkSession("user");
+    $user = $_SESSION["user"];
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -17,20 +22,19 @@
     <link rel="stylesheet" type="text/css" href="main.css" />
     <script type="application/javascript" src="common.js"></script>
     <script type="application/javascript" src="home.js"></script>
-    <?php
-        require "server/_libreria.php";
-        _checkSession("user");
-        $user = $_SESSION["user"];
-    ?>
+    <script>
+        let isStudent = <?php echo ($user['st'] != '0' ? "true" : "false"); ?>;
+    </script>
 </head>
 
-<body style="min-height: 1700px;" class="container-fluid">
-    <div class="fas fa-sign-out-alt" id="signOut"></div>
-    <div id="h" class="row">
+<body class="container-fluid">
+    <div class="fas fa-sign-out-alt"></div>
+    <div id="h">
         <div class="col-sm-12 justify-content-center">
             <h3 class="logo">Hi, <?php echo $user["nome"]; ?></h3>
+            <span class="icon"><i class="fas fa-bars"></i></span>
         </div>
-        <nav class="col-sm-12 responsive-navbar justify-content-center" style="margin-left:0">
+        <nav class="col-sm-12 responsive-navbar justify-content-center">
             <div class="links-wrapper active">
                 <ul class="links">
                     <li><a name="oggi">Today</a></li>
@@ -41,6 +45,12 @@
                 </ul>
             </div>
         </nav>
+        <div class="responsive-menu">
+            <div class="close-btn"><i class="fas fa-times"></i></div>
+            <ul id="menuNavbar" class="links justify-content-center">
+
+            </ul>
+        </div>
     </div>
     <header>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -53,46 +63,37 @@
         <div id="modalAdd" class="sq row">
             <div class="close-btn"><i class="fas fa-times"></i></div>
             <?php
-
             if ($user["st"] != "0") { //MODIFICO L'INTERFACCIA IN BASE AL TIPO DI UTENZA
                 echo "<section class='add-wrapper col-sm-12 justify-content-center'>
-                            <div class='row add'>
-                                <div class='col-sm-5 add-part' style='margin-bottom:10%;'>
-                                    <span class='add-title col-sm-12' style='height:7vh;margin-bottom:5vh;'>Course</span>
-                                    <span class='col-sm-2' style='height:fit-content;'>Code: </span>
-                                    <input class='col-sm-5' type='number' id='nNomeCorso' style='margin-top:0%;margin-bottom:5%;' placeholder='Course code'>
-                                    <span class='btn-grad sq col-sm-6' id='btnAddCourseStud' style='text-align:center;height:fit-content;'>Add</span>
-                                </div>
-                                <div class='col-sm-6 justify-content-center'>
-                                    <span class='col-sm-12 sq neutral-alert' id='addResults'>Enter the course code to register!</span>
-                                </div>
+                        <div class='row add'>
+                            <div class='col-sm-6 row'>
+                                <span class='add-title col-sm-12' style='height:7vh;margin-bottom:5vh;'>Course</span>
+                                <span class='col-sm-2' style='height:fit-content;'>Code: </span>
+                                <input class='col-sm-5' type='number' id='nNomeCorso' style='margin-top:0%;margin-bottom:5%;' placeholder='Course code'>
+                                <span class='btn-grad sq col-sm-3' id='btnAddCourseStud' style='text-align:center;height:fit-content;'>Add</span>
+                                <span class='col-sm-12 sq neutral-alert' id='addResults'>Enter the course code to register!</span>
                             </div>
-                        </section>
-                        <script>
-                            function deleteCourse(_course){
-                                let deleteSub_=inviaRichiesta('POST','',{});
-                                
-                            }
-                        </script>";
+                        </div>
+                    </section>";
             } else {
                 echo "<section class='add-wrapper col-sm-12 justify-content-center'>
-                            <div class='row add'>
-                                <div class='col-sm-6 add-part row'>
-                                    <span class='add-title col-sm-12' style='height:7vh;margin-bottom:5vh;'>Course</span>
-                                    <span class='col-sm-2' style='height:fit-content;'>Name: </span>
-                                    <input class='col-sm-5' type='text' id='txtNomeCorso' style='margin-top:0%;margin-bottom:5%;' placeholder='Course name'>
-                                    <span class='btn-grad sq col-sm-3' id='btnAddCourse' style='text-align:center;height:fit-content;'>Add</span>
-                                    <span class='col-sm-12'></span>
-                                    <span class='col-sm-10 sq neutral-alert' id='addResults'>Enter the datas to create a new course or a new event!</span>
-                                </div>
+                        <div class='row add'>
+                            <div class='col-sm-6 add-part row' style='padding-right:2%'>
+                                <span class='add-title col-sm-12' style='height:7vh;margin-bottom:5vh;'>Course</span>
+                                <span class='col-sm-2' style='height:fit-content;'>Name: </span>
+                                <input class='col-sm-5' type='text' id='txtNomeCorso' style='margin-top:0%;margin-bottom:5%;' placeholder='Course name'>
+                                <span class='btn-grad sq col-sm-3' id='btnAddCourse' style='text-align:center;height:fit-content;'>Add</span>
+                                <span class='col-sm-12'></span>
+                                <span class='col-sm-10 sq neutral-alert' id='addResults'>Enter the datas to create a new course or a new event!</span>
                             </div>
-                        </section>";
+                        </div>
+                    </section>";
             }
             ?>
         </div>
     </div>
     <!--responsive menu-->
-    <div class="main col-sm-12">
+    <div class="main">
         <section class="row day-wrapper">
             <div class="col-sm-1" style="padding-left:0"></div>
             <div class="col-sm-7 day">
@@ -113,13 +114,16 @@
         <!--delete profile-->
         <section id="settings" class="course-wrapper justify-content-center container-fluid">
             <span class="courses-title">Settings</span>
-            <div class="courses row sq">
-                <span class="col-sm-2 text-center sq fail-alert">Delete profile</span>
-                <span class="col-sm-2 text-center sq success-alert">Change password</span>
-                <div class="row">
-                    <input class="col-sm-8" type="password" name="password" id="changePwd" placeholder="Password"><br>
-                    <input class="col-sm-8" type="password" name="password" id="changePwdConfirm" placeholder="Confirm password"><br>
+            <div class="courses row sq" style="display: flex;align-items:center">
+                <span class="col-sm-12" style="font-size:4vh;text-align:left">Change password</span>
+                <div class="row col-sm-5">
+                    <input class="col-sm-10" type="password" name="password" id="changePwd" placeholder="Password"><br>
+                    <input class="col-sm-10" type="password" name="password" id="changePwdConfirm" placeholder="Confirm password"><br>
                 </div>
+                <span class="col-sm-2 text-center sq success-alert">Change password</span>
+                <span class="col-sm-12"></span>
+                <p class="col-sm-5 row" style="padding:2vw;">Deleting your account you will lose all your datas (events, courses and uploaded files).</p>
+                <span class="col-sm-2 text-center sq fail-alert">Delete profile</span>
 
             </div>
 

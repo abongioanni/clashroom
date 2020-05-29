@@ -55,6 +55,37 @@ function checkPassword(password) {
     return regularExpression.test(password);
 }
 
+//GESTIONE DATE
+function isToday(date) {
+    let d = new Date(date);
+    let t = getToday();
+    return ($(".day-visible").text().toUpperCase() == "TODAY") &&
+        (d.getFullYear() == t.year && pad(d.getMonth() + 1) == t.month && pad(d.getDate()) == t.day);
+}
+
+function isTomorrow(date) {
+    let d = new Date(date);
+    let t = getToday();
+    return ($(".day-visible").text().toUpperCase() == "TOMORROW") &&
+        (d.getFullYear() == t.year && pad(d.getMonth() + 1) == t.month && pad(d.getDate()) == pad(parseInt(t.day) + 1));
+}
+
+function getToday() {
+    var today = new Date();
+    var dd = pad(parseInt(today.getDate()));
+    var mm = pad(parseInt(today.getMonth() + 1)); //January is 0!
+    var yyyy = parseInt(today.getFullYear());
+    return {
+        "day": dd,
+        "month": mm,
+        "year": yyyy
+    };
+}
+
+function pad(s) {
+    return (s > 10 ? "" : "0") + s;
+}
+
 //SEXIONE INVIO NOTIFICA (INUTILIZZATO)
 function sendNotification(title, text, icon) {
     if (Notification.permission === "granted") {

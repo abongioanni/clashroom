@@ -1,5 +1,11 @@
 <html lang="it">
 
+<?php
+    require "server/_libreria.php";
+    _checkSession("user");
+    $user = $_SESSION["user"];
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,17 +35,16 @@
                 </path>
             </svg>
         </header>
-        <div class="main">
+        <div class="main" style="margin-top:5vh;">
             <section id="settings" class="course-wrapper justify-content-center container-fluid">
-                <span class="courses-title">Settings</span>
-                <div class="courses row sq">
-                    <span class="col-sm-2 text-center sq success-alert">Change password</span>
-                    <div class="row">
-                        <input class="col-sm-8" type="password" name="password" id="changePwd"
-                            placeholder="Password"><br>
-                        <input class="col-sm-8" type="password" name="password" id="changePwdConfirm"
-                            placeholder="Confirm password"><br>
+                <span class="courses-title"><?php echo "Welcome ".$user["nome"]?></span>
+                <div class="courses row sq" style="display: flex;align-items:center">
+                    <span class="col-sm-12" style="font-size:4vh;text-align:left">Change password - <?php echo $user["email"]?></span>
+                    <div class="row col-sm-5">
+                        <input class="col-sm-10" type="password" name="password" id="changePwd" placeholder="Password"><br>
+                        <input class="col-sm-10" type="password" name="password" id="changePwdConfirm" placeholder="Confirm password"><br>
                     </div>
+                    <span class="col-sm-2 text-center sq success-alert">Change password</span>
                 </div>
 
             </section>

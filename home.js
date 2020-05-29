@@ -5,16 +5,67 @@ $(document).ready(function () {
     let _day = $(".day").eq(0);
     let _coursesWrapper = $(".courses").eq(0);
     let _modalB = $(".backdrop.modal").hide();
+    let _openIcon = $(".icon");
+    let _linksList = $(".links-wrapper ul");
+    let _closeIcon = $(".close-btn");
+    let _responsiveLinks = $("#menuNavbar");
 
     $("html").hide();
 
-    $("#signOut").on("click", function () {//BOTTONE DI LOGOUT
+    //LINKS UPDATE
+    $(_responsiveLinks).children().remove();
+    $(_linksList).find("li a").each(function () {
+        $("<li>", {
+            appendTo: _responsiveLinks,
+            append: $(this).clone().on("click", () => {
+                $(_responsiveLinks).parent().removeClass("open");
+            })
+        }); //AGGIORNAMENTO DEL MENU' RESPONSIVE
+    });
+
+    //EVENT PER LO SCROLL DELLA PAGINA SUGLI ANCHOR
+    $(_responsiveLinks).append("<li style='height:10vh;'><a class='fas fa-sign-out-alt'></a></li>");
+    document.querySelectorAll('a[href^="#"]').forEach(_anchor => {
+        $(_anchor).on('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    //RESPONSIVE MENU'
+    $(_openIcon).on("click", () => {
+        $(_responsiveLinks).parent().addClass("open");
+        $(_responsiveLinks).animate({ opacity: 1 }, 125);
+    });
+    $(_closeIcon).on("click", () => {
+        $(_responsiveLinks).animate({ opacity: 0 }, 125, () => {
+            $(_responsiveLinks).parent().removeClass("open");
+        });
+    });
+
+    //LINK EVENTS
+    $(".links li a[name=add]").on("click", function () {
+        $(_modalB).children().fadeIn(200)
+        $(_modalB).fadeIn(200)
+    });
+    $(".links li a[name=oggi]").on("click", function () {
+        setEvents();
+        $(_day).find("span").removeClass("day-visible").eq(0).addClass("day-visible")
+    })
+    $(".links li a[name=domani]").on("click", function () {
+        setEvents();
+        $(_day).find("span").removeClass("day-visible").eq(1).addClass("day-visible")
+    })
+
+    //BOTTONI DI LOGOUT
+    $(".fa-sign-out-alt").on("click", function () {
         let signOut_ = inviaRichiesta("POST", "server/logout.php", {});
         signOut_.fail(redirect);
     });
 
-
-    //EVENTI ADD
+    //SUB ADD
     $("#btnAddCourseStud").on("click", function () {
         $("#nNomeCorso").removeClass("error");
         if ($("#nNomeCorso").val() == "") {
@@ -38,6 +89,7 @@ $(document).ready(function () {
         }
     });
 
+    //COURSE ADD
     $("#btnAddCourse").on("click", function () {
         $("#txtNomeCorso").removeClass("error");
         if ($("#txtNomeCorso").val() == "") {
@@ -50,36 +102,21 @@ $(document).ready(function () {
             $("#txtNomeCorso").val("");
             addCourse_.done(function (data) {
                 $("#cmbCourse").append($("<option>", {
-                    value: data["id"],
-                    text: data["nome"]
-                }))
-                $(_coursesWrapper).append(
-                    $("<div>", {
-                        appendTo: _coursesWrapper,
-                        addClass: "sq course",
-                        append: [
-                            $("<span>", {
-                                addClass: "course-name",
-                                text: data["data"]["nome"],
-                            }),
-                            $("<span>", {
-                                addClass: "course-teacher",
-                                text: "Teacher: " + data["teachers"]["cognome"] + " " + data["teachers"]["nome"],
-                            }),
-                            $("<span>", {
-                                addClass: "course-id",
-                                text: "Code: " + data["data"]["id"],
-                            })
-                        ]
-                    })
-                )
+                    value: data["data"]["id"],
+                    text: data["data"]["nome"]
+                }));
+                setCourses();
+                if ($(".add").find(".add-part").length == 1) {
+                    setTeacherInterface();
+                }
+                modalClose();
             })
-            addCourse_.fail(redirect)
+            addCourse_.fail(redirect);
         }
     });
 
     //CONTROLLO SE L'INSEGNANTE HA GIA' CREATO ALMENO UN'EVENTO
-    setTeacherInterface();
+    if(!isStudent)setTeacherInterface();
 
     //IMPOSTO CORSI ED EVENTI
     setCourses();
@@ -93,181 +130,15 @@ $(document).ready(function () {
         }
     });
 
-    $(".links li a[name=add]").on("click", function () {
-        $(_modalB).children().fadeIn(200)
-        $(_modalB).fadeIn(200)
-    });
-
+    //GESTIONE MODALE
     $(_modalB).find(".close-btn").on("click", modalClose)
-
-    $(".links li a[name=oggi]").on("click", function () {
-        setEvents();
-        $(_day).find("span").removeClass("day-visible").eq(0).addClass("day-visible")
-    })
-    $(".links li a[name=domani]").on("click", function () {
-        setEvents();
-        $(_day).find("span").removeClass("day-visible").eq(1).addClass("day-visible")
-    })
 
     function modalClose() {
         $(_modalB).children().fadeOut(200)
         $(_modalB).fadeOut(200)
     }
 
-    function setCourses() {
-        let courses_ = inviaRichiesta("POST", "server/getCourses.php");
-        courses_.done(function (data) {
-            $(_coursesWrapper).html("");
-            if (data["data"].length == 0) {
-                $("<span>", {
-                    appendTo: _coursesWrapper,
-                    text: "You have not yet enrolled in any courses!",
-                    addClass: "row justify-content-center",
-                    css: {
-                        marginTop: "9vh"
-                    }
-                })
-            }
-            for (let i = 0; i < data["data"].length; i++) {
-                course(data, i).appendTo(_coursesWrapper);
-            }
-        })
-        courses_.fail(redirect)
-    }
-
-    function setEvents() {
-        let events_ = inviaRichiesta("POST", "server/getEvents.php");
-        events_.done(function (data) {
-            let ok = true
-            $(_timeline).children().slideUp(400).fadeOut(400);
-            for (let i = 0; i < data["data"].length; i++) {
-                $(_timeline).css({
-                    minHeight: "0",
-                });
-                if (isToday(data["data"][i]["do"]) || isTomorrow(data["data"][i]["do"])) {
-                    let l = event(data["data"][i], data["teachers"][i]).hide();
-                    $(_timeline).append(l);
-                    $(l).fadeIn(200);
-                    ok = false;
-                }
-            }
-            if (ok) {
-                $(_timeline).css({
-                    minHeight: "20vh",
-                });
-                $("<span>", {
-                    appendTo: _timeline,
-                    text: "You don't have any events " + $(".day-visible").text() + "!",
-                    addClass: "row justify-content-center",
-                    css: {
-                        marginTop: "9vh"
-                    },
-                    id: "noEvents"
-                }).hide().fadeIn(200);
-            }
-        })
-        events_.fail(redirect)
-    }
-
-    function isToday(date) {
-        let d = new Date(date);
-        let t = getToday();
-        return ($(".day-visible").text().toUpperCase() == "TODAY") &&
-            (d.getFullYear() == t.year && pad(d.getMonth() + 1) == t.month && pad(d.getDate()) == t.day);
-    }
-
-    function isTomorrow(date) {
-        let d = new Date(date);
-        let t = getToday();
-        return ($(".day-visible").text().toUpperCase() == "TOMORROW") &&
-            (d.getFullYear() == t.year && pad(d.getMonth() + 1) == t.month && pad(d.getDate()) == pad(parseInt(t.day) + 1));
-    }
-
-    function getToday() {
-        var today = new Date();
-        var dd = pad(parseInt(today.getDate()));
-        var mm = pad(parseInt(today.getMonth() + 1)); //January is 0!
-        var yyyy = parseInt(today.getFullYear());
-        return {
-            "day": dd,
-            "month": mm,
-            "year": yyyy
-        };
-    }
-
-    function pad(s) {
-        return (s > 10 ? "" : "0") + s;
-    }
-
-    function course(data, i) {
-        let _course = $("<div>", {
-            addClass: "sq course",
-            append: [
-                $("<span>", {
-                    addClass: "course-name",
-                    text: data["data"][i]["nome"],
-                }),
-                $("<span>", {
-                    addClass: "course-teacher",
-                    text: "Teacher: " + data["teachers"][i]["cognome"] + " " + data["teachers"][i]["nome"],
-                }),
-                $("<span>", {
-                    addClass: "course-id",
-                    text: "Code: " + data["data"][i]["id"],
-                }),
-                $("<span>",{
-                    addClass:"close-btn",
-                    css:{
-                        position:"absolute",
-                        top:"10%",
-                        right:"2%",
-                        fontSize: "2vh"
-                    },
-                    html:"<i class='fas fa-times'></i>",
-                    click: function () {
-                        if (confirm("Do you want to delete this element?")) {
-                            deleteCourse(_course);
-                        }
-                    }
-                })
-            ],
-        });
-        return _course;
-    }
-
-    function event(data, teacher) {
-        let d = new Date(data["do"]);
-        return $("<div>", {
-            addClass: "row event",
-            append: [
-                $("<div>", {
-                    addClass: "col-sm-2 text-center",
-                    text: d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear() + " - " + d.getHours() + ":" + pad(d.getMinutes()),
-                    name: "orario",
-                }),
-                $("<div>", {
-                    addClass: "col-sm-3 text-center",
-                    text: teacher["cognome"] + " " + teacher["nome"],
-                    name: "teacher"
-                }),
-                $("<div>", {
-                    addClass: "col-sm-3 text-center",
-                    text: data["courseId"],
-                    name: "materia"
-                }),
-                $("<div>", {
-                    addClass: "col-sm-3 text-center",
-                    text: data["argomento"],
-                    name: "argomento"
-                }),
-                $("<input>", {
-                    type: "hidden",
-                    value: data["id"]
-                })
-            ],
-        })
-    }
-
+    //SE E' GIA' STATO CREATO ALMENO UN CORSO AGGIUNGO LA PARTE PER LA CREAZIONE DEGLI EVENTI
     function setTeacherInterface() {
         let courses_ = inviaRichiesta("POST", "server/getCourses.php");
         courses_.done(function (data) {
@@ -341,15 +212,21 @@ $(document).ready(function () {
                                 placeholder: "Write the topic of the event",
                             }),
                             $("<span>", {
-                                addClass: "col-sm-4"
+                                addClass: "btn-grad sq col-sm-4",
+                                html:"<i class='fas fa-upload'></i> Upload",
+                                css:{
+                                    height:"fit-content"
+                                }
                             }),
                             $("<span>", {
                                 addClass: "btn-grad sq col-sm-6",
                                 text: "Add",
                                 css: {
+                                    verticalAlign: "middle",
                                     textAlign: "center",
                                     marginLeft: "2%",
-                                    marginBottom: "5%"
+                                    marginBottom: "5%",
+                                    height:"fit-content"
                                 },
                                 click: function () {
                                     $("#cmbCourse").removeClass("error");
@@ -372,9 +249,7 @@ $(document).ready(function () {
                                         });
                                         $("textarea").val("");
                                         addEvent_.done(function (data) {
-                                            if (isToday(data["do"]) || isTomorrow(data["do"])) {
-                                                $(_timeline).append(event(data["data"], data["teachers"]));
-                                            }
+                                            setEvents();
                                         })
                                         addEvent_.fail(redirect)
                                     }
@@ -388,15 +263,174 @@ $(document).ready(function () {
         courses_.fail(redirect);
     }
 
+    function setCourses() {
+        let courses_ = inviaRichiesta("POST", "server/getCourses.php");
+        courses_.done(function (data) {
+            $(_coursesWrapper).html("");
+            if (data["data"].length == 0) {
+                $("<span>", {
+                    appendTo: _coursesWrapper,
+                    text: "You have not yet enrolled in any courses!",
+                    addClass: "row justify-content-center",
+                    css: {
+                        marginTop: "9vh"
+                    }
+                })
+            }
+            for (let i = 0; i < data["data"].length; i++) {
+                course(data["data"][i], data["teachers"][i]).appendTo(_coursesWrapper);
+            }
+        })
+        courses_.fail(redirect)
+    }
+
+    function setEvents() {
+        let events_ = inviaRichiesta("POST", "server/getEvents.php");
+        events_.done(function (data) {
+            let ok = true
+            $(_timeline).children().slideUp(400).fadeOut(400);
+            for (let i = 0; i < data["data"].length; i++) {
+                $(_timeline).css({
+                    minHeight: "0",
+                });
+                if (isToday(data["data"][i]["do"]) || isTomorrow(data["data"][i]["do"])) {
+                    let l = event(data["data"][i], data["teachers"][i]).hide();
+                    $(_timeline).append(l);
+                    $(l).fadeIn(200);
+                    ok = false;
+                }
+            }
+            if (ok) {
+                $(_timeline).css({
+                    minHeight: "20vh",
+                });
+                $("<span>", {
+                    appendTo: _timeline,
+                    text: "You don't have any events " + $(".day-visible").text() + "!",
+                    addClass: "row justify-content-center",
+                    css: {
+                        marginTop: "9vh"
+                    },
+                    id: "noEvents"
+                }).hide().fadeIn(200);
+            }
+        })
+        events_.fail(redirect)
+    }
+
     function deleteCourse(_course) {
         let courseId = $(_course).find(".course-id").eq(0).text().split(": ")[1];
         let deleteSub_ = inviaRichiesta('POST', 'server/deleteSubCourse.php', { "courseId": courseId });
         deleteSub_.done(function (data) {
-            $(_course).remove()
-            for (let i = 0; i < data.length; i++) {
-                $(".event input[value=" + data[i]["id"] + "]").remove();
-            }
+            $(_course).fadeOut(200, function () {
+                $(_course).remove()
+                for (let i = 0; i < data.length; i++) {
+                    $(".event input[value=" + data[i]["id"] + "]").remove();
+                }
+                $("#cmbCourse").find("option[value=" + courseId + "]").remove();
+                if ($(_coursesWrapper).find(".course").length == 0) {
+                    $(".add").find(".add-part").eq(1).remove();
+                }
+                setCourses();
+            });
         })
+    }
+
+    function deleteEvent(_event){
+        let eventId = $(_event).find("input[type=hidden]").eq(0).val();
+        let deleteEvent_ = inviaRichiesta('POST', 'server/deleteEvent.php', { "eventId": eventId });
+        deleteEvent_.done(function (data) {
+            $(_event).fadeOut(200, function () {
+                $(_event).remove()
+                setEvents();
+            });
+        });
+
+    }
+
+    function course(data, t) {
+        let _course = $("<div>", {
+            addClass: "sq course",
+            append: [
+                $("<span>", {
+                    addClass: "course-name",
+                    text: data["nome"],
+                }),
+                $("<span>", {
+                    addClass: "course-teacher",
+                    text: "Teacher: " + t["cognome"] + " " + t["nome"],
+                }),
+                $("<span>", {
+                    addClass: "course-id",
+                    text: "Code: " + data["id"],
+                }),
+                $("<span>", {
+                    addClass: "close-btn",
+                    css: {
+                        position: "absolute",
+                        top: "10%",
+                        right: "2%",
+                        fontSize: "2vh"
+                    },
+                    html: "<i class='fas fa-times'></i>",
+                    click: function () {
+                        if (confirm("Do you want to delete this element?")) {
+                            deleteCourse(_course);
+                        }
+                    }
+                })
+            ],
+        });
+        return _course;
+    }
+
+    function event(data, teacher) {
+        let d = new Date(data["do"]);
+        let _event= $("<div>", {
+            addClass: "row event",
+            append: [
+                $("<div>", {
+                    addClass: "col-sm-2 text-center",
+                    text: d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear() + " - " + d.getHours() + ":" + pad(d.getMinutes()),
+                    name: "orario",
+                }),
+                $("<div>", {
+                    addClass: "col-sm-3 text-center",
+                    text: teacher["cognome"] + " " + teacher["nome"],
+                    name: "teacher"
+                }),
+                $("<div>", {
+                    addClass: "col-sm-3 text-center",
+                    text: data["courseId"],
+                    name: "materia"
+                }),
+                $("<div>", {
+                    addClass: "col-sm-3 text-center",
+                    text: data["argomento"],
+                    name: "argomento"
+                }),
+                $("<input>", {
+                    type: "hidden",
+                    value: data["id"]
+                }),
+                (!isStudent?$("<span>", {
+                    addClass: "close-btn",
+                    css: {
+                        position: "absolute",
+                        top: "10%",
+                        right: "2%",
+                        fontSize: "2vh"
+                    },
+                    html: "<i class='fas fa-times'></i>",
+                    click: function () {
+                        if (confirm("Do you want to delete this element?")) {
+                            deleteEvent(_event);
+                        }
+                    }
+                }):"")
+            ],
+        })
+        return _event;
     }
 
     setTimeout(function () { $("html").fadeIn(500) }, 1000);
