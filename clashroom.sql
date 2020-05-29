@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 23, 2020 alle 10:25
+-- Creato il: Mag 29, 2020 alle 14:54
 -- Versione del server: 10.4.11-MariaDB
--- Versione PHP: 7.4.5
+-- Versione PHP: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,15 +35,6 @@ CREATE TABLE `courses` (
   `creatorId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dump dei dati per la tabella `courses`
---
-
-INSERT INTO `courses` (`id`, `nome`, `creatorId`) VALUES
-(1, 'Informatica', 1),
-(2, 'Sistemi', 1),
-(3, 'Italiano', 2);
-
 -- --------------------------------------------------------
 
 --
@@ -58,17 +49,6 @@ CREATE TABLE `events` (
   `courseId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dump dei dati per la tabella `events`
---
-
-INSERT INTO `events` (`id`, `argomento`, `do`, `teacherId`, `courseId`) VALUES
-(10, 'Reti prova', '2020-05-18 10:50:00', 1, 2),
-(11, 'Interrogazione e verifica di recupero', '2020-05-21 12:30:00', 1, 1),
-(12, 'Interrogazione e verifica di recupero', '2020-05-21 12:30:00', 1, 1),
-(13, 'Interrogazione e verifica di recupero', '2020-05-21 12:30:00', 1, 1),
-(14, 'Interrogazione e verifica di recupero', '2020-05-20 12:30:00', 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -80,13 +60,6 @@ CREATE TABLE `studsub` (
   `studId` int(11) NOT NULL,
   `courseId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `studsub`
---
-
-INSERT INTO `studsub` (`id`, `studId`, `courseId`) VALUES
-(15, 7, 2);
 
 -- --------------------------------------------------------
 
@@ -140,25 +113,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT per la tabella `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `studsub`
 --
 ALTER TABLE `studsub`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
