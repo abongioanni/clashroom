@@ -41,7 +41,7 @@
                     <li><a name="domani">tomorrow</a></li>
                     <li><a name="change" href="#coursesW">courses</a></li>
                     <li><a name="add">add</a></li>
-                    <li><a name="settings" href="#settings">Settings</a></li>
+                    <li><a name="settings" href="#settings">Settings</a></li>                    
                 </ul>
             </div>
         </nav>
@@ -99,8 +99,11 @@
             <div class="col-sm-7 day">
                 <span class="day-visible">Today</span>
                 <span>Tomorrow</span>
+                <span class="custom-day"></span>
             </div>
-            <div class="col-sm-4"></div>
+            <div class="col-sm-4" style="display:flex;align-items:center;">
+                <input id="calendar" type="date" style="background-color:transparent;border:none;">
+            </div>
         </section>
         <!--event list-->
         <section class="timeline-wrapper row justify-content-center">

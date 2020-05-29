@@ -171,7 +171,7 @@ header {
     margin: .5vh 1vw;
 }
 
-.links li a {
+.links li a,.links li label {
     padding: 5px 0;
     position: relative;
     display: block;
@@ -183,13 +183,13 @@ header {
     text-transform: uppercase;
 }
 
-.links li a:hover {
+.links li a:hover, .links li label:hover{
     color: #fff !important;
     z-index: 1;
     cursor: pointer;
 }
 
-.open .links li a{
+.open .links li a,.open .links li label{
     color:#000;
     text-align: center;
     height:10vh;
@@ -455,8 +455,12 @@ input[type=text], input[type=password], select, input[type=datetime-local], inpu
     border-bottom: 2px solid #652d92;
 }
 
-input[type=text]:focus, input[type=password]:focus, select:focus, input[type=datetime-local]:focus, input[type=number]:focus {
+input[type=text]:focus,input[type=date]:focus, input[type=password]:focus, select:focus, input[type=datetime-local]:focus, input[type=number]:focus {
     outline: none !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator{
+    color:#fff
 }
 .login-login #password{
     margin-bottom:2%
@@ -754,7 +758,7 @@ label[for=chkRM] {
         height: 65vh;
         background-position: right;
     }
-    .links li a {
+    .links li a,.links li label {
         font-size: 4vw;
     }
     .fas.fa-sign-out-alt {

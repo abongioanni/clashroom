@@ -70,6 +70,16 @@ function isTomorrow(date) {
         (d.getFullYear() == t.year && pad(d.getMonth() + 1) == t.month && pad(d.getDate()) == pad(parseInt(t.day) + 1));
 }
 
+function isDate(date,dateString){
+    let d = new Date(date);
+    let t = new Date(dateString);
+    return ($(".custom-day").hasClass("day-visible") &&
+        (d.getFullYear() == parseInt(t.getFullYear()) &&
+        pad(d.getMonth() + 1) == pad(parseInt(t.getMonth() + 1)) && 
+        pad(d.getDate()) == pad(parseInt(t.getDate()))
+    ));
+}
+
 function getToday() {
     var today = new Date();
     var dd = pad(parseInt(today.getDate()));

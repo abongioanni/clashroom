@@ -56,6 +56,7 @@
 		if (!isset($_SESSION[$key]))//SESSIONE INESISTENTE
 		{			
 			http_response_code(403);
+			header("Location: ./login.html");
 			die("Sessione scaduta");
 		}
 		else if (!isset($_SESSION["scadenza"]) || time() > $_SESSION["scadenza"] )//SESSIONE SCADUTA
@@ -72,6 +73,7 @@
 		session_unset();
 		session_destroy();
 		http_response_code(403);
+		header("Location: ./login.html");
 		die("Sessione scaduta");
 	}
 ?>

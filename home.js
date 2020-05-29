@@ -52,11 +52,18 @@ $(document).ready(function () {
     });
     $(".links li a[name=oggi]").on("click", function () {
         setEvents();
-        $(_day).find("span").removeClass("day-visible").eq(0).addClass("day-visible")
+        $(_day).find("span").removeClass("day-visible")
+        $(_day).find("span").eq(0).addClass("day-visible")
     })
     $(".links li a[name=domani]").on("click", function () {
         setEvents();
-        $(_day).find("span").removeClass("day-visible").eq(1).addClass("day-visible")
+        $(_day).find("span").removeClass("day-visible")
+        $(_day).find("span").eq(1).addClass("day-visible")
+    })
+    $("#calendar").on("change",function(){
+        setEvents();
+        $(_day).find("span").removeClass("day-visible")
+        $(_day).find(".custom-day").addClass("day-visible").text($(this).val())
     })
 
     //BOTTONI DI LOGOUT
@@ -293,7 +300,7 @@ $(document).ready(function () {
                 $(_timeline).css({
                     minHeight: "0",
                 });
-                if (isToday(data["data"][i]["do"]) || isTomorrow(data["data"][i]["do"])) {
+                if (isToday(data["data"][i]["do"]) || isTomorrow(data["data"][i]["do"]) || isDate(data["data"][i]["do"],$(_day).find(".custom-day").addClass("day-visible").text())) {
                     let l = event(data["data"][i], data["teachers"][i]).hide();
                     $(_timeline).append(l);
                     $(l).fadeIn(200);
@@ -374,7 +381,7 @@ $(document).ready(function () {
                     },
                     html: "<i class='fas fa-times'></i>",
                     click: function () {
-                        if (confirm("Do you want to delete this element?")) {
+                        if (confirm(!isStudent?"Do you want to delete this element?":"Do you want to unsubscribe to this course?")) {
                             deleteCourse(_course);
                         }
                     }
