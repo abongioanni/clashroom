@@ -100,6 +100,7 @@
                 <span class="day-visible">Today</span>
                 <span>Tomorrow</span>
                 <span class="custom-day"></span>
+                <input type="hidden" id="selectedDay">
             </div>
             <div class="col-sm-4 justify-content-center" style="display:flex;align-items:center;">
                 <input id="calendar" type="date" style="background-color:transparent;border:none;">

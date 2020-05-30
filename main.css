@@ -655,7 +655,7 @@ label[for=chkRM] {
     color: #133b37;
     border: none;
     height: fit-content;
-    transition: box-shadow,color .25s;
+    transition: all .25s;
 }
 
 .success-alert:hover {
@@ -669,7 +669,7 @@ label[for=chkRM] {
     color: #360f14;
     border: none;
     height: fit-content;
-    transition: box-shadow,color .25s;
+    transition: all .25s;
 }
 
 .fail-alert:hover {

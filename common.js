@@ -9,6 +9,21 @@ function inviaRichiesta(method, url, parameters = "") { //WRAPPER DELLA FUNZIONE
     });
 }
 
+function inviaRichiestaMultipart(method, url, parameters=""){
+	return $.ajax({
+		type: method,         
+		url: url,
+		data: parameters,  
+			
+		contentType: false,   
+		processData: false,  
+		cache:false,		
+		
+		dataType: "json",     						
+		timeout : 5000,
+	});
+}	
+
 function redirect(jqXHR, test_status, str_error) {//CONTROLLO ERRORE MINIMO E REDIRECT A PAGINA DI LOGIN
     if (jqXHR.status == 403) {
         window.location.href = "login.html";
