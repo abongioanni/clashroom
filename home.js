@@ -60,7 +60,7 @@ $(document).ready(function () {
         $(_day).find("span").removeClass("day-visible")
         $(_day).find("span").eq(1).addClass("day-visible")
     })
-    $("#calendar").on("change",function(){
+    $("#calendar").on("change", function () {
         setEvents();
         $(_day).find("span").removeClass("day-visible")
         $(_day).find(".custom-day").addClass("day-visible").text($(this).val())
@@ -123,7 +123,7 @@ $(document).ready(function () {
     });
 
     //CONTROLLO SE L'INSEGNANTE HA GIA' CREATO ALMENO UN'EVENTO
-    if(!isStudent)setTeacherInterface();
+    if (!isStudent) setTeacherInterface();
 
     //IMPOSTO CORSI ED EVENTI
     setCourses();
@@ -220,9 +220,9 @@ $(document).ready(function () {
                             }),
                             $("<span>", {
                                 addClass: "btn-grad sq col-sm-4",
-                                html:"<i class='fas fa-upload'></i> Upload",
-                                css:{
-                                    height:"fit-content"
+                                html: "<i class='fas fa-upload'></i> Upload",
+                                css: {
+                                    height: "fit-content"
                                 }
                             }),
                             $("<span>", {
@@ -233,7 +233,7 @@ $(document).ready(function () {
                                     textAlign: "center",
                                     marginLeft: "2%",
                                     marginBottom: "5%",
-                                    height:"fit-content"
+                                    height: "fit-content"
                                 },
                                 click: function () {
                                     $("#cmbCourse").removeClass("error");
@@ -300,7 +300,7 @@ $(document).ready(function () {
                 $(_timeline).css({
                     minHeight: "0",
                 });
-                if (isToday(data["data"][i]["do"]) || isTomorrow(data["data"][i]["do"]) || isDate(data["data"][i]["do"],$(_day).find(".custom-day").addClass("day-visible").text())) {
+                if (isToday(data["data"][i]["do"]) || isTomorrow(data["data"][i]["do"]) || isDate(data["data"][i]["do"], $(_day).find(".custom-day").text())) {
                     let l = event(data["data"][i], data["teachers"][i]).hide();
                     $(_timeline).append(l);
                     $(l).fadeIn(200);
@@ -343,7 +343,7 @@ $(document).ready(function () {
         })
     }
 
-    function deleteEvent(_event){
+    function deleteEvent(_event) {
         let eventId = $(_event).find("input[type=hidden]").eq(0).val();
         let deleteEvent_ = inviaRichiesta('POST', 'server/deleteEvent.php', { "eventId": eventId });
         deleteEvent_.done(function (data) {
@@ -367,10 +367,10 @@ $(document).ready(function () {
                     addClass: "course-teacher",
                     text: "Teacher: " + t["cognome"] + " " + t["nome"],
                 }),
-                $("<span>", {
+                !isStudent ? $("<span>", {
                     addClass: "course-id",
                     text: "Code: " + data["id"],
-                }),
+                }) : "",
                 $("<span>", {
                     addClass: "close-btn",
                     css: {
@@ -381,11 +381,22 @@ $(document).ready(function () {
                     },
                     html: "<i class='fas fa-times'></i>",
                     click: function () {
-                        if (confirm(!isStudent?"Do you want to delete this element?":"Do you want to unsubscribe to this course?")) {
+                        if (confirm(!isStudent ? "Do you want to delete this element?" : "Do you want to unsubscribe to this course?")) {
                             deleteCourse(_course);
                         }
                     }
-                })
+                }),
+                !isStudent?$("<a>",{
+                    addClass: "share-btn",
+                    href:"mailto:?subject=Invito%20a%20partecipare%20al%20corso&body=Ecco%20il%20codice%20del%20corso:%20"+data["id"],
+                    css: {
+                        position: "absolute",
+                        bottom: "10%",
+                        right: "2%",
+                        fontSize: "2vh"
+                    },
+                    html: '<i class="fas fa-share-alt"></i>',
+                }):""
             ],
         });
         return _course;
@@ -393,7 +404,7 @@ $(document).ready(function () {
 
     function event(data, teacher) {
         let d = new Date(data["do"]);
-        let _event= $("<div>", {
+        let _event = $("<div>", {
             addClass: "row event",
             append: [
                 $("<div>", {
@@ -420,7 +431,7 @@ $(document).ready(function () {
                     type: "hidden",
                     value: data["id"]
                 }),
-                (!isStudent?$("<span>", {
+                (!isStudent ? $("<span>", {
                     addClass: "close-btn",
                     css: {
                         position: "absolute",
@@ -434,7 +445,7 @@ $(document).ready(function () {
                             deleteEvent(_event);
                         }
                     }
-                }):"")
+                }) : "")
             ],
         })
         return _event;

@@ -101,7 +101,7 @@
                 <span>Tomorrow</span>
                 <span class="custom-day"></span>
             </div>
-            <div class="col-sm-4" style="display:flex;align-items:center;">
+            <div class="col-sm-4 justify-content-center" style="display:flex;align-items:center;">
                 <input id="calendar" type="date" style="background-color:transparent;border:none;">
             </div>
         </section>

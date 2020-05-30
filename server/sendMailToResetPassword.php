@@ -24,32 +24,8 @@ $_SESSION["user"] = $user;
 $_SESSION["scadenza"] = time() + SCADENZA;
 setcookie(session_name(), session_id(), $_SESSION["scadenza"], "/");
 
-//VIENE CREATO L'OGGETTO MAIL
-$mail = new PHPMailer();
-$mail->isSMTP();
-$mail->SMTPDebug = 2;
-$mail->Debugoutput = 'html';
-$mail->Host = "smtp.gmail.com";
-$mail->SMTPSecure = 'tls';
-$mail->Port = 587;
-$mail->SMTPOptions = array(
-    'ssl' => array(
-        'verify_peer' => false,
-        'verify_peer_name' => false,
-        'allow_self_signed' => true
-    )
-);
-$mail->SMTPAuth = true;
-//MAIL IN COMUNE CON GROSSO
-$mail->Username = "bongioanni.clashroom@gmail.com";
-$mail->Password = "foo1234?";
-$mail->setFrom("bongioanni.clashroom@gmail.com");
-$mail->addAddress($email);
-$mail->Subject = 'Password recovery';
-$mail->Body = "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/progetto-abongioanni/resetPassword.php'>reset</a> your password!";
-$mail->isHTML(true);
-if (!$mail->send()) //INVIO MAIL
-    echo "Mailer Error -> " . $mail->ErrorInfo;
+if(!_sendMail("bongioanni.clashroom@gmail.com", "foo1234?", $email, "Password recovery", "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/progetto-abongioanni/resetPassword.php'>reset</a> your password!"))
+    echo "Mailer Error";
 else
     echo json_encode(array("ris" => "ok"));
 $con->close();
