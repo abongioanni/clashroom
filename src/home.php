@@ -18,7 +18,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/fontawesome.min.js"></script>
 
-    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="icon" href="img/icon.png" type="image/png">
     <link rel="stylesheet" type="text/css" href="main.css" />
     <script type="application/javascript" src="common.js"></script>
     <script type="application/javascript" src="home.js"></script>
