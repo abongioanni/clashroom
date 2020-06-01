@@ -9,6 +9,21 @@ function inviaRichiesta(method, url, parameters = "") { //WRAPPER DELLA FUNZIONE
     });
 }
 
+function inviaRichiestaMultipart(method, url, parameters = "") {
+    return $.ajax({
+        type: method,
+        url: url,
+        data: parameters,
+
+        contentType: false,
+        processData: false,
+        cache: false,
+
+        dataType: "json",
+        timeout: 5000,
+    });
+}
+
 function redirect(jqXHR, test_status, str_error) {//CONTROLLO ERRORE MINIMO E REDIRECT A PAGINA DI LOGIN
     if (jqXHR.status == 403) {
         window.location.href = "login.html";
@@ -41,7 +56,7 @@ function setPasswords() {       //IMPOSTAZIONE EVENTI CAMBIO PASSWORD
                 })
                 u_.fail(redirect);
             }
-            else{
+            else {
                 alert("The new password must contains at least 1 special character, 1 number and it must to be 8 characters long!")
             }
         }
@@ -70,14 +85,14 @@ function isTomorrow(date) {
         (d.getFullYear() == t.year && pad(d.getMonth() + 1) == t.month && pad(d.getDate()) == pad(parseInt(t.day) + 1));
 }
 
-function isDate(date,dateString){
+function isDate(date, dateString) {
     let d = new Date(date);
     let t = new Date(dateString);
     return ($(".custom-day").hasClass("day-visible") &&
         (d.getFullYear() == parseInt(t.getFullYear()) &&
-        pad(d.getMonth() + 1) == pad(parseInt(t.getMonth() + 1)) && 
-        pad(d.getDate()) == pad(parseInt(t.getDate()))
-    ));
+            pad(d.getMonth() + 1) == pad(parseInt(t.getMonth() + 1)) &&
+            pad(d.getDate()) == pad(parseInt(t.getDate()))
+        ));
 }
 
 function getToday() {
@@ -92,8 +107,36 @@ function getToday() {
     };
 }
 
+function getTomorrow() {
+    var today = new Date();
+    var dx = parseInt(today.getDate()) % 31
+    if (dx == 0) {
+        var mx = parseInt(today.getMonth() + 1)%12; 
+        if(mx==0)
+            var yyyy = parseInt(today.getFullYear())+1;
+        else
+            var yyyy = parseInt(today.getFullYear());
+        var mm=pad(mx+1)
+    }
+    else {
+        var mm = pad(parseInt(today.getMonth() + 1));
+        var yyyy = parseInt(today.getFullYear());
+    }
+    var dd = pad(dx + 1);
+    
+    return {
+        "day": dd,
+        "month": mm,
+        "year": yyyy
+    };
+}
+
 function pad(s) {
     return (s > 10 ? "" : "0") + s;
+}
+
+function getFileName(path){
+    return path.split('/')[path.split('/').length-1];
 }
 
 //SEXIONE INVIO NOTIFICA (INUTILIZZATO)

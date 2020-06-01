@@ -46,7 +46,8 @@ CREATE TABLE `events` (
   `argomento` varchar(255) NOT NULL,
   `do` datetime NOT NULL,
   `teacherId` int(11) NOT NULL,
-  `courseId` int(11) NOT NULL
+  `courseId` int(11) NOT NULL,
+  `download` varchar(255) NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

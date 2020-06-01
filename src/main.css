@@ -111,7 +111,9 @@ header {
     transition: all .25s;
     font-size: 1.5vw;
 }
-
+.fas:hover,.fa:hover{
+    cursor: pointer;
+}
 .fas.fa-sign-out-alt:hover {
     color: #fff;
     cursor: pointer;
@@ -256,6 +258,17 @@ header {
     right: 2.5%;
     top: 5%;
     z-index: 60;
+}
+.share-btn{
+    color:#fff;
+    opacity: 0;
+    transition: all .2s;
+}
+.share-btn:hover{
+    color:#fff;
+}
+.event:hover .share-btn{
+    opacity: 1;
 }
 
 @keyframes fadeIn {
@@ -653,7 +666,7 @@ label[for=chkRM] {
     color: #133b37;
     border: none;
     height: fit-content;
-    transition: box-shadow,color .25s;
+    transition: all .25s;
 }
 
 .success-alert:hover {
@@ -664,14 +677,13 @@ label[for=chkRM] {
 
 .fail-alert {
     background-color: #eb4559 !important;
-    color: #360f14;
+    color: #fff;
     border: none;
     height: fit-content;
-    transition: box-shadow,color .25s;
+    transition: all .25s;
 }
 
 .fail-alert:hover {
-    color: #000;
     box-shadow: 0 0.5rem 0.75rem -0.25rem #eb455999;
     cursor: pointer;
 }

@@ -1,8 +1,8 @@
 <html lang="it">
 <?php
-    require "server/_libreria.php";
-    _checkSession("user");
-    $user = $_SESSION["user"];
+require "server/_libreria.php";
+_checkSession("user");
+$user = $_SESSION["user"];
 ?>
 
 <head>
@@ -41,7 +41,7 @@
                     <li><a name="domani">tomorrow</a></li>
                     <li><a name="change" href="#coursesW">courses</a></li>
                     <li><a name="add">add</a></li>
-                    <li><a name="settings" href="#settings">Settings</a></li>                    
+                    <li><a name="settings" href="#settings">Settings</a></li>
                 </ul>
             </div>
         </nav>
@@ -100,6 +100,7 @@
                 <span class="day-visible">Today</span>
                 <span>Tomorrow</span>
                 <span class="custom-day"></span>
+                <input type="hidden" id="selectedDay">
             </div>
             <div class="col-sm-4 justify-content-center" style="display:flex;align-items:center;">
                 <input id="calendar" type="date" style="background-color:transparent;border:none;">
@@ -117,17 +118,36 @@
         <!--delete profile-->
         <section id="settings" class="course-wrapper justify-content-center container-fluid">
             <span class="courses-title">Settings</span>
-            <div class="courses row sq" style="display: flex;align-items:center">
-                <span class="col-sm-12" style="font-size:4vh;text-align:left">Change password</span>
-                <div class="row col-sm-5">
-                    <input class="col-sm-10" type="password" name="password" id="changePwd" placeholder="Password"><br>
-                    <input class="col-sm-10" type="password" name="password" id="changePwdConfirm" placeholder="Confirm password"><br>
+            <div class="courses row sq justify-content-center" style="display: flex;align-items:center">
+                <div class="col-sm-7 row">
+                    <span class="col-sm-12" style="font-size:4vh;text-align:left">Change password</span>
+                    <div class="row col-sm-8">
+                        <input class="col-sm-10" type="password" name="password" id="changePwd" placeholder="Password"><br>
+                        <input class="col-sm-10" type="password" name="password" id="changePwdConfirm" placeholder="Confirm password"><br>
+                    </div>
+                    <span class="col-sm-12"></span>
+                    <span class="col-sm-4 text-center sq fail-alert">Delete profile</span>
+                    <span class="col-sm-4 text-center sq success-alert">Change password</span>
                 </div>
-                <span class="col-sm-2 text-center sq success-alert">Change password</span>
-                <span class="col-sm-12"></span>
-                <p class="col-sm-5 row" style="padding:2vw;">Deleting your account you will lose all your datas (events, courses and uploaded files).</p>
-                <span class="col-sm-2 text-center sq fail-alert">Delete profile</span>
-
+                <div class="col-sm-5 row justify-content-center">
+                    <?php
+                        $dir="server/uploads/".$user["email"];
+                        $files=scandir($dir);
+                        array_splice($files,0,2);
+                        if(count($files)>0)
+                        echo '<span class="col-sm-12" style="font-size:4vh;text-align:left">Upladed files</span>';
+                        for($i=0;$i<count($files);$i++){
+                            echo "<div class='col-sm-12 row sq text-white' style='padding:1vw;height:fit-content;line-height:normal;background-color:#652d92;'>
+                                    <a href='$dir/".$files[$i]."' target='_blank' class='col-sm-4' style='color:#fff'>".$files[$i]."</a>
+                                    <div class='col-sm-6'></div>
+                                    <div class='col-sm-2 justify-content-center '>
+                                        <a style='color:#fff' download href='$dir/".$files[$i]."' class='fas fa-download'></a>
+                                        <i name='deleteFile' class='fas fa-times' style='padding-left:7%'><input type='hidden' value='$dir/".$files[$i]."'></i>
+                                    </div>
+                                </div>";
+                        }
+                    ?>
+                </div>
             </div>
 
         </section>

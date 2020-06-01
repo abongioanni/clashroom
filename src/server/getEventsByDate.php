@@ -18,14 +18,14 @@ $date = $con->real_escape_string($_REQUEST["date"]);
 
 $data=array();
 if($user["st"]!="0"){//SONO UNO STUDENTE
-    $sql = "SELECT * FROM studsub AS s,events AS e WHERE s.studId=" . $user["id"] . " AND s.courseId=e.courseId;";
+    $sql = "SELECT * FROM studsub AS s,events AS e WHERE s.studId=" . $user["id"] . " AND s.courseId=e.courseId AND DATE(e.do)='$date';";
     $v=_eseguiQuery($con, $sql);
     for($i=0;$i<count($v);$i++){
         array_push($data,$v[$i]);
     }
 }
 else{//SONO UN'INSEGNANTE
-    $sql = "SELECT * FROM events WHERE teacherId=" . $user["id"] . ";";
+    $sql = "SELECT * FROM events WHERE teacherId=" . $user["id"] . " AND DATE(do)='$date';";
     $data=_eseguiQuery($con, $sql);
 }
 
@@ -36,6 +36,6 @@ for($i=0;$i<count($data);$i++){
 }
 echo json_encode(array(
     "data"=>$data,
-    "teachers"=>$t
+    "teachers"=>$t,
 ));
 $con->close();

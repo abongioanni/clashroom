@@ -9,6 +9,7 @@ $(document).ready(function () {
     let _linksList = $(".links-wrapper ul");
     let _closeIcon = $(".close-btn");
     let _responsiveLinks = $("#menuNavbar");
+    let _selectedDay = $("#selectedDay");
 
     $("html").hide();
 
@@ -51,17 +52,28 @@ $(document).ready(function () {
         $(_modalB).fadeIn(200)
     });
     $(".links li a[name=oggi]").on("click", function () {
-        setEvents();
+        let today = getToday();
+        $(_selectedDay).val(today.year + "-" + pad(today.month) + "-" + pad(today.day));
+        setEvents($(_selectedDay).val());
         $(_day).find("span").removeClass("day-visible")
         $(_day).find("span").eq(0).addClass("day-visible")
     })
     $(".links li a[name=domani]").on("click", function () {
-        setEvents();
+        let today = getToday();
+        $(_selectedDay).val(today.year + "-" + pad(today.month) + "-" + pad(parseInt(today.day) + 1));
+        setEvents($(_selectedDay).val());
         $(_day).find("span").removeClass("day-visible")
         $(_day).find("span").eq(1).addClass("day-visible")
     })
-    $("#calendar").on("change", function () {
-        setEvents();
+    $("#calendar")/*.prop("min",function () {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        return yyyy + '-' + pad(mm) + '-' + pad(dd);
+    })*/.on("change", function () {
+        setEvents($(this).val());
+        $(_selectedDay).val($(this).val());
         $(_day).find("span").removeClass("day-visible")
         $(_day).find(".custom-day").addClass("day-visible").text($(this).val())
     })
@@ -127,7 +139,10 @@ $(document).ready(function () {
 
     //IMPOSTO CORSI ED EVENTI
     setCourses();
-    setEvents();
+    let today = getToday();
+    $(_selectedDay).val(today.year + "-" + pad(today.month) + "-" + pad(today.day));
+    $(_selectedDay).val()
+    setEvents($(_selectedDay).val());
 
     //EVENTO ELIMINAZIONE ACCOUNT
     $("#settings .fail-alert").on("click", function () {
@@ -207,23 +222,28 @@ $(document).ready(function () {
                                     marginTop: "0%",
                                 },
                                 min: function () {
-                                    var today = new Date();
-                                    var dd = today.getDate();
-                                    var mm = today.getMonth() + 1; //January is 0!
-                                    var yyyy = today.getFullYear();
-                                    return yyyy + '-' + pad(mm) + '-' + pad(dd + 1) + "T00:00:00.00";
+                                    var t = getTomorrow();
+                                    return t.year + "-" + t.month + "-" + t.day + "T00:00:00.00";
                                 }
                             }),
                             $("<textarea>", {
                                 addClass: "col-sm-10",
                                 placeholder: "Write the topic of the event",
                             }),
-                            $("<span>", {
+                            $("<input>", {
+                                type: "file",
+                                id: "files",
+                                css: {
+                                    display: "none"
+                                }
+                            }),
+                            $("<label>", {
                                 addClass: "btn-grad sq col-sm-4",
                                 html: "<i class='fas fa-upload'></i> Upload",
                                 css: {
                                     height: "fit-content"
-                                }
+                                },
+                                for: "files"
                             }),
                             $("<span>", {
                                 addClass: "btn-grad sq col-sm-6",
@@ -249,14 +269,28 @@ $(document).ready(function () {
                                         $("textarea").addClass("error");
                                     }
                                     else {
-                                        let addEvent_ = inviaRichiesta("POST", "server/addEvent.php", {
-                                            "courseId": $("#cmbCourse").val(),
-                                            "do": $("#time").val(),
-                                            "argomento": $("textarea").val()
-                                        });
+                                        let addEvent_;
+                                        var files = $('#files').prop('files');
+                                        if (files.length > 0) {
+                                            var formData = new FormData();
+                                            formData.append("courseId", $("#cmbCourse").val())
+                                            formData.append("do", $("#time").val())
+                                            formData.append("argomento", $("textarea").val())
+                                            for (let file of files)
+                                                formData.append('files[]', file);
+                                            addEvent_ = inviaRichiestaMultipart("POST", "server/addEvent.php", formData);
+                                        }
+                                        else {
+                                            addEvent_ = inviaRichiesta("GET", "server/addEvent.php", {
+                                                "argomento":$("textarea").val(),
+                                                "do":$("#time").val(),
+                                                "courseId":$("#cmbCourse").val()
+                                            });
+                                        }
                                         $("textarea").val("");
                                         addEvent_.done(function (data) {
-                                            setEvents();
+                                            modalClose();
+                                            setEvents($(_selectedDay).val());
                                         })
                                         addEvent_.fail(redirect)
                                     }
@@ -291,23 +325,20 @@ $(document).ready(function () {
         courses_.fail(redirect)
     }
 
-    function setEvents() {
-        let events_ = inviaRichiesta("POST", "server/getEvents.php");
+    function setEvents(date) {
+        let events_ = inviaRichiesta("POST", "server/getEventsByDate.php", { "date": date });
         events_.done(function (data) {
-            let ok = true
             $(_timeline).children().slideUp(400).fadeOut(400);
-            for (let i = 0; i < data["data"].length; i++) {
-                $(_timeline).css({
-                    minHeight: "0",
-                });
-                if (isToday(data["data"][i]["do"]) || isTomorrow(data["data"][i]["do"]) || isDate(data["data"][i]["do"], $(_day).find(".custom-day").text())) {
+            if (data["data"].length > 0)
+                for (let i = 0; i < data["data"].length; i++) {
+                    $(_timeline).css({
+                        minHeight: "0",
+                    });
                     let l = event(data["data"][i], data["teachers"][i]).hide();
                     $(_timeline).append(l);
                     $(l).fadeIn(200);
-                    ok = false;
                 }
-            }
-            if (ok) {
+            else {
                 $(_timeline).css({
                     minHeight: "20vh",
                 });
@@ -329,7 +360,7 @@ $(document).ready(function () {
         let courseId = $(_course).find(".course-id").eq(0).text().split(": ")[1];
         let deleteSub_ = inviaRichiesta('POST', 'server/deleteSubCourse.php', { "courseId": courseId });
         deleteSub_.done(function (data) {
-            $(_course).fadeOut(200, function () {
+            $(_course).fadeOut(400, function () {
                 $(_course).remove()
                 for (let i = 0; i < data.length; i++) {
                     $(".event input[value=" + data[i]["id"] + "]").remove();
@@ -347,13 +378,23 @@ $(document).ready(function () {
         let eventId = $(_event).find("input[type=hidden]").eq(0).val();
         let deleteEvent_ = inviaRichiesta('POST', 'server/deleteEvent.php', { "eventId": eventId });
         deleteEvent_.done(function (data) {
-            $(_event).fadeOut(200, function () {
-                $(_event).remove()
-                setEvents();
-            });
+            setEvents($(_selectedDay).val());
         });
-
     }
+
+    $("i[name=deleteFile]").on("click",function(){
+        let sender=$(this).parent().parent();
+        let file=$(this).find("input[type=hidden]").val()
+        if (confirm("You are deleting "+getFileName(file)+". Are you sure?")) {
+            let deleteFile_=inviaRichiesta("POST","server/deleteFile.php",{
+                "file":file
+            })
+            deleteFile_.done(function(data){
+                $(sender).remove();
+            });
+            deleteFile_.fail(redirect);
+        }
+    })
 
     function course(data, t) {
         let _course = $("<div>", {
@@ -386,9 +427,9 @@ $(document).ready(function () {
                         }
                     }
                 }),
-                !isStudent?$("<a>",{
+                !isStudent ? $("<a>", {
                     addClass: "share-btn",
-                    href:"mailto:?subject=Invito%20a%20partecipare%20al%20corso&body=Ecco%20il%20codice%20del%20corso:%20"+data["id"],
+                    href: "mailto:?subject=Invito%20a%20partecipare%20al%20corso&body=Ecco%20il%20codice%20del%20corso:%20" + data["id"],
                     css: {
                         position: "absolute",
                         bottom: "10%",
@@ -396,7 +437,7 @@ $(document).ready(function () {
                         fontSize: "2vh"
                     },
                     html: '<i class="fas fa-share-alt"></i>',
-                }):""
+                }) : ""
             ],
         });
         return _course;
@@ -435,7 +476,7 @@ $(document).ready(function () {
                     addClass: "close-btn",
                     css: {
                         position: "absolute",
-                        top: "10%",
+                        top: "15%",
                         right: "2%",
                         fontSize: "2vh"
                     },
@@ -445,7 +486,19 @@ $(document).ready(function () {
                             deleteEvent(_event);
                         }
                     }
-                }) : "")
+                }) : ""),
+                data["download"]!=""?$("<a>", {
+                    addClass: "share-btn",
+                    download: getFileName(data["download"]),
+                    href: data["download"],
+                    css: {
+                        position: "absolute",
+                        bottom: "15%",
+                        right: "2%",
+                        fontSize: "2vh"
+                    },
+                    html: '<i class="fas fa-download"></i>',
+                }):""
             ],
         })
         return _event;
