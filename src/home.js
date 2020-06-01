@@ -10,7 +10,6 @@ $(document).ready(function () {
     let _closeIcon = $(".close-btn");
     let _responsiveLinks = $("#menuNavbar");
     let _selectedDay = $("#selectedDay");
-
     $("html").hide();
 
     //LINKS UPDATE
@@ -282,9 +281,9 @@ $(document).ready(function () {
                                         }
                                         else {
                                             addEvent_ = inviaRichiesta("GET", "server/addEvent.php", {
-                                                "argomento":$("textarea").val(),
-                                                "do":$("#time").val(),
-                                                "courseId":$("#cmbCourse").val()
+                                                "argomento": $("textarea").val(),
+                                                "do": $("#time").val(),
+                                                "courseId": $("#cmbCourse").val()
                                             });
                                         }
                                         $("textarea").val("");
@@ -382,14 +381,14 @@ $(document).ready(function () {
         });
     }
 
-    $("i[name=deleteFile]").on("click",function(){
-        let sender=$(this).parent().parent();
-        let file=$(this).find("input[type=hidden]").val()
-        if (confirm("You are deleting "+getFileName(file)+". Are you sure?")) {
-            let deleteFile_=inviaRichiesta("POST","server/deleteFile.php",{
-                "file":file
+    $("i[name=deleteFile]").on("click", function () {
+        let sender = $(this).parent().parent();
+        let file = $(this).find("input[type=hidden]").val()
+        if (confirm("You are deleting " + getFileName(file) + ". Are you sure?")) {
+            let deleteFile_ = inviaRichiesta("POST", "server/deleteFile.php", {
+                "file": file
             })
-            deleteFile_.done(function(data){
+            deleteFile_.done(function (data) {
                 $(sender).remove();
             });
             deleteFile_.fail(redirect);
@@ -487,7 +486,7 @@ $(document).ready(function () {
                         }
                     }
                 }) : ""),
-                data["download"]!=""?$("<a>", {
+                data["download"] != "" ? $("<a>", {
                     addClass: "share-btn",
                     download: getFileName(data["download"]),
                     href: data["download"],
@@ -498,7 +497,7 @@ $(document).ready(function () {
                         fontSize: "2vh"
                     },
                     html: '<i class="fas fa-download"></i>',
-                }):""
+                }) : ""
             ],
         })
         return _event;

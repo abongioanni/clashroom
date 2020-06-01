@@ -9,4 +9,5 @@ node_modules
 *.local
 /progetto.png
 /.vscode/launch.json
-/uploads/
+# exclude everything
+uploads/*

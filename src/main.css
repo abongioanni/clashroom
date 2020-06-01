@@ -111,7 +111,7 @@ header {
     transition: all .25s;
     font-size: 1.5vw;
 }
-.fas:hover,.fa:hover{
+.fas:hover,.fa:hover,.fab:hover{
     cursor: pointer;
 }
 .fas.fa-sign-out-alt:hover {

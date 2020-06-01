@@ -131,21 +131,23 @@ $user = $_SESSION["user"];
                 </div>
                 <div class="col-sm-5 row justify-content-center">
                     <?php
-                        $dir="server/uploads/".$user["email"];
-                        $files=scandir($dir);
-                        array_splice($files,0,2);
-                        if(count($files)>0)
-                        echo '<span class="col-sm-12" style="font-size:4vh;text-align:left">Upladed files</span>';
-                        for($i=0;$i<count($files);$i++){
+                    $dir = "server/uploads/" . $user["email"];
+                    if (file_exists($dir)) {
+                        $files = scandir($dir);
+                        array_splice($files, 0, 2);
+                        if (count($files) > 0)
+                            echo '<span class="col-sm-12" style="font-size:4vh;text-align:left">Upladed files</span>';
+                        for ($i = 0; $i < count($files); $i++) {
                             echo "<div class='col-sm-12 row sq text-white' style='padding:1vw;height:fit-content;line-height:normal;background-color:#652d92;'>
-                                    <a href='$dir/".$files[$i]."' target='_blank' class='col-sm-4' style='color:#fff'>".$files[$i]."</a>
+                                    <a href='$dir/" . $files[$i] . "' target='_blank' class='col-sm-4' style='color:#fff'>" . $files[$i] . "</a>
                                     <div class='col-sm-6'></div>
                                     <div class='col-sm-2 justify-content-center '>
-                                        <a style='color:#fff' download href='$dir/".$files[$i]."' class='fas fa-download'></a>
-                                        <i name='deleteFile' class='fas fa-times' style='padding-left:7%'><input type='hidden' value='$dir/".$files[$i]."'></i>
+                                        <a style='color:#fff' download href='$dir/" . $files[$i] . "' class='fas fa-download'></a>
+                                        <i name='deleteFile' class='fas fa-times'><input type='hidden' value='$dir/" . $files[$i] . "'></i>
                                     </div>
                                 </div>";
                         }
+                    }
                     ?>
                 </div>
             </div>
