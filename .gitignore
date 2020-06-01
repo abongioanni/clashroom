@@ -9,4 +9,3 @@ node_modules
 *.local
 /progetto.png
 /.vscode/launch.json
-# exclude everything
