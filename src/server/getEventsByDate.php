@@ -1,6 +1,6 @@
 <?php
 
-//MI RICAVO UN JSON CON TUTTI GLI EVENTI E I DATI DEGLI INSEGNANTI RELATIVI
+//MI RICAVO UN JSON CON TUTTI GLI EVENTI E I DATI DEGLI INSEGNANTI RELATIVI IN BASE AD UNA DATA 
 
 header("Content-type:application/json;charset=utf-8");
 require("_libreria.php");
@@ -11,6 +11,9 @@ if (!isset($_REQUEST["date"])) {
 	http_response_code(422);
 	die("Parametro mancante.");
 }
+
+//PARAMETRI
+//- DATA
 
 $con = _connection("clashroom");
 $user=$_SESSION["user"];

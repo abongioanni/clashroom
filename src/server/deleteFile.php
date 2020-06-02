@@ -9,7 +9,7 @@ if (!isset($_REQUEST["file"])) {
     http_response_code(422);
     die("Parametro mancante.");
 }
-
+//VIENE ELIMINATO UN FILE DAL PATH
 unlink("../".$_REQUEST["file"]);
 echo json_encode(array("ris"=>"ok"));
 ?>

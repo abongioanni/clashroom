@@ -19,6 +19,7 @@
 		//- ARGOMENTO
 		//- DATA IMPEGNO
 		//- ID CORSO
+		//- EVENTUALI FILE
 
 		$con = _connection("clashroom");
 		$argomento = $con->real_escape_string($_REQUEST["argomento"]);

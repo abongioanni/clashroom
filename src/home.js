@@ -71,6 +71,21 @@ $(document).ready(function () {
         $(_day).find(".custom-day").addClass("day-visible").text($(this).val())
     })
 
+    //SETTAGGIO EVENTO ELIMINAZIONE FILE
+    $("i[name=deleteFile]").on("click", function () {
+        let sender = $(this).parent().parent();
+        let file = $(this).find("input[type=hidden]").val()
+        if (confirm("You are deleting " + getFileName(file) + ". Are you sure?")) {
+            let deleteFile_ = inviaRichiesta("POST", "server/deleteFile.php", {
+                "file": file
+            })
+            deleteFile_.done(function (data) {
+                $(sender).remove();
+            });
+            deleteFile_.fail(redirect);
+        }
+    })
+
     //BOTTONI DI LOGOUT
     $(".fa-sign-out-alt").on("click", function () {
         let signOut_ = inviaRichiesta("POST", "server/logout.php", {});
@@ -297,6 +312,7 @@ $(document).ready(function () {
         courses_.fail(redirect);
     }
 
+    //GESTIONE CORSI ED EVENTI
     function setCourses() {
         let courses_ = inviaRichiesta("POST", "server/getCourses.php");
         courses_.done(function (data) {
@@ -375,21 +391,7 @@ $(document).ready(function () {
         });
     }
 
-    $("i[name=deleteFile]").on("click", function () {
-        let sender = $(this).parent().parent();
-        let file = $(this).find("input[type=hidden]").val()
-        if (confirm("You are deleting " + getFileName(file) + ". Are you sure?")) {
-            let deleteFile_ = inviaRichiesta("POST", "server/deleteFile.php", {
-                "file": file
-            })
-            deleteFile_.done(function (data) {
-                $(sender).remove();
-            });
-            deleteFile_.fail(redirect);
-        }
-    })
-
-    function course(data, t) {
+    function course(data, t) {//RITORNA L'OGGETTO GRAFICO DEL CORSO
         let _course = $("<div>", {
             addClass: "sq course",
             append: [
@@ -436,7 +438,7 @@ $(document).ready(function () {
         return _course;
     }
 
-    function event(data, teacher) {
+    function event(data, teacher) {//RITORNA L'OGGETTO GRAFICO DELL'EVENTO
         let d = new Date(data["do"]);
         let _event = $("<div>", {
             addClass: "row event",
