@@ -14,7 +14,7 @@ Eventuali file caricati sulla piattaforma saranno accessibili da una sezione in 
 
 ## Login
 Ci si deve oblligatoriamente registrare con un'indirizzo email. Per facilitare la compilazione durante la registrazione è presente un bottone per accedere tramite un'account Google.
-![alt text](https://github.com/abongioanni/clashroom/blob/master/screen1.png "Sign up via Google")
+![alt text](https://github.com/abongioanni/clashroom/blob/master/src/img/screen1.png "Sign up via Google")
 Se si è dimentata al password c'è un link che invia una mail all'indirizzo email inserito con un'link ad una pagina per la reimpostazione della password.
 
 ## Utenza
