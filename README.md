@@ -10,6 +10,7 @@ Il db 'clashroom' è composto da 4 tabelle:
 
 ## File uploaded
 Eventuali file caricati sulla piattaforma saranno accessibili da una sezione in fondo alla pagina... potranno essere scaricati ed eliminati.
+
 **Attenzione!**: a causa del poco tempo a disposizione ci sono alcuni problemi legati ai files; i nuovi files verranno visualizzati nell'elenco in basso soltanto sul refresh della pagina e inoltre se si eliminano i file, il riferimento nell'evento rimane e cercando di scaricarlo andrà in errore.
 
 ## Login
