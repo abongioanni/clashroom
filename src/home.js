@@ -64,13 +64,7 @@ $(document).ready(function () {
         $(_day).find("span").removeClass("day-visible")
         $(_day).find("span").eq(1).addClass("day-visible")
     })
-    $("#calendar")/*.prop("min",function () {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-        return yyyy + '-' + pad(mm) + '-' + pad(dd);
-    })*/.on("change", function () {
+    $("#calendar").on("change", function () {
         setEvents($(this).val());
         $(_selectedDay).val($(this).val());
         $(_day).find("span").removeClass("day-visible")
