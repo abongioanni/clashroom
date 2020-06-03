@@ -26,7 +26,7 @@ function inviaRichiestaMultipart(method, url, parameters = "") {
 
 function redirect(jqXHR, test_status, str_error) {//CONTROLLO ERRORE MINIMO E REDIRECT A PAGINA DI LOGIN
     if (jqXHR.status == 403) {
-        window.location.href = "login.html";
+        window.location.href = "./login.html";
     }
     else if (jqXHR.status == 500) {
         $("#addResults").text("You have already enrolled in this course or the course does not exist!")

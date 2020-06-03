@@ -72,7 +72,6 @@
 		session_unset();
 		session_destroy();
 		http_response_code(403);
-		header("Location: ../login.html");
 		die("Sessione scaduta");
 	}
 
