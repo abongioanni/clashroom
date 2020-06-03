@@ -6,9 +6,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 header("Content-type:application/json;charset=utf-8");
 require("_libreria.php");
-require("PHPMailer-master/src/Exception.php");
-require("PHPMailer-master/src/PHPMailer.php");
-require("PHPMailer-master/src/SMTP.php");
+
 
 if (!isset($_REQUEST["email"])) {
     http_response_code(422);
@@ -24,7 +22,7 @@ $_SESSION["user"] = $user;
 $_SESSION["scadenza"] = time() + SCADENZA;
 setcookie(session_name(), session_id(), $_SESSION["scadenza"], "/");
 
-if(!_sendMail("bongioanni.clashroom@gmail.com", "foo1234?", $email, "Password recovery", "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/progetto-abongioanni/resetPassword.php'>reset</a> your password!"))
+if(!_sendMail("bongioanni.clashroom@gmail.com", "foo1234?", $email, "Password recovery", "<h1>Reset password</h1>Here's the link to <a href='http://localhost/4B/progetto-abongioanni/src/resetPassword.php'>reset</a> your password!"))
     echo "Mailer Error";
 else
     echo json_encode(array("ris" => "ok"));
